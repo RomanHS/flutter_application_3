@@ -14,6 +14,8 @@ class Store<TEntity extends Entity> {
 
   Stream<TEntity> get stream => _streamController.stream;
 
+  TEntity? get(String uid) => _map[uid];
+
   void put(TEntity value) {
     _map[value.uid] = value;
     _streamController.add(value);

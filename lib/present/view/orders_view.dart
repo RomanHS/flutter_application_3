@@ -3,6 +3,7 @@ import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/present/dialog/order_dialog.dart';
 import 'package:uuid/uuid.dart';
 
 class OrdersView extends StatelessWidget {
@@ -48,6 +49,7 @@ class OrdersView extends StatelessWidget {
           return Card(
             key: Key(order.uid),
             child: ListTile(
+              onTap: () => OrderDialog.show(context: context, uid: order.uid),
               title: Text(order.number),
               trailing: IconButton(
                 onPressed: () => dataServis.transaction(ordersDelete: [order.uid]),
