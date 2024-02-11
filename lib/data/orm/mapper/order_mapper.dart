@@ -43,9 +43,6 @@ extension OrderMapper on Order {
   }) {
     return Entity(
       ///
-      table: TableHeader.orderTable,
-
-      ///
       data: {
         'uid_user': uidUser,
         'uid': uid,

@@ -23,6 +23,8 @@ void main() async {
 
   /// put
   await db.putObjects<Order>(
+    table: TableHeader.orderTable,
+    uidUser: uidUser,
     objects: orders,
     parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
   );

@@ -98,7 +98,6 @@ class DB {
         final String uid = e['uid'] as String;
 
         return Entity(
-          table: table,
           data: e,
           tabularParts: tabularsParts[uid] ?? {},
         );
@@ -107,44 +106,46 @@ class DB {
   }
 
   Future<void> putObjects<T>({
+    required TableHeader table,
+    required String uidUser,
     required Iterable<T> objects,
     required Entity Function(T) parse,
   }) =>
-      putEntitys(objects.map(parse));
+      putEntitys(
+        table: table,
+        uidUser: uidUser,
+        entitys: objects.map(parse),
+      );
 
-  Future<void> putEntitys(Iterable<Entity> entitys) async {
-    for (Entity e in entitys) {
-      await put(e);
-    }
-  }
-
-  Future<void> put(Entity entity) => database.transaction((Transaction txn) async {
-        final TableHeader table = entity.table;
-
-        await txn.delete(
-          table.name,
-          where: 'uid = ${entity.uid}',
+  Future<void> putEntitys({
+    required TableHeader table,
+    required String uidUser,
+    required Iterable<Entity> entitys,
+  }) =>
+      database.transaction((Transaction txn) async {
+        await _delete(
+          table: table,
+          uidUser: uidUser,
+          uids: entitys.map((Entity e) => e.uid),
+          txn: txn,
         );
 
-        await txn.insert(
-          table.name,
-          entity.data,
-        );
-
-        for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
-          final TableTable table = e.key;
-          final List<TabularPart> list = e.value;
-
-          await txn.delete(
+        for (Entity entity in entitys) {
+          await txn.insert(
             table.name,
-            where: 'uid_parent = ${entity.uid}',
+            entity.data,
           );
 
-          for (TabularPart e in list) {
-            await txn.insert(
-              table.name,
-              e.data,
-            );
+          for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
+            final TableTable table = e.key;
+            final List<TabularPart> list = e.value;
+
+            for (TabularPart e in list) {
+              await txn.insert(
+                table.name,
+                e.data,
+              );
+            }
           }
         }
       });
@@ -154,23 +155,35 @@ class DB {
     required String uidUser,
     required Iterable<String>? uids,
   }) =>
-      database.transaction((Transaction txn) async {
-        String where = 'uid_user = $uidUser';
+      database.transaction((Transaction txn) => _delete(
+            table: table,
+            uidUser: uidUser,
+            uids: uids,
+            txn: txn,
+          ));
 
-        if (uids != null) {
-          where += ' AND uid IN (${uids.join(',')})';
-        }
+  Future<void> _delete({
+    required TableHeader table,
+    required String uidUser,
+    required Iterable<String>? uids,
+    required Transaction txn,
+  }) async {
+    String where = 'uid_user = $uidUser';
 
-        await txn.delete(table.name, where: where);
+    if (uids != null) {
+      where += ' AND uid IN (${uids.join(',')})';
+    }
 
-        for (TableTable table in table.tables) {
-          String where = 'uid_user = $uidUser';
+    await txn.delete(table.name, where: where);
 
-          if (uids != null) {
-            where += ' AND uid_parent IN (${uids.join(',')})';
-          }
+    for (TableTable table in table.tables) {
+      String where = 'uid_user = $uidUser';
 
-          await txn.delete(table.name, where: where);
-        }
-      });
+      if (uids != null) {
+        where += ' AND uid_parent IN (${uids.join(',')})';
+      }
+
+      await txn.delete(table.name, where: where);
+    }
+  }
 }
