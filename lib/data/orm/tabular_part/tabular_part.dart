@@ -4,4 +4,6 @@ class TabularPart {
   TabularPart({
     required this.data,
   });
+
+  String get uidParent => data['uid_parent'] as String;
 }

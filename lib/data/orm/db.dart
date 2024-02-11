@@ -68,7 +68,7 @@ class DB {
 
     final List<Map<String, Object?>> list = await database.rawQuery(sql);
 
-    final Map<String, Map<TableTab, List<Map<String, Object?>>>> tabularsParts = {};
+    final Map<String, Map<TableTab, List<TabularPart>>> tabularsParts = {};
 
     for (TableTab table in table.getTabs()) {
       String where = 'uid_user = $uidUser ';
@@ -80,7 +80,9 @@ class DB {
       final List<Map<String, Object?>> list = await database.query(table.name, where: where);
 
       for (Map<String, Object?> json in list) {
-        tabularsParts.putIfAbsent(json['uid_parent'] as String, () => {}).putIfAbsent(table, () => []).add(json);
+        final TabularPart tabularPart = TabularPart(data: json);
+
+        tabularsParts.putIfAbsent(tabularPart.uidParent, () => {}).putIfAbsent(table, () => []).add(tabularPart);
       }
     }
 
@@ -88,21 +90,10 @@ class DB {
       (Map<String, Object?> e) {
         final String uid = e['uid'] as String;
 
-        final Map<TableTab, List<Map<String, Object?>>> tabularParts = tabularsParts[uid] ?? {};
-
         return Entity(
           table: table,
           data: e,
-          tabularParts: tabularParts.map((TableTab key, value) => MapEntry(
-                key,
-                value.map(
-                  (Map<String, Object?> e) {
-                    return TabularPart(
-                      data: e,
-                    );
-                  },
-                ).toList(),
-              )),
+          tabularParts: tabularsParts[uid] ?? {},
         );
       },
     ).toList();
