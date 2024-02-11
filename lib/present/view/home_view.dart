@@ -15,6 +15,15 @@ class HomeView extends StatelessWidget {
   Widget _build(BuildContext context) {
     final List<Product> products = dataServis.data.products.values.toList();
 
+    AppBar appBar() => AppBar(
+          actions: [
+            IconButton(
+              onPressed: () => dataServis.transaction(productsClear: true),
+              icon: const Icon(Icons.delete),
+            ),
+          ],
+        );
+
     Widget body() {
       if (products.isEmpty) {
         return const Center(
@@ -49,6 +58,7 @@ class HomeView extends StatelessWidget {
         );
 
     return Scaffold(
+      appBar: appBar(),
       body: body(),
       floatingActionButton: floatingActionButton(),
     );

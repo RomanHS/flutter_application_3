@@ -39,21 +39,21 @@ class DataServis {
       messagesClear: messagesClear,
     );
 
-    ///
+    /// Clear
 
-    if (orders != null) {
-      data.orders.putAll(orders);
+    if (ordersClear) {
+      data.messages.clear();
     }
 
-    if (products != null) {
-      data.products.putAll(products);
+    if (productsClear) {
+      data.products.clear();
     }
 
-    if (messages != null) {
-      data.messages.putAll(messages);
+    if (messagesClear) {
+      data.messages.clear();
     }
 
-    ///
+    /// Delete
 
     if (ordersDelete != null) {
       data.orders.deleteAll(ordersDelete);
@@ -67,18 +67,18 @@ class DataServis {
       data.messages.deleteAll(messagesDelete);
     }
 
-    ///
+    /// Put
 
-    if (ordersClear) {
-      data.messages.clear();
+    if (orders != null) {
+      data.orders.putAll(orders);
     }
 
-    if (productsClear) {
-      data.products.clear();
+    if (products != null) {
+      data.products.putAll(products);
     }
 
-    if (messagesClear) {
-      data.messages.clear();
+    if (messages != null) {
+      data.messages.putAll(messages);
     }
   }
 

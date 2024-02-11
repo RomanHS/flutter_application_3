@@ -62,37 +62,36 @@ class DataLocalImpl implements DataLocal {
     required bool messagesClear,
   }) =>
       db.database.transaction((Transaction txn) async {
-        if (orders != null) {
-          await db.putObjects<Order>(
+        /// Clear
+
+        if (ordersClear) {
+          await db.delete(
             table: TableHeader.orderTable,
             uidUser: uidUser,
-            objects: orders,
-            parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
+            uids: null,
             txn: txn,
           );
         }
 
-        if (products != null) {
-          await db.putObjects<Product>(
+        if (productsClear) {
+          await db.delete(
             table: TableHeader.productTable,
             uidUser: uidUser,
-            objects: products,
-            parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
+            uids: null,
             txn: txn,
           );
         }
 
-        if (messages != null) {
-          await db.putObjects<Message>(
+        if (messagesClear) {
+          await db.delete(
             table: TableHeader.message,
             uidUser: uidUser,
-            objects: messages,
-            parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+            uids: null,
             txn: txn,
           );
         }
 
-        ///
+        /// Delete
 
         if (ordersDelete != null) {
           await db.delete(
@@ -121,31 +120,34 @@ class DataLocalImpl implements DataLocal {
           );
         }
 
-        ///
+        /// Put
 
-        if (ordersClear) {
-          await db.delete(
+        if (orders != null) {
+          await db.putObjects<Order>(
             table: TableHeader.orderTable,
             uidUser: uidUser,
-            uids: null,
+            objects: orders,
+            parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
             txn: txn,
           );
         }
 
-        if (productsClear) {
-          await db.delete(
+        if (products != null) {
+          await db.putObjects<Product>(
             table: TableHeader.productTable,
             uidUser: uidUser,
-            uids: null,
+            objects: products,
+            parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
             txn: txn,
           );
         }
 
-        if (messagesClear) {
-          await db.delete(
+        if (messages != null) {
+          await db.putObjects<Message>(
             table: TableHeader.message,
             uidUser: uidUser,
-            uids: null,
+            objects: messages,
+            parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
             txn: txn,
           );
         }
