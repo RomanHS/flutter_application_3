@@ -22,18 +22,23 @@ class DataRepoImpl implements DataRepo {
     required String uidUser,
   }) async =>
       Data(
+        ///
         orders: await db.getObjects<Order>(
           table: TableHeader.orderTable,
           uidUser: uidUser,
           uids: null,
           parse: (EntityDB e) => OrderMapper.fromDB(e),
         ),
+
+        ///
         products: await db.getObjects<Product>(
           table: TableHeader.productTable,
           uidUser: uidUser,
           uids: null,
           parse: (EntityDB e) => ProductMapper.fromDB(e),
         ),
+
+        ///
         messages: await db.getObjects<Message>(
           table: TableHeader.message,
           uidUser: uidUser,
@@ -45,9 +50,12 @@ class DataRepoImpl implements DataRepo {
   @override
   Future<void> put({
     required String uidUser,
-    Iterable<Order>? orders,
-    Iterable<Product>? products,
-    Iterable<Message>? messages,
+    required Iterable<Order>? orders,
+    required Iterable<Product>? products,
+    required Iterable<Message>? messages,
+    required Iterable<String>? ordersDelete,
+    required Iterable<String>? productsDelete,
+    required Iterable<String>? messagesDelete,
   }) async {
     if (orders != null) {
       await db.putObjects<Order>(
@@ -73,6 +81,30 @@ class DataRepoImpl implements DataRepo {
         uidUser: uidUser,
         objects: messages,
         parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+      );
+    }
+
+    if (ordersDelete != null) {
+      await db.delete(
+        table: TableHeader.orderTable,
+        uidUser: uidUser,
+        uids: ordersDelete,
+      );
+    }
+
+    if (productsDelete != null) {
+      await db.delete(
+        table: TableHeader.productTable,
+        uidUser: uidUser,
+        uids: productsDelete,
+      );
+    }
+
+    if (messagesDelete != null) {
+      await db.delete(
+        table: TableHeader.message,
+        uidUser: uidUser,
+        uids: messagesDelete,
       );
     }
   }

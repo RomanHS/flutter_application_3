@@ -10,8 +10,11 @@ abstract interface class DataRepo {
 
   Future<void> put({
     required String uidUser,
-    Iterable<Order>? orders,
-    Iterable<Product>? products,
-    Iterable<Message>? messages,
+    required Iterable<Order>? orders,
+    required Iterable<Product>? products,
+    required Iterable<Message>? messages,
+    required Iterable<String>? ordersDelete,
+    required Iterable<String>? productsDelete,
+    required Iterable<String>? messagesDelete,
   });
 }

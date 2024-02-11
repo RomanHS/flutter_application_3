@@ -19,12 +19,18 @@ class DataServis {
     Iterable<Order>? orders,
     Iterable<Product>? products,
     Iterable<Message>? messages,
+    Iterable<String>? ordersDelete,
+    Iterable<String>? productsDelete,
+    Iterable<String>? messagesDelete,
   }) async {
     await dataRepo.put(
       uidUser: uidUser,
       orders: orders,
       products: products,
       messages: messages,
+      ordersDelete: ordersDelete,
+      productsDelete: productsDelete,
+      messagesDelete: messagesDelete,
     );
 
     if (orders != null) {
@@ -37,6 +43,18 @@ class DataServis {
 
     if (messages != null) {
       data.messages.putAll(messages);
+    }
+
+    if (ordersDelete != null) {
+      data.orders.deleteAll(ordersDelete);
+    }
+
+    if (productsDelete != null) {
+      data.products.deleteAll(productsDelete);
+    }
+
+    if (messagesDelete != null) {
+      data.messages.deleteAll(messagesDelete);
     }
   }
 
