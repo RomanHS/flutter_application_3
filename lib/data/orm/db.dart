@@ -11,7 +11,7 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_8.db';
+    const String path = 'db_9.db';
 
     // await deleteDatabase(path);
 
