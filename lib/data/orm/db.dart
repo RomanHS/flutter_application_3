@@ -44,7 +44,7 @@ class DB {
 
     final Database database = await openDatabase(
       path,
-      version: 2,
+      version: 3,
 
       ///
       onCreate: (Database database, int v) async {
@@ -55,8 +55,12 @@ class DB {
       onUpgrade: (Database database, int vO, int vN) async {
         log('vO: $vO, vN: $vN');
 
-        if (vN > 1) {
+        if (vN == 2) {
           await onCreate(database, [TableHeader.productTable], []);
+        }
+
+        if (vN == 3) {
+          await onCreate(database, [TableHeader.message], [TableTable.messageSurvey]);
         }
       },
     );

@@ -13,4 +13,6 @@ class Entity {
   String get uid => data['uid'] as String;
 
   T get<T>(String key) => data[key] as T;
+
+  List<TabularPart> getTabular(TableTable table) => tabularParts[table] ?? [];
 }

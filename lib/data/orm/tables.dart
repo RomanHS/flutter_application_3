@@ -1,11 +1,13 @@
 enum TableHeader {
   orderTable,
   productTable,
+  message,
 }
 
 enum TableTable {
   productsInOrderTable,
   exciseTaxInOrderTable,
+  messageSurvey,
 }
 
 extension TableHeaderExtension on TableHeader {
@@ -18,6 +20,11 @@ extension TableHeaderExtension on TableHeader {
 
         ///
         TableHeader.productTable => [],
+
+        ///
+        TableHeader.message => [
+            TableTable.messageSurvey,
+          ],
       };
 
   Iterable<String> get createParams => switch (this) {
@@ -29,6 +36,11 @@ extension TableHeaderExtension on TableHeader {
         ///
         TableHeader.productTable => [
             'name TEXT',
+          ],
+
+        ///
+        TableHeader.message => [
+            'text TEXT',
           ],
       };
 }
@@ -44,6 +56,11 @@ extension TableTableExtension on TableTable {
         ///
         TableTable.exciseTaxInOrderTable => [
             'uid_product TEXT',
+            'value TEXT',
+          ],
+
+        ///
+        TableTable.messageSurvey => [
             'value TEXT',
           ],
       };
