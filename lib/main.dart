@@ -95,7 +95,7 @@ void main() async {
     );
 
     log('delete orders:   ${ordersDB.map((Order o) => o.uid).toList()}');
-    log('delete products:   ${productsDB.map((Product p) => p.uid).toList()}');
+    log('delete products: ${productsDB.map((Product p) => p.uid).toList()}');
   }
 
   ///
