@@ -10,10 +10,9 @@ import 'package:flutter_application_3/present/app/app.dart';
 late final DataServis dataServis;
 
 void main() async {
-  /// init
-  WidgetsFlutterBinding.ensureInitialized();
-
   log('main');
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   final DB db = await DB.init();
 
