@@ -4,7 +4,7 @@ enum TableHeader {
 
 enum TableTab {
   productsInOrderTable,
-  exciseTaxTable,
+  exciseTaxInOrderTable,
 }
 
 extension TableHeaderExtension on TableHeader {
@@ -12,7 +12,7 @@ extension TableHeaderExtension on TableHeader {
         ///
         TableHeader.orderTable => [
             TableTab.productsInOrderTable,
-            TableTab.exciseTaxTable,
+            TableTab.exciseTaxInOrderTable,
           ]
       };
 
@@ -33,7 +33,7 @@ extension TableTabExtension on TableTab {
           ],
 
         ///
-        TableTab.exciseTaxTable => [
+        TableTab.exciseTaxInOrderTable => [
             'uid_product TEXT',
             'value TEXT',
           ],

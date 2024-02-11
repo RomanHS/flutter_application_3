@@ -9,7 +9,7 @@ extension OrderMapper on Order {
   static Order fromDB(Entity entity) {
     final Map<String, List<TabularPart>> exciseTaxsMap = {};
 
-    for (TabularPart e in entity.tabularParts[TableTab.exciseTaxTable] ?? []) {
+    for (TabularPart e in entity.tabularParts[TableTab.exciseTaxInOrderTable] ?? []) {
       exciseTaxsMap.putIfAbsent(e.data['uid_product'] as String, () => []).add(e);
     }
 
@@ -69,7 +69,7 @@ extension OrderMapper on Order {
             .toList(),
 
         ///
-        TableTab.exciseTaxTable: products
+        TableTab.exciseTaxInOrderTable: products
             .expand(
               (ProductInOrder p) => p.exciseTaxs.map(
                 (ExciseTax e) => TabularPart(
