@@ -52,6 +52,20 @@ class DB {
     return DB._(database: database);
   }
 
+  Future<List<T>> getObjects<T>({
+    required TableHeader table,
+    required String uidUser,
+    required Iterable<String>? uids,
+    required T Function(Entity) parse,
+  }) async =>
+      (await getEntitys(
+        table: table,
+        uidUser: uidUser,
+        uids: uids,
+      ))
+          .map(parse)
+          .toList();
+
   Future<List<Entity>> getEntitys({
     required TableHeader table,
     required String uidUser,
@@ -95,6 +109,12 @@ class DB {
       },
     ).toList();
   }
+
+  Future<void> putObjects<T>({
+    required Iterable<T> objects,
+    required Entity Function(T) parse,
+  }) =>
+      putEntitys(objects.map(parse));
 
   Future<void> putEntitys(Iterable<Entity> entitys) async {
     for (Entity e in entitys) {
