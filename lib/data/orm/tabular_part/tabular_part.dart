@@ -6,4 +6,6 @@ class TabularPart {
   });
 
   String get uidParent => data['uid_parent'] as String;
+
+  T get<T>(String key) => data[key] as T;
 }
