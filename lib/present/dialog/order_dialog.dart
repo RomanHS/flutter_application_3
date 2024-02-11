@@ -30,6 +30,7 @@ class OrderDialog extends StatelessWidget {
 
     if (order == null) {
       return AlertDialog(
+        key: const Key('Order not found'),
         title: const Text('Order not found'),
         actions: [
           TextButton(
