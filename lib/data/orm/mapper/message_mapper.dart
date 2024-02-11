@@ -5,7 +5,7 @@ import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 
 extension MessageMapper on Message {
-  static Message fromDB(Entity entity) => Message(
+  static Message fromDB(EntityDB entity) => Message(
         uid: entity.get('uid'),
         text: entity.get('text'),
         surveys: entity
@@ -18,10 +18,10 @@ extension MessageMapper on Message {
             .toList(),
       );
 
-  Entity toDB({
+  EntityDB toDB({
     required String uidUser,
   }) =>
-      Entity(
+      EntityDB(
         ///
         data: {
           'uid_user': uidUser,

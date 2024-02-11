@@ -61,21 +61,21 @@ void main() async {
     table: TableHeader.orderTable,
     uidUser: uidUser,
     uids: null,
-    parse: (Entity e) => OrderMapper.fromDB(e),
+    parse: (EntityDB e) => OrderMapper.fromDB(e),
   );
 
   final List<Product> productsDB = await db.getObjects<Product>(
     table: TableHeader.productTable,
     uidUser: uidUser,
     uids: null,
-    parse: (Entity e) => ProductMapper.fromDB(e),
+    parse: (EntityDB e) => ProductMapper.fromDB(e),
   );
 
   final List<Message> messagesDB = await db.getObjects<Message>(
     table: TableHeader.message,
     uidUser: uidUser,
     uids: null,
-    parse: (Entity e) => MessageMapper.fromDB(e),
+    parse: (EntityDB e) => MessageMapper.fromDB(e),
   );
 
   /// equals
@@ -119,21 +119,21 @@ void main() async {
       table: TableHeader.orderTable,
       uidUser: uidUser,
       uids: null,
-      parse: (Entity e) => OrderMapper.fromDB(e),
+      parse: (EntityDB e) => OrderMapper.fromDB(e),
     );
 
     final List<Product> productsDB = await db.getObjects<Product>(
       table: TableHeader.productTable,
       uidUser: uidUser,
       uids: null,
-      parse: (Entity e) => ProductMapper.fromDB(e),
+      parse: (EntityDB e) => ProductMapper.fromDB(e),
     );
 
     final List<Message> messagesDB = await db.getObjects<Message>(
       table: TableHeader.message,
       uidUser: uidUser,
       uids: null,
-      parse: (Entity e) => MessageMapper.fromDB(e),
+      parse: (EntityDB e) => MessageMapper.fromDB(e),
     );
 
     log('delete orders:   ${ordersDB.map((Order o) => o.uid).toList()}');

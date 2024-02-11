@@ -6,7 +6,7 @@ import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
 extension OrderMapper on Order {
-  static Order fromDB(Entity entity) {
+  static Order fromDB(EntityDB entity) {
     final Map<String, List<TabularPart>> exciseTaxsMap = {};
 
     for (TabularPart e in entity.tabularParts[TableTable.exciseTaxInOrderTable] ?? []) {
@@ -38,10 +38,10 @@ extension OrderMapper on Order {
     );
   }
 
-  Entity toDB({
+  EntityDB toDB({
     required String uidUser,
   }) {
-    return Entity(
+    return EntityDB(
       ///
       data: {
         'uid_user': uidUser,

@@ -1,9 +1,7 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter_application_3/domain/entity/entity.dart';
 
-abstract class Document extends Equatable {
-  final String uid;
-
+abstract class Document extends Entity {
   const Document({
-    required this.uid,
+    required super.uid,
   });
 }

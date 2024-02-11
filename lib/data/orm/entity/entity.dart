@@ -1,11 +1,11 @@
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
 
-class Entity {
+class EntityDB {
   final Map<String, Object?> data;
   final Map<TableTable, List<TabularPart>> tabularParts;
 
-  Entity({
+  EntityDB({
     required this.data,
     required this.tabularParts,
   });

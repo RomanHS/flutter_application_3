@@ -72,7 +72,7 @@ class DB {
     required TableHeader table,
     required String uidUser,
     required Iterable<String>? uids,
-    required T Function(Entity) parse,
+    required T Function(EntityDB) parse,
   }) async =>
       (await getEntitys(
         table: table,
@@ -86,7 +86,7 @@ class DB {
     required TableHeader table,
     required String uidUser,
     required Iterable<T> objects,
-    required Entity Function(T) parse,
+    required EntityDB Function(T) parse,
   }) =>
       putEntitys(
         table: table,
@@ -94,7 +94,7 @@ class DB {
         entitys: objects.map(parse),
       );
 
-  Future<List<Entity>> getEntitys({
+  Future<List<EntityDB>> getEntitys({
     required TableHeader table,
     required String uidUser,
     required Iterable<String>? uids,
@@ -129,7 +129,7 @@ class DB {
       (Map<String, Object?> e) {
         final String uid = e['uid'] as String;
 
-        return Entity(
+        return EntityDB(
           data: e,
           tabularParts: tabularsParts[uid] ?? {},
         );
@@ -140,19 +140,19 @@ class DB {
   Future<void> putEntitys({
     required TableHeader table,
     required String uidUser,
-    required Iterable<Entity> entitys,
+    required Iterable<EntityDB> entitys,
   }) =>
       database.transaction((Transaction txn) async {
-        final List<Entity> entitysList = entitys.toList();
+        final List<EntityDB> entitysList = entitys.toList();
 
         await _delete(
           table: table,
           uidUser: uidUser,
-          uids: entitysList.map((Entity e) => e.uid),
+          uids: entitysList.map((EntityDB e) => e.uid),
           txn: txn,
         );
 
-        for (Entity entity in entitysList) {
+        for (EntityDB entity in entitysList) {
           await txn.insert(
             table.name,
             entity.data,

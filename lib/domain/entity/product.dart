@@ -1,11 +1,10 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter_application_3/domain/entity/entity.dart';
 
-class Product extends Equatable {
-  final String uid;
+class Product extends Entity {
   final String name;
 
   const Product({
-    required this.uid,
+    required super.uid,
     required this.name,
   });
 
