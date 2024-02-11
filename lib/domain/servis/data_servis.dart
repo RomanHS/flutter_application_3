@@ -42,7 +42,7 @@ class DataServis {
     /// Clear
 
     if (ordersClear) {
-      data.messages.clear();
+      data.orders.clear();
     }
 
     if (productsClear) {

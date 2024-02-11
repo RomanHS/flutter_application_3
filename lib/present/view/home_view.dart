@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:uuid/uuid.dart';
 
 class HomeView extends StatelessWidget {
@@ -16,6 +17,18 @@ class HomeView extends StatelessWidget {
     final List<Product> products = dataServis.data.products.values.toList();
 
     AppBar appBar() => AppBar(
+          ///
+          title: IconButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const OrdersView(),
+              ),
+            ),
+            icon: const Icon(Icons.money_off_csred_sharp),
+          ),
+
+          ///
           actions: [
             IconButton(
               onPressed: products.isEmpty ? null : () => dataServis.transaction(productsClear: true),
