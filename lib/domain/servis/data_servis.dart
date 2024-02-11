@@ -39,4 +39,6 @@ class DataServis {
       data.messages.putAll(messages);
     }
   }
+
+  Future<void> dispose() => data.dispose();
 }
