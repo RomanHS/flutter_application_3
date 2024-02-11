@@ -62,6 +62,18 @@ class DB {
           .map(parse)
           .toList();
 
+  Future<void> putObjects<T>({
+    required TableHeader table,
+    required String uidUser,
+    required Iterable<T> objects,
+    required Entity Function(T) parse,
+  }) =>
+      putEntitys(
+        table: table,
+        uidUser: uidUser,
+        entitys: objects.map(parse),
+      );
+
   Future<List<Entity>> getEntitys({
     required TableHeader table,
     required String uidUser,
@@ -104,18 +116,6 @@ class DB {
       },
     ).toList();
   }
-
-  Future<void> putObjects<T>({
-    required TableHeader table,
-    required String uidUser,
-    required Iterable<T> objects,
-    required Entity Function(T) parse,
-  }) =>
-      putEntitys(
-        table: table,
-        uidUser: uidUser,
-        entitys: objects.map(parse),
-      );
 
   Future<void> putEntitys({
     required TableHeader table,
