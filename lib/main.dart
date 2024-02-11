@@ -7,12 +7,16 @@ import 'package:flutter_application_3/data/orm/mapper/message_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
+import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:flutter_application_3/domain/repo/data_repo.dart';
 import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
+
+late final DataRepo dataRepo;
 
 void main() async {
   /// init
@@ -21,6 +25,8 @@ void main() async {
   log('main');
 
   final DB db = await DB.init();
+
+  dataRepo = DataRepoImpl(db: db);
 
   const String uidUser = '1';
 
