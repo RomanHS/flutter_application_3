@@ -8,15 +8,17 @@ import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
+import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
+import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
-late final DataRepo dataRepo;
+late final DataServis dataServis;
 
 void main() async {
   /// init
@@ -26,9 +28,17 @@ void main() async {
 
   final DB db = await DB.init();
 
-  dataRepo = DataRepoImpl(db: db);
-
   const String uidUser = '1';
+
+  final DataRepo dataRepo = DataRepoImpl(db: db);
+
+  final Data data = await dataRepo.get(uidUser: uidUser);
+
+  dataServis = DataServis(
+    uidUser: uidUser,
+    dataRepo: dataRepo,
+    data: data,
+  );
 
   final List<Order> orders = getOrders();
   final List<Product> products = getProducts();
