@@ -44,8 +44,6 @@ extension OrderMapper on Order {
     return Entity(
       ///
       table: TableHeader.orderTable,
-      uidUser: uidUser,
-      uid: uid,
 
       ///
       data: {
@@ -60,10 +58,6 @@ extension OrderMapper on Order {
         TableTab.productsInOrderTable: products
             .map(
               (ProductInOrder e) => TabularPart(
-                uidUser: uidUser,
-                uidParent: uid,
-
-                ///
                 data: {
                   'uid_user': uidUser,
                   'uid_parent': uid,
@@ -79,9 +73,6 @@ extension OrderMapper on Order {
             .expand(
               (ProductInOrder p) => p.exciseTaxs.map(
                 (ExciseTax e) => TabularPart(
-                  uidUser: uidUser,
-                  uidParent: uid,
-
                   ///
                   data: {
                     'uid_user': uidUser,

@@ -92,18 +92,12 @@ class DB {
 
         return Entity(
           table: table,
-          uidUser: uidUser,
-          uid: uid,
           data: e,
           tabularParts: tabularParts.map((TableTab key, value) => MapEntry(
                 key,
                 value.map(
                   (Map<String, Object?> e) {
-                    final String uidParent = e['uid_parent'] as String;
-
                     return TabularPart(
-                      uidUser: uidUser,
-                      uidParent: uidParent,
                       data: e,
                     );
                   },
