@@ -74,6 +74,12 @@ void main() async {
       uids: ['2', '3'],
     );
 
+    await db.delete(
+      table: TableHeader.productTable,
+      uidUser: uidUser,
+      uids: null,
+    );
+
     final List<Order> ordersDB = await db.getObjects<Order>(
       table: TableHeader.orderTable,
       uidUser: uidUser,
@@ -81,7 +87,15 @@ void main() async {
       parse: (Entity e) => OrderMapper.fromDB(e),
     );
 
-    log('delete:   ${ordersDB.map((Order o) => o.uid).toList()}');
+    final List<Product> productsDB = await db.getObjects<Product>(
+      table: TableHeader.productTable,
+      uidUser: uidUser,
+      uids: null,
+      parse: (Entity e) => ProductMapper.fromDB(e),
+    );
+
+    log('delete orders:   ${ordersDB.map((Order o) => o.uid).toList()}');
+    log('delete products:   ${productsDB.map((Product p) => p.uid).toList()}');
   }
 
   ///
