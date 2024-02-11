@@ -55,11 +55,11 @@ class DB {
       onUpgrade: (Database database, int vO, int vN) async {
         log('vO: $vO, vN: $vN');
 
-        if (vN == 2) {
+        if (vO < 2) {
           await onCreate(database, [TableHeader.productTable], []);
         }
 
-        if (vN == 3) {
+        if (vO < 3) {
           await onCreate(database, [TableHeader.message], [TableTable.messageSurvey]);
         }
       },
