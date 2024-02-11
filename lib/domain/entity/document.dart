@@ -1,7 +1,9 @@
-abstract class Document {
+import 'package:equatable/equatable.dart';
+
+abstract class Document extends Equatable {
   final String uid;
 
-  Document({
+  const Document({
     required this.uid,
   });
 }

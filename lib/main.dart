@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
 void main() async {
+  /// init
   WidgetsFlutterBinding.ensureInitialized();
 
   log('main');
@@ -19,11 +21,13 @@ void main() async {
 
   final List<Order> orders = getOrders();
 
+  /// put
   await db.putObjects<Order>(
     objects: orders,
     parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
   );
 
+  /// get
   final List<Order> ordersDB = await db.getObjects<Order>(
     table: TableHeader.orderTable,
     uidUser: uidUser,
@@ -31,9 +35,12 @@ void main() async {
     parse: (Entity e) => OrderMapper.fromDB(e),
   );
 
-  orders;
-  ordersDB;
+  /// equals
+  final bool isEquals = listEquals(orders, ordersDB);
 
+  log('isEquals: $isEquals');
+
+  ///
   runApp(const MainApp());
 }
 

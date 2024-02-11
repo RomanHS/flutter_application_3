@@ -1,7 +1,14 @@
-class ExciseTax {
+import 'package:equatable/equatable.dart';
+
+class ExciseTax extends Equatable {
   final String value;
 
-  ExciseTax({
+  const ExciseTax({
     required this.value,
   });
+
+  @override
+  List<Object?> get props => [
+        value,
+      ];
 }

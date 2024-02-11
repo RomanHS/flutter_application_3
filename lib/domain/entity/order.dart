@@ -5,9 +5,16 @@ class Order extends Document {
   final String number;
   final List<ProductInOrder> products;
 
-  Order({
+  const Order({
     required super.uid,
     required this.number,
     required this.products,
   });
+
+  @override
+  List<Object?> get props => [
+        uid,
+        number,
+        products,
+      ];
 }
