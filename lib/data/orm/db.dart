@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
@@ -15,32 +16,47 @@ class DB {
 
     // await deleteDatabase(path);
 
+    Future<void> onCreate(Database database, List<TableHeader> header, List<TableTable> table) async {
+      for (TableHeader table in header) {
+        final List<String> params = [
+          'uid_user TEXT',
+          'uid TEXT',
+          ...table.createParams,
+        ];
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+
+        await database.execute(sql);
+      }
+
+      for (TableTable table in table) {
+        final List<String> params = [
+          'uid_user TEXT',
+          'uid_parent TEXT',
+          ...table.createParams,
+        ];
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+
+        await database.execute(sql);
+      }
+    }
+
     final Database database = await openDatabase(
       path,
-      version: 1,
+      version: 2,
+
+      ///
       onCreate: (Database database, int v) async {
-        for (TableHeader table in TableHeader.values) {
-          final List<String> params = [
-            'uid_user TEXT',
-            'uid TEXT',
-            ...table.createParams,
-          ];
+        await onCreate(database, TableHeader.values, TableTable.values);
+      },
 
-          final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+      ///
+      onUpgrade: (Database database, int vO, int vN) async {
+        log('vO: $vO, vN: $vN');
 
-          await database.execute(sql);
-        }
-
-        for (TableTable table in TableTable.values) {
-          final List<String> params = [
-            'uid_user TEXT',
-            'uid_parent TEXT',
-            ...table.createParams,
-          ];
-
-          final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
-
-          await database.execute(sql);
+        if (vN > 1) {
+          await onCreate(database, [TableHeader.productTable], []);
         }
       },
     );

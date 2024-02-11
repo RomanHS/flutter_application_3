@@ -1,5 +1,6 @@
 enum TableHeader {
   orderTable,
+  productTable,
 }
 
 enum TableTable {
@@ -13,13 +14,21 @@ extension TableHeaderExtension on TableHeader {
         TableHeader.orderTable => [
             TableTable.productsInOrderTable,
             TableTable.exciseTaxInOrderTable,
-          ]
+          ],
+
+        ///
+        TableHeader.productTable => [],
       };
 
   Iterable<String> get createParams => switch (this) {
         ///
         TableHeader.orderTable => [
             'number TEXT',
+          ],
+
+        ///
+        TableHeader.productTable => [
+            'name TEXT',
           ],
       };
 }
