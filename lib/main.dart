@@ -25,6 +25,5 @@ void main() async {
 
   dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
 
-  ///
   runApp(const App());
 }
