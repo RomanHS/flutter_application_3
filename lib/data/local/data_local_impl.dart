@@ -9,6 +9,7 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DataLocalImpl implements DataLocal {
   final DB db;
@@ -56,56 +57,97 @@ class DataLocalImpl implements DataLocal {
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
     required Iterable<String>? messagesDelete,
-  }) async {
-    if (orders != null) {
-      await db.putObjects<Order>(
-        table: TableHeader.orderTable,
-        uidUser: uidUser,
-        objects: orders,
-        parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
-      );
-    }
+    required bool ordersClear,
+    required bool productsClear,
+    required bool messagesClear,
+  }) =>
+      db.database.transaction((Transaction txn) async {
+        if (orders != null) {
+          await db.putObjects<Order>(
+            table: TableHeader.orderTable,
+            uidUser: uidUser,
+            objects: orders,
+            parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
+            txn: txn,
+          );
+        }
 
-    if (products != null) {
-      await db.putObjects<Product>(
-        table: TableHeader.productTable,
-        uidUser: uidUser,
-        objects: products,
-        parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
-      );
-    }
+        if (products != null) {
+          await db.putObjects<Product>(
+            table: TableHeader.productTable,
+            uidUser: uidUser,
+            objects: products,
+            parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
+            txn: txn,
+          );
+        }
 
-    if (messages != null) {
-      await db.putObjects<Message>(
-        table: TableHeader.message,
-        uidUser: uidUser,
-        objects: messages,
-        parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
-      );
-    }
+        if (messages != null) {
+          await db.putObjects<Message>(
+            table: TableHeader.message,
+            uidUser: uidUser,
+            objects: messages,
+            parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+            txn: txn,
+          );
+        }
 
-    if (ordersDelete != null) {
-      await db.delete(
-        table: TableHeader.orderTable,
-        uidUser: uidUser,
-        uids: ordersDelete,
-      );
-    }
+        ///
 
-    if (productsDelete != null) {
-      await db.delete(
-        table: TableHeader.productTable,
-        uidUser: uidUser,
-        uids: productsDelete,
-      );
-    }
+        if (ordersDelete != null) {
+          await db.delete(
+            table: TableHeader.orderTable,
+            uidUser: uidUser,
+            uids: ordersDelete,
+            txn: txn,
+          );
+        }
 
-    if (messagesDelete != null) {
-      await db.delete(
-        table: TableHeader.message,
-        uidUser: uidUser,
-        uids: messagesDelete,
-      );
-    }
-  }
+        if (productsDelete != null) {
+          await db.delete(
+            table: TableHeader.productTable,
+            uidUser: uidUser,
+            uids: productsDelete,
+            txn: txn,
+          );
+        }
+
+        if (messagesDelete != null) {
+          await db.delete(
+            table: TableHeader.message,
+            uidUser: uidUser,
+            uids: messagesDelete,
+            txn: txn,
+          );
+        }
+
+        ///
+
+        if (ordersClear) {
+          await db.delete(
+            table: TableHeader.orderTable,
+            uidUser: uidUser,
+            uids: null,
+            txn: txn,
+          );
+        }
+
+        if (productsClear) {
+          await db.delete(
+            table: TableHeader.productTable,
+            uidUser: uidUser,
+            uids: null,
+            txn: txn,
+          );
+        }
+
+        if (messagesClear) {
+          await db.delete(
+            table: TableHeader.message,
+            uidUser: uidUser,
+            uids: null,
+            txn: txn,
+          );
+        }
+      });
 }

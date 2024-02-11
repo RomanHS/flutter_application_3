@@ -16,5 +16,8 @@ abstract interface class DataRepo {
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
     required Iterable<String>? messagesDelete,
+    required bool ordersClear,
+    required bool productsClear,
+    required bool messagesClear,
   });
 }

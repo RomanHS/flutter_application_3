@@ -39,5 +39,12 @@ class Store<TEntity extends Entity> {
     }
   }
 
+  void clear() {
+    for (TEntity value in values) {
+      _streamController.add(value);
+    }
+    _map.clear();
+  }
+
   Future<void> dispose() => _streamController.close();
 }

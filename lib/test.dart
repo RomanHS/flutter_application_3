@@ -23,26 +23,31 @@ Future<void> test() async {
   final List<Message> messages = getMessages();
 
   /// put
-  await db.putObjects<Order>(
-    table: TableHeader.orderTable,
-    uidUser: uidUser,
-    objects: orders,
-    parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
-  );
+  await db.database.transaction((txn) async {
+    await db.putObjects<Order>(
+      table: TableHeader.orderTable,
+      uidUser: uidUser,
+      objects: orders,
+      parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
+      txn: txn,
+    );
 
-  await db.putObjects<Product>(
-    table: TableHeader.productTable,
-    uidUser: uidUser,
-    objects: products,
-    parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
-  );
+    await db.putObjects<Product>(
+      table: TableHeader.productTable,
+      uidUser: uidUser,
+      objects: products,
+      parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
+      txn: txn,
+    );
 
-  await db.putObjects<Message>(
-    table: TableHeader.message,
-    uidUser: uidUser,
-    objects: messages,
-    parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
-  );
+    await db.putObjects<Message>(
+      table: TableHeader.message,
+      uidUser: uidUser,
+      objects: messages,
+      parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+      txn: txn,
+    );
+  });
 
   /// get
   final List<Order> ordersDB = await db.getObjects<Order>(
@@ -85,23 +90,28 @@ Future<void> test() async {
 
   /// delete
   {
-    await db.delete(
-      table: TableHeader.orderTable,
-      uidUser: uidUser,
-      uids: ['2', '3'],
-    );
+    await db.database.transaction((txn) async {
+      await db.delete(
+        table: TableHeader.orderTable,
+        uidUser: uidUser,
+        uids: ['2', '3'],
+        txn: txn,
+      );
 
-    await db.delete(
-      table: TableHeader.productTable,
-      uidUser: uidUser,
-      uids: null,
-    );
+      await db.delete(
+        table: TableHeader.productTable,
+        uidUser: uidUser,
+        uids: null,
+        txn: txn,
+      );
 
-    await db.delete(
-      table: TableHeader.message,
-      uidUser: uidUser,
-      uids: null,
-    );
+      await db.delete(
+        table: TableHeader.message,
+        uidUser: uidUser,
+        uids: null,
+        txn: txn,
+      );
+    });
 
     final List<Order> ordersDB = await db.getObjects<Order>(
       table: TableHeader.orderTable,

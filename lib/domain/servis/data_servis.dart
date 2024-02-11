@@ -22,6 +22,9 @@ class DataServis {
     Iterable<String>? ordersDelete,
     Iterable<String>? productsDelete,
     Iterable<String>? messagesDelete,
+    bool ordersClear = false,
+    bool productsClear = false,
+    bool messagesClear = false,
   }) async {
     await dataRepo.transaction(
       uidUser: uidUser,
@@ -31,6 +34,9 @@ class DataServis {
       ordersDelete: ordersDelete,
       productsDelete: productsDelete,
       messagesDelete: messagesDelete,
+      ordersClear: ordersClear,
+      productsClear: productsClear,
+      messagesClear: messagesClear,
     );
 
     ///
@@ -59,6 +65,20 @@ class DataServis {
 
     if (messagesDelete != null) {
       data.messages.deleteAll(messagesDelete);
+    }
+
+    ///
+
+    if (ordersClear) {
+      data.messages.clear();
+    }
+
+    if (productsClear) {
+      data.products.clear();
+    }
+
+    if (messagesClear) {
+      data.messages.clear();
     }
   }
 

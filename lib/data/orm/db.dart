@@ -87,11 +87,13 @@ class DB {
     required String uidUser,
     required Iterable<T> objects,
     required EntityDB Function(T) parse,
+    required Transaction txn,
   }) =>
       putEntitys(
         table: table,
         uidUser: uidUser,
         entitys: objects.map(parse),
+        txn: txn,
       );
 
   Future<List<EntityDB>> getEntitys({
@@ -141,50 +143,38 @@ class DB {
     required TableHeader table,
     required String uidUser,
     required Iterable<EntityDB> entitys,
-  }) =>
-      database.transaction((Transaction txn) async {
-        final List<EntityDB> entitysList = entitys.toList();
+    required Transaction txn,
+  }) async {
+    final List<EntityDB> entitysList = entitys.toList();
 
-        await _delete(
-          table: table,
-          uidUser: uidUser,
-          uids: entitysList.map((EntityDB e) => e.uid),
-          txn: txn,
-        );
+    await delete(
+      table: table,
+      uidUser: uidUser,
+      uids: entitysList.map((EntityDB e) => e.uid),
+      txn: txn,
+    );
 
-        for (EntityDB entity in entitysList) {
+    for (EntityDB entity in entitysList) {
+      await txn.insert(
+        table.name,
+        entity.data,
+      );
+
+      for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
+        final TableTable table = e.key;
+        final List<TabularPart> list = e.value;
+
+        for (TabularPart e in list) {
           await txn.insert(
             table.name,
-            entity.data,
+            e.data,
           );
-
-          for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
-            final TableTable table = e.key;
-            final List<TabularPart> list = e.value;
-
-            for (TabularPart e in list) {
-              await txn.insert(
-                table.name,
-                e.data,
-              );
-            }
-          }
         }
-      });
+      }
+    }
+  }
 
   Future<void> delete({
-    required TableHeader table,
-    required String uidUser,
-    required Iterable<String>? uids,
-  }) =>
-      database.transaction((Transaction txn) => _delete(
-            table: table,
-            uidUser: uidUser,
-            uids: uids,
-            txn: txn,
-          ));
-
-  Future<void> _delete({
     required TableHeader table,
     required String uidUser,
     required Iterable<String>? uids,

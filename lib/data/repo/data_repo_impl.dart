@@ -27,6 +27,9 @@ class DataRepoImpl implements DataRepo {
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
     required Iterable<String>? messagesDelete,
+    required bool ordersClear,
+    required bool productsClear,
+    required bool messagesClear,
   }) =>
       dataLocal.transaction(
         uidUser: uidUser,
@@ -36,5 +39,8 @@ class DataRepoImpl implements DataRepo {
         ordersDelete: ordersDelete,
         productsDelete: productsDelete,
         messagesDelete: messagesDelete,
+        ordersClear: ordersClear,
+        productsClear: productsClear,
+        messagesClear: messagesClear,
       );
 }
