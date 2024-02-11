@@ -38,7 +38,28 @@ void main() async {
   /// equals
   final bool isEquals = listEquals(orders, ordersDB);
 
+  log('orders:   ${orders.map((Order o) => o.uid).toList()}');
+  log('ordersDB: ${ordersDB.map((Order o) => o.uid).toList()}');
+
   log('isEquals: $isEquals');
+
+  /// delete
+  {
+    await db.delete(
+      table: TableHeader.orderTable,
+      uidUser: uidUser,
+      uids: ['2', '3'],
+    );
+
+    final List<Order> ordersDB = await db.getObjects<Order>(
+      table: TableHeader.orderTable,
+      uidUser: uidUser,
+      uids: null,
+      parse: (Entity e) => OrderMapper.fromDB(e),
+    );
+
+    log('delete:   ${ordersDB.map((Order o) => o.uid).toList()}');
+  }
 
   ///
   runApp(const MainApp());
