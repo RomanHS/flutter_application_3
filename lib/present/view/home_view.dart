@@ -18,7 +18,13 @@ class HomeView extends StatelessWidget {
 
     AppBar appBar() => AppBar(
           ///
-          title: IconButton(
+          centerTitle: true,
+
+          ///
+          title: const Text('Home'),
+
+          ///
+          leading: IconButton(
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute<void>(

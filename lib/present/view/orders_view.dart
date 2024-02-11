@@ -19,6 +19,12 @@ class OrdersView extends StatelessWidget {
 
     AppBar appBar() => AppBar(
           ///
+          centerTitle: true,
+
+          ///
+          title: const Text('Orders'),
+
+          ///
           actions: [
             IconButton(
               onPressed: orders.isEmpty ? null : () => dataServis.transaction(ordersClear: true),
