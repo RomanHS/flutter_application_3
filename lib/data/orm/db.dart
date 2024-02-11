@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
@@ -46,9 +45,9 @@ class DB {
       },
     );
 
-    final List<Map<String, Object?>> r = await database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
+    // final List<Map<String, Object?>> r = await database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
 
-    log(r.toString());
+    // log(r.toString());
 
     return DB._(database: database);
   }
