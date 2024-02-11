@@ -1,0 +1,52 @@
+import 'package:flutter_application_3/data/orm/db.dart';
+import 'package:flutter_application_3/data/orm/mapper/message_mapper.dart';
+import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
+import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
+import 'package:flutter_application_3/data/orm/tables.dart';
+import 'package:flutter_application_3/domain/entity/message.dart';
+import 'package:flutter_application_3/domain/entity/order.dart';
+import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:flutter_application_3/domain/repo/data_repo.dart';
+
+class DataRepoImpl implements DataRepo {
+  final DB db;
+
+  DataRepoImpl({
+    required this.db,
+  });
+
+  @override
+  Future<void> put({
+    required String uidUser,
+    Iterable<Order>? orders,
+    Iterable<Product>? products,
+    Iterable<Message>? messages,
+  }) async {
+    if (orders != null) {
+      await db.putObjects<Order>(
+        table: TableHeader.orderTable,
+        uidUser: uidUser,
+        objects: orders,
+        parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
+      );
+    }
+
+    if (products != null) {
+      await db.putObjects<Product>(
+        table: TableHeader.productTable,
+        uidUser: uidUser,
+        objects: products,
+        parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
+      );
+    }
+
+    if (messages != null) {
+      await db.putObjects<Message>(
+        table: TableHeader.message,
+        uidUser: uidUser,
+        objects: messages,
+        parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+      );
+    }
+  }
+}
