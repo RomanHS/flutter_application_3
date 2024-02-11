@@ -8,10 +8,13 @@ enum TableTab {
 }
 
 extension TableHeaderExtension on TableHeader {
-  Iterable<TableTab> get tabs sync* {
-    yield TableTab.productsInOrderTable;
-    yield TableTab.exciseTaxTable;
-  }
+  Iterable<TableTab> get tabs => switch (this) {
+        ///
+        TableHeader.orderTable => [
+            TableTab.productsInOrderTable,
+            TableTab.exciseTaxTable,
+          ]
+      };
 
   Iterable<String> createParams() => switch (this) {
         ///
