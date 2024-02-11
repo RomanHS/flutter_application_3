@@ -32,17 +32,10 @@ void main() async {
     ),
   );
 
-  // await db.putEntitys(orders.map((Order o) => OrderMapper(o).toDB(uidUser: uidUser)));
-
-  await db.putObjects<Order>(objects: orders, parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser));
-
-  // final List<Entity> ordersEntitys = await db.getEntitys(
-  //   table: TableHeader.orderTable,
-  //   uidUser: uidUser,
-  //   uids: null,
-  // );
-
-  // final List<Order> ordersDB = ordersEntitys.map((Entity e) => OrderMapper.fromDB(e)).toList();
+  await db.putObjects<Order>(
+    objects: orders,
+    parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
+  );
 
   final List<Order> ordersDB = await db.getObjects<Order>(
     table: TableHeader.orderTable,
