@@ -16,26 +16,34 @@ void main() async {
 
   const String uidUser = '1';
 
-  final Order o = Order(
-    uid: '1',
-    number: '1',
-    products: List.generate(
-      5,
-      (int i) => ProductInOrder(
-        uidProduct: '${i + 1}',
-        nameProduct: 'Product ${i + 1}',
-        exciseTaxs: [],
+  final List<Order> orders = List.generate(
+    5,
+    (int i) => Order(
+      uid: '${i + 1}',
+      number: '${i + 1}',
+      products: List.generate(
+        5,
+        (int i) => ProductInOrder(
+          uidProduct: '${i + 1}',
+          nameProduct: 'Product ${i + 1}',
+          exciseTaxs: [],
+        ),
       ),
     ),
   );
 
-  await db.put(entity: OrderMapper(o).toDB(uidUser: uidUser));
+  await db.putEntitys(orders.map((Order o) => OrderMapper(o).toDB(uidUser: uidUser)));
 
-  final List<Entity> ordersEntitys = await db.getEntitys(uidUser: uidUser, uids: null, table: TableHeader.orderTable);
+  final List<Entity> ordersEntitys = await db.getEntitys(
+    table: TableHeader.orderTable,
+    uidUser: uidUser,
+    uids: null,
+  );
 
-  final List<Order> orders = ordersEntitys.map((e) => OrderMapper.fromDB(e)).toList();
+  final List<Order> ordersDB = ordersEntitys.map((Entity e) => OrderMapper.fromDB(e)).toList();
 
   orders;
+  ordersDB;
 
   runApp(const MainApp());
 }

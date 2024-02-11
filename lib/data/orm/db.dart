@@ -11,9 +11,9 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_6.db';
+    const String path = 'db_8.db';
 
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     final Database database = await openDatabase(
       path,
@@ -57,23 +57,21 @@ class DB {
     required String uidUser,
     required Iterable<String>? uids,
   }) async {
-    String sql = 'SELECT * FROM ${table.name} ';
-
-    sql += 'WHERE uid_user = $uidUser ';
+    String where = 'uid_user = $uidUser ';
 
     if (uids != null) {
-      sql += 'AND uid IN (${uids.join(',')})';
+      where += 'AND uid IN (${uids.join(',')})';
     }
 
-    final List<Map<String, Object?>> list = await database.rawQuery(sql);
+    final List<Map<String, Object?>> list = await database.query(table.name, where: where);
 
     final Map<String, Map<TableTab, List<TabularPart>>> tabularsParts = {};
 
-    for (TableTab table in table.getTabs()) {
+    for (TableTab table in table.tabs) {
       String where = 'uid_user = $uidUser ';
 
       if (uids != null) {
-        where += 'AND uid IN (${uids.join(',')})';
+        where += 'AND uid_parent IN (${uids.join(',')})';
       }
 
       final List<Map<String, Object?>> list = await database.query(table.name, where: where);
@@ -98,10 +96,13 @@ class DB {
     ).toList();
   }
 
-  Future<void> put({
-    required Entity entity,
-  }) =>
-      database.transaction((txn) async {
+  Future<void> putEntitys(Iterable<Entity> entitys) async {
+    for (Entity e in entitys) {
+      await put(e);
+    }
+  }
+
+  Future<void> put(Entity entity) => database.transaction((Transaction txn) async {
         final TableHeader table = entity.table;
 
         await txn.delete(

@@ -8,7 +8,7 @@ enum TableTab {
 }
 
 extension TableHeaderExtension on TableHeader {
-  Iterable<TableTab> getTabs() sync* {
+  Iterable<TableTab> get tabs sync* {
     yield TableTab.productsInOrderTable;
     yield TableTab.exciseTaxTable;
   }
