@@ -5,6 +5,7 @@ import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
 import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
+import 'package:flutter_application_3/present/app/app.dart';
 
 late final DataServis dataServis;
 
@@ -25,20 +26,5 @@ void main() async {
   dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
 
   ///
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  runApp(const App());
 }

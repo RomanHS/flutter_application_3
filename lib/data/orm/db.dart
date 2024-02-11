@@ -102,7 +102,7 @@ class DB {
     String where = 'uid_user = $uidUser';
 
     if (uids != null) {
-      where += ' AND uid IN (${uids.join(',')})';
+      where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
     }
 
     final List<Map<String, Object?>> list = await database.query(table.name, where: where);
@@ -113,7 +113,7 @@ class DB {
       String where = 'uid_user = $uidUser';
 
       if (uids != null) {
-        where += ' AND uid_parent IN (${uids.join(',')})';
+        where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
       }
 
       final List<Map<String, Object?>> list = await database.query(table.name, where: where);
@@ -193,7 +193,7 @@ class DB {
     String where = 'uid_user = $uidUser';
 
     if (uids != null) {
-      where += ' AND uid IN (${uids.join(',')})';
+      where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
     }
 
     await txn.delete(table.name, where: where);
@@ -202,7 +202,7 @@ class DB {
       String where = 'uid_user = $uidUser';
 
       if (uids != null) {
-        where += ' AND uid_parent IN (${uids.join(',')})';
+        where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
       }
 
       await txn.delete(table.name, where: where);
