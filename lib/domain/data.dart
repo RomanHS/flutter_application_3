@@ -15,4 +15,10 @@ class Data {
   })  : orders = Store<Order>(values: orders),
         products = Store<Product>(values: products),
         messages = Store<Message>(values: messages);
+
+  Future<void> dispose() async {
+    await orders.dispose();
+    await products.dispose();
+    await messages.dispose();
+  }
 }
