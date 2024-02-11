@@ -45,10 +45,6 @@ class DB {
       },
     );
 
-    // final List<Map<String, Object?>> r = await database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
-
-    // log(r.toString());
-
     return DB._(database: database);
   }
 
@@ -71,10 +67,10 @@ class DB {
     required String uidUser,
     required Iterable<String>? uids,
   }) async {
-    String where = 'uid_user = $uidUser ';
+    String where = 'uid_user = $uidUser';
 
     if (uids != null) {
-      where += 'AND uid IN (${uids.join(',')})';
+      where += ' AND uid IN (${uids.join(',')})';
     }
 
     final List<Map<String, Object?>> list = await database.query(table.name, where: where);
@@ -82,10 +78,10 @@ class DB {
     final Map<String, Map<TableTab, List<TabularPart>>> tabularsParts = {};
 
     for (TableTab table in table.tabs) {
-      String where = 'uid_user = $uidUser ';
+      String where = 'uid_user = $uidUser';
 
       if (uids != null) {
-        where += 'AND uid_parent IN (${uids.join(',')})';
+        where += ' AND uid_parent IN (${uids.join(',')})';
       }
 
       final List<Map<String, Object?>> list = await database.query(table.name, where: where);

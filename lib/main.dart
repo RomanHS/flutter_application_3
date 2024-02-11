@@ -5,6 +5,7 @@ import 'package:flutter_application_3/data/orm/entity/entity.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
+import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
 void main() async {
@@ -16,21 +17,7 @@ void main() async {
 
   const String uidUser = '1';
 
-  final List<Order> orders = List.generate(
-    5,
-    (int i) => Order(
-      uid: '${i + 1}',
-      number: '${i + 1}',
-      products: List.generate(
-        5,
-        (int i) => ProductInOrder(
-          uidProduct: '${i + 1}',
-          nameProduct: 'Product ${i + 1}',
-          exciseTaxs: [],
-        ),
-      ),
-    ),
-  );
+  final List<Order> orders = getOrders();
 
   await db.putObjects<Order>(
     objects: orders,
@@ -64,3 +51,28 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
+List<Order> getOrders() => List.generate(
+      5,
+      (int i) => Order(
+        uid: '${i + 1}',
+        number: '${i + 1}',
+
+        ///
+        products: List.generate(
+          5,
+          (int i) => ProductInOrder(
+            uidProduct: '${i + 1}',
+            nameProduct: 'Product ${i + 1}',
+
+            ///
+            exciseTaxs: List.generate(
+              5,
+              (int i) => ExciseTax(
+                value: '${i + 1}',
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
