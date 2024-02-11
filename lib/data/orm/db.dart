@@ -123,14 +123,16 @@ class DB {
     required Iterable<Entity> entitys,
   }) =>
       database.transaction((Transaction txn) async {
+        final List<Entity> entitysList = entitys.toList();
+
         await _delete(
           table: table,
           uidUser: uidUser,
-          uids: entitys.map((Entity e) => e.uid),
+          uids: entitysList.map((Entity e) => e.uid),
           txn: txn,
         );
 
-        for (Entity entity in entitys) {
+        for (Entity entity in entitysList) {
           await txn.insert(
             table.name,
             entity.data,
