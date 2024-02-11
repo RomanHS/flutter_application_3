@@ -23,7 +23,7 @@ class DB {
           final List<String> params = [
             'uid_user TEXT',
             'uid TEXT',
-            ...table.createParams(),
+            ...table.createParams,
           ];
 
           final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
@@ -35,7 +35,7 @@ class DB {
           final List<String> params = [
             'uid_user TEXT',
             'uid_parent TEXT',
-            ...table.createParams(),
+            ...table.createParams,
           ];
 
           final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';

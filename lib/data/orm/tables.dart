@@ -16,7 +16,7 @@ extension TableHeaderExtension on TableHeader {
           ]
       };
 
-  Iterable<String> createParams() => switch (this) {
+  Iterable<String> get createParams => switch (this) {
         ///
         TableHeader.orderTable => [
             'number TEXT',
@@ -25,7 +25,7 @@ extension TableHeaderExtension on TableHeader {
 }
 
 extension TableTabExtension on TableTab {
-  Iterable<String> createParams() => switch (this) {
+  Iterable<String> get createParams => switch (this) {
         ///
         TableTab.productsInOrderTable => [
             'uid_product TEXT',
