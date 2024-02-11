@@ -1,5 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/data/local/data_local.dart';
+import 'package:flutter_application_3/data/local/data_local_impl.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
 import 'package:flutter_application_3/domain/data.dart';
@@ -18,7 +20,9 @@ void main() async {
 
   const String uidUser = '1';
 
-  final DataRepo dataRepo = DataRepoImpl(db: db);
+  final DataLocal dataLocal = DataLocalImpl(db: db);
+
+  final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
 
   final Data data = await dataRepo.get(uidUser: uidUser);
 
