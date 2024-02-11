@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
     AppBar appBar() => AppBar(
           actions: [
             IconButton(
-              onPressed: () => dataServis.transaction(productsClear: true),
+              onPressed: products.isEmpty ? null : () => dataServis.transaction(productsClear: true),
               icon: const Icon(Icons.delete),
             ),
           ],
@@ -37,8 +37,13 @@ class HomeView extends StatelessWidget {
           final Product product = products[i];
 
           return Card(
+            key: Key(product.uid),
             child: ListTile(
               title: Text(product.name),
+              trailing: IconButton(
+                onPressed: () => dataServis.transaction(productsDelete: [product.uid]),
+                icon: const Icon(Icons.delete),
+              ),
             ),
           );
         },
