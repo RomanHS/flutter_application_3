@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
 
     Widget floatingActionButton() => FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () => dataServis.put(
+          onPressed: () => dataServis.transaction(
             products: [
               Product(
                 uid: const Uuid().v4(),

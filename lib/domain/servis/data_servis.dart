@@ -15,7 +15,7 @@ class DataServis {
     required this.data,
   });
 
-  Future<void> put({
+  Future<void> transaction({
     Iterable<Order>? orders,
     Iterable<Product>? products,
     Iterable<Message>? messages,
@@ -23,7 +23,7 @@ class DataServis {
     Iterable<String>? productsDelete,
     Iterable<String>? messagesDelete,
   }) async {
-    await dataRepo.put(
+    await dataRepo.transaction(
       uidUser: uidUser,
       orders: orders,
       products: products,

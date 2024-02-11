@@ -8,7 +8,7 @@ abstract interface class DataRepo {
     required String uidUser,
   });
 
-  Future<void> put({
+  Future<void> transaction({
     required String uidUser,
     required Iterable<Order>? orders,
     required Iterable<Product>? products,
