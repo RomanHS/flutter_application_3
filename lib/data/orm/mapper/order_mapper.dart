@@ -1,72 +1,99 @@
-import 'package:flutter_application_3/data/orm/entity/order.dart';
-import 'package:flutter_application_3/data/orm/tabular_part/excise_tax.dart';
-import 'package:flutter_application_3/data/orm/tabular_part/product_in_order.dart';
+import 'package:flutter_application_3/data/orm/entity/entity.dart';
+import 'package:flutter_application_3/data/orm/tables.dart';
+import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
-extension OrderEntityMapper on OrderEntity {
-  Order to() {
-    final Map<String, List<ExciseTaxTabularPart>> exciseTaxsMap = {};
+extension OrderMapper on Order {
+  static Order fromDB(Entity entity) {
+    final Map<String, List<TabularPart>> exciseTaxsMap = {};
 
-    for (ExciseTaxTabularPart e in exciseTaxs) {
-      exciseTaxsMap.putIfAbsent(e.uidProduct, () => []).add(e);
+    for (TabularPart e in entity.tabularParts[TableTab.exciseTaxTable] ?? []) {
+      exciseTaxsMap.putIfAbsent(e.data['uid_product'] as String, () => []).add(e);
     }
 
     return Order(
       ///
-      uid: uid,
-      number: number,
+      uid: entity.uid,
+      number: entity.data['number'] as String,
 
       ///
-      products: products
+      products: (entity.tabularParts[TableTab.productsInOrderTable] ?? [])
           .map(
-            (ProductInOrderTabularPart p) => ProductInOrder(
-              uidProduct: p.uidProduct,
-              nameProduct: p.nameProduct,
-              exciseTaxs: exciseTaxsMap[p.uidProduct]?.map((ExciseTaxTabularPart e) => ExciseTax(value: e.value)).toList() ?? [],
+            (TabularPart p) => ProductInOrder(
+              uidProduct: p.data['uid_product'] as String,
+              nameProduct: p.data['name_product'] as String,
+              exciseTaxs: exciseTaxsMap[p.data['uid_product'] as String]
+                      ?.map(
+                        (TabularPart e) => ExciseTax(
+                          value: e.data['value'] as String,
+                        ),
+                      )
+                      .toList() ??
+                  [],
             ),
           )
           .toList(),
     );
   }
-}
 
-extension OrderMapper on Order {
-  OrderEntity to({
+  Entity toDB({
     required String uidUser,
   }) {
-    return OrderEntity(
+    return Entity(
       ///
+      table: TableHeader.orderTable,
       uidUser: uidUser,
       uid: uid,
-      number: number,
 
       ///
-      products: products
-          .map(
-            (ProductInOrder e) => ProductInOrderTabularPart(
-              uidUser: uidUser,
-              uidParent: uid,
-              uidProduct: e.uidProduct,
-              nameProduct: e.nameProduct,
-            ),
-          )
-          .toList(),
+      data: {
+        'uid_user': uidUser,
+        'uid': uid,
+        'number': number,
+      },
 
       ///
-      exciseTaxs: products
-          .expand(
-            (ProductInOrder p) => p.exciseTaxs.map(
-              (ExciseTax e) => ExciseTaxTabularPart(
+      tabularParts: {
+        ///
+        TableTab.productsInOrderTable: products
+            .map(
+              (ProductInOrder e) => TabularPart(
                 uidUser: uidUser,
                 uidParent: uid,
-                uidProduct: p.uidProduct,
-                value: e.value,
+
+                ///
+                data: {
+                  'uid_user': uidUser,
+                  'uid_parent': uid,
+                  'uid_product': e.uidProduct,
+                  'name_product': e.nameProduct,
+                },
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+
+        ///
+        TableTab.exciseTaxTable: products
+            .expand(
+              (ProductInOrder p) => p.exciseTaxs.map(
+                (ExciseTax e) => TabularPart(
+                  uidUser: uidUser,
+                  uidParent: uid,
+
+                  ///
+                  data: {
+                    'uid_user': uidUser,
+                    'uid_parent': uid,
+                    'uid_product': p.uidProduct,
+                    'value': e.value,
+                  },
+                ),
+              ),
+            )
+            .toList(),
+      },
     );
   }
 }

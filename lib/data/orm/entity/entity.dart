@@ -1,35 +1,18 @@
-import 'package:flutter_application_3/data/orm/entity/order.dart';
+import 'package:flutter_application_3/data/orm/tables.dart';
+import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
 
-abstract class Entity {
+class Entity {
+  final TableHeader table;
   final String uidUser;
   final String uid;
+  final Map<String, Object?> data;
+  final Map<TableTab, List<TabularPart>> tabularParts;
 
   Entity({
+    required this.table,
     required this.uidUser,
     required this.uid,
+    required this.data,
+    required this.tabularParts,
   });
-
-  static Iterable<String> creates() sync* {
-    yield* OrderEntity.create();
-  }
-
-  static Iterable<String> getTables<TEntity extends Entity>() {
-    if (TEntity == OrderEntity) {
-      return OrderEntity.getTables();
-    }
-
-    throw TEntity;
-  }
-
-  static TEntity parse<TEntity extends Entity>(Map<String, Object?> json, Map<String, List<Map<String, Object?>>> tabularParts) {
-    if (TEntity == OrderEntity) {
-      return OrderEntity.from(json, tabularParts) as TEntity;
-    }
-
-    throw TEntity;
-  }
-
-  Map<String, Object?> to();
-
-  Map<String, List<Map<String, Object?>>> toTabularParts();
 }

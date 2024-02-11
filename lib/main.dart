@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
-import 'package:flutter_application_3/data/orm/entity/order.dart';
+import 'package:flutter_application_3/data/orm/entity/entity.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
+import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
@@ -28,11 +29,11 @@ void main() async {
     ),
   );
 
-  await db.put(entity: OrderMapper(o).to(uidUser: uidUser));
+  await db.put(entity: OrderMapper(o).toDB(uidUser: uidUser));
 
-  final List<OrderEntity> ordersEntitys = await db.getAllSql<OrderEntity>(uidUser: uidUser, uids: null);
+  final List<Entity> ordersEntitys = await db.getEntitys(uidUser: uidUser, uids: null, table: TableHeader.orderTable);
 
-  final List<Order> orders = ordersEntitys.map((e) => OrderEntityMapper(e).to()).toList();
+  final List<Order> orders = ordersEntitys.map((e) => OrderMapper.fromDB(e)).toList();
 
   orders;
 
