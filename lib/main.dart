@@ -47,13 +47,24 @@ void main() async {
     parse: (Entity e) => OrderMapper.fromDB(e),
   );
 
+  final List<Product> productsDB = await db.getObjects<Product>(
+    table: TableHeader.productTable,
+    uidUser: uidUser,
+    uids: null,
+    parse: (Entity e) => ProductMapper.fromDB(e),
+  );
+
   /// equals
-  final bool isEquals = listEquals(orders, ordersDB);
+  final bool isEqualsOrders = listEquals(orders, ordersDB);
+  final bool isEqualsProducts = listEquals(products, productsDB);
 
   log('orders:   ${orders.map((Order o) => o.uid).toList()}');
   log('ordersDB: ${ordersDB.map((Order o) => o.uid).toList()}');
+  log('isEquals orders: $isEqualsOrders');
 
-  log('isEquals: $isEquals');
+  log('products:   ${products.map((Product p) => p.uid).toList()}');
+  log('productsDB: ${productsDB.map((Product p) => p.uid).toList()}');
+  log('isEquals products: $isEqualsProducts');
 
   /// delete
   {
