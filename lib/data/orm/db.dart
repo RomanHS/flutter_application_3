@@ -31,7 +31,7 @@ class DB {
           await database.execute(sql);
         }
 
-        for (TableTab table in TableTab.values) {
+        for (TableTable table in TableTable.values) {
           final List<String> params = [
             'uid_user TEXT',
             'uid_parent TEXT',
@@ -75,9 +75,9 @@ class DB {
 
     final List<Map<String, Object?>> list = await database.query(table.name, where: where);
 
-    final Map<String, Map<TableTab, List<TabularPart>>> tabularsParts = {};
+    final Map<String, Map<TableTable, List<TabularPart>>> tabularsParts = {};
 
-    for (TableTab table in table.tabs) {
+    for (TableTable table in table.tabs) {
       String where = 'uid_user = $uidUser';
 
       if (uids != null) {
@@ -131,8 +131,8 @@ class DB {
           entity.data,
         );
 
-        for (MapEntry<TableTab, List<TabularPart>> e in entity.tabularParts.entries) {
-          final TableTab table = e.key;
+        for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
+          final TableTable table = e.key;
           final List<TabularPart> list = e.value;
 
           await txn.delete(
@@ -163,7 +163,7 @@ class DB {
 
         await txn.delete(table.name, where: where);
 
-        for (TableTab table in table.tabs) {
+        for (TableTable table in table.tabs) {
           String where = 'uid_user = $uidUser';
 
           if (uids != null) {

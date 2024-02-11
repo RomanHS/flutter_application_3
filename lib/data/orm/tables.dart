@@ -2,17 +2,17 @@ enum TableHeader {
   orderTable,
 }
 
-enum TableTab {
+enum TableTable {
   productsInOrderTable,
   exciseTaxInOrderTable,
 }
 
 extension TableHeaderExtension on TableHeader {
-  Iterable<TableTab> get tabs => switch (this) {
+  Iterable<TableTable> get tabs => switch (this) {
         ///
         TableHeader.orderTable => [
-            TableTab.productsInOrderTable,
-            TableTab.exciseTaxInOrderTable,
+            TableTable.productsInOrderTable,
+            TableTable.exciseTaxInOrderTable,
           ]
       };
 
@@ -24,16 +24,16 @@ extension TableHeaderExtension on TableHeader {
       };
 }
 
-extension TableTabExtension on TableTab {
+extension TableTabExtension on TableTable {
   Iterable<String> get createParams => switch (this) {
         ///
-        TableTab.productsInOrderTable => [
+        TableTable.productsInOrderTable => [
             'uid_product TEXT',
             'name_product TEXT',
           ],
 
         ///
-        TableTab.exciseTaxInOrderTable => [
+        TableTable.exciseTaxInOrderTable => [
             'uid_product TEXT',
             'value TEXT',
           ],
