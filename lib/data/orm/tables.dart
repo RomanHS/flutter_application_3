@@ -8,7 +8,7 @@ enum TableTable {
 }
 
 extension TableHeaderExtension on TableHeader {
-  Iterable<TableTable> get tabs => switch (this) {
+  Iterable<TableTable> get tables => switch (this) {
         ///
         TableHeader.orderTable => [
             TableTable.productsInOrderTable,
@@ -24,7 +24,7 @@ extension TableHeaderExtension on TableHeader {
       };
 }
 
-extension TableTabExtension on TableTable {
+extension TableTableExtension on TableTable {
   Iterable<String> get createParams => switch (this) {
         ///
         TableTable.productsInOrderTable => [

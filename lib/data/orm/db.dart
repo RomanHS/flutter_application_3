@@ -77,7 +77,7 @@ class DB {
 
     final Map<String, Map<TableTable, List<TabularPart>>> tabularsParts = {};
 
-    for (TableTable table in table.tabs) {
+    for (TableTable table in table.tables) {
       String where = 'uid_user = $uidUser';
 
       if (uids != null) {
@@ -163,7 +163,7 @@ class DB {
 
         await txn.delete(table.name, where: where);
 
-        for (TableTable table in table.tabs) {
+        for (TableTable table in table.tables) {
           String where = 'uid_user = $uidUser';
 
           if (uids != null) {
