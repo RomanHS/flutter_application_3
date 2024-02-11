@@ -148,4 +148,29 @@ class DB {
           }
         }
       });
+
+  Future<void> delete({
+    required TableHeader table,
+    required String uidUser,
+    required Iterable<String>? uids,
+  }) =>
+      database.transaction((Transaction txn) async {
+        String where = 'uid_user = $uidUser';
+
+        if (uids != null) {
+          where += ' AND uid IN (${uids.join(',')})';
+        }
+
+        await txn.delete(table.name, where: where);
+
+        for (TableTab table in table.tabs) {
+          String where = 'uid_user = $uidUser';
+
+          if (uids != null) {
+            where += ' AND uid_parent IN (${uids.join(',')})';
+          }
+
+          await txn.delete(table.name, where: where);
+        }
+      });
 }
