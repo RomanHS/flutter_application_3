@@ -57,7 +57,7 @@ class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends Regist
   }
 
   void deleteList(TUidRegistr uid) {
-    for (TRegistrEntity value in _mapList.remove(uid)?.values.toList() ?? []) {
+    for (TRegistrEntity value in _mapList.remove(uid)?.values ?? []) {
       _map.remove(value.uid);
 
       _streamController.add(value);
