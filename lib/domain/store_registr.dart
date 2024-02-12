@@ -56,9 +56,23 @@ class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends Regist
     }
   }
 
+  void deleteList(TUidRegistr uid) {
+    for (TRegistrEntity value in _mapList.remove(uid)?.values.toList() ?? []) {
+      _map.remove(value.uid);
+
+      _streamController.add(value);
+    }
+  }
+
   void deleteAll(Iterable<TUidRegistr> uids) {
     for (TUidRegistr uid in uids) {
       delete(uid);
+    }
+  }
+
+  void deleteListAll(Iterable<TUidRegistr> uids) {
+    for (TUidRegistr uid in uids) {
+      deleteList(uid);
     }
   }
 
@@ -66,7 +80,9 @@ class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends Regist
     for (TRegistrEntity value in values) {
       _streamController.add(value);
     }
+
     _map.clear();
+
     _mapList.clear();
   }
 

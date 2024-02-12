@@ -8,6 +8,7 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/present/app/app.dart';
+import 'package:flutter_application_3/test_store_registr.dart';
 
 late final DataServis dataServis;
 
@@ -27,6 +28,8 @@ void main() async {
   final Data data = await dataRepo.get(uidUser: uidUser);
 
   dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
+
+  testStoreRegistr();
 
   runApp(const App());
 }
