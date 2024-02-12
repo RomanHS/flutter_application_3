@@ -9,4 +9,10 @@ void testStoreRegistr() {
   final List<Leftover> leftovers = leftoverStoreRegistr.getList(UidLeftover(uidProduct: 'Product', uidWarehaus: null)).toList();
 
   leftovers;
+
+  leftoverStoreRegistr.deleteList(UidLeftover(uidProduct: 'Product', uidWarehaus: null));
+
+  final List<Leftover> list = leftoverStoreRegistr.values.toList();
+
+  list;
 }
