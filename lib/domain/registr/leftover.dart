@@ -18,8 +18,8 @@ class Leftover extends RegistrEntity<UidLeftover> {
   @override
   Iterable<UidLeftover> get uids => [
         UidLeftover(
-          uidWarehaus: uidWarehaus,
-          uidProduct: null,
+          uidWarehaus: null,
+          uidProduct: uidProduct,
         ),
       ];
 }
