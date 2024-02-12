@@ -26,7 +26,7 @@ class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends Regist
 
   TRegistrEntity? get(TUidRegistr uid) => _map[uid];
 
-  Iterable<TRegistrEntity> getList(TUidRegistr uid) => _mapList[uid]?.values ?? [];
+  Iterable<TRegistrEntity> getList(TUidRegistr uid) => _mapList[uid]?.values ?? const [];
 
   void put(TRegistrEntity value) {
     _map[value.uid] = value;
@@ -57,7 +57,7 @@ class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends Regist
   }
 
   void deleteList(TUidRegistr uid) {
-    for (TRegistrEntity value in _mapList.remove(uid)?.values ?? []) {
+    for (TRegistrEntity value in _mapList.remove(uid)?.values ?? const []) {
       _map.remove(value.uid);
 
       _streamController.add(value);
