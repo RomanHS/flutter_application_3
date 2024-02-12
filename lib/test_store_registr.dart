@@ -6,11 +6,11 @@ void testStoreRegistr() {
 
   leftoverStoreRegistr.putAll(List.generate(5, (int i) => Leftover(uidProduct: 'Product', uidWarehaus: 'Warehaus ${i + 1}')));
 
-  final List<Leftover> leftovers = leftoverStoreRegistr.getList(UidLeftover(uidProduct: 'Product', uidWarehaus: null)).toList();
+  final List<Leftover> leftovers = leftoverStoreRegistr.getList(const UidLeftover(uidProduct: 'Product', uidWarehaus: null)).toList();
 
   leftovers;
 
-  leftoverStoreRegistr.deleteList(UidLeftover(uidProduct: 'Product', uidWarehaus: null));
+  leftoverStoreRegistr.deleteList(const UidLeftover(uidProduct: 'Product', uidWarehaus: null));
 
   final List<Leftover> list = leftoverStoreRegistr.values.toList();
 

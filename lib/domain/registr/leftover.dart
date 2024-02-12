@@ -28,7 +28,7 @@ class UidLeftover extends UidRegistr {
   final String? uidWarehaus;
   final String? uidProduct;
 
-  UidLeftover({
+  const UidLeftover({
     required this.uidWarehaus,
     required this.uidProduct,
   });

@@ -5,4 +5,6 @@ abstract class RegistrEntity<TUidRegistr extends UidRegistr> {
   Iterable<TUidRegistr> get uids;
 }
 
-abstract class UidRegistr extends Equatable {}
+abstract class UidRegistr extends Equatable {
+  const UidRegistr();
+}
