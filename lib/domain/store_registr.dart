@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter_application_3/domain/registr/registr.dart';
 
-class Store<TUidRegistr extends UidRegistr, TRegistrEntity extends RegistrEntity<TUidRegistr>> {
+class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends RegistrEntity<TUidRegistr>> {
   final Map<TUidRegistr, TRegistrEntity> _map;
   final Map<TUidRegistr, Map<TUidRegistr, TRegistrEntity>> _mapList;
 
   late final StreamController<TRegistrEntity> _streamController = StreamController.broadcast();
 
-  Store({
+  StoreRegistr({
     required Iterable<TRegistrEntity> values,
   })  : _map = {},
         _mapList = {} {
