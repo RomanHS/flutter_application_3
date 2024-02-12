@@ -46,6 +46,9 @@ class DataLocalImpl implements DataLocal {
           uids: null,
           parse: (EntityDB e) => MessageMapper.fromDB(e),
         ),
+
+        ///
+        leftovers: [],
       );
 
   @override

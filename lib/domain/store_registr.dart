@@ -67,6 +67,7 @@ class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends Regist
       _streamController.add(value);
     }
     _map.clear();
+    _mapList.clear();
   }
 
   Future<void> dispose() => _streamController.close();
