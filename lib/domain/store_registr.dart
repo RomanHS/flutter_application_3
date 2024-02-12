@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_application_3/domain/registr/registr.dart';
 
-class Store<TRegistrEntity extends RegistrEntity> {
-  final Map<UidRegistr, TRegistrEntity> _map;
-  final Map<UidRegistr, Map<UidRegistr, TRegistrEntity>> _mapList;
+class Store<TUidRegistr extends UidRegistr, TRegistrEntity extends RegistrEntity<TUidRegistr>> {
+  final Map<TUidRegistr, TRegistrEntity> _map;
+  final Map<TUidRegistr, Map<TUidRegistr, TRegistrEntity>> _mapList;
 
   late final StreamController<TRegistrEntity> _streamController = StreamController.broadcast();
 
@@ -14,7 +14,7 @@ class Store<TRegistrEntity extends RegistrEntity> {
     for (TRegistrEntity value in values) {
       _map[value.uid] = value;
 
-      for (UidRegistr uid in value.uids) {
+      for (TUidRegistr uid in value.uids) {
         _mapList.putIfAbsent(uid, () => {})[value.uid] = value;
       }
     }
@@ -24,14 +24,14 @@ class Store<TRegistrEntity extends RegistrEntity> {
 
   Stream<TRegistrEntity> get stream => _streamController.stream;
 
-  TRegistrEntity? get(UidRegistr uid) => _map[uid];
+  TRegistrEntity? get(TUidRegistr uid) => _map[uid];
 
-  Iterable<TRegistrEntity> getList(UidRegistr uid) => _mapList[uid]?.values ?? [];
+  Iterable<TRegistrEntity> getList(TUidRegistr uid) => _mapList[uid]?.values ?? [];
 
   void put(TRegistrEntity value) {
     _map[value.uid] = value;
 
-    for (UidRegistr uid in value.uids) {
+    for (TUidRegistr uid in value.uids) {
       _mapList.putIfAbsent(uid, () => {})[value.uid] = value;
     }
 
@@ -44,11 +44,11 @@ class Store<TRegistrEntity extends RegistrEntity> {
     }
   }
 
-  void delete(UidRegistr uid) {
+  void delete(TUidRegistr uid) {
     final TRegistrEntity? value = _map.remove(uid);
 
     if (value != null) {
-      for (UidRegistr uid in value.uids) {
+      for (TUidRegistr uid in value.uids) {
         _mapList[uid]?.remove(value.uid);
       }
 
@@ -56,8 +56,8 @@ class Store<TRegistrEntity extends RegistrEntity> {
     }
   }
 
-  void deleteAll(Iterable<UidRegistr> uids) {
-    for (UidRegistr uid in uids) {
+  void deleteAll(Iterable<TUidRegistr> uids) {
+    for (TUidRegistr uid in uids) {
       delete(uid);
     }
   }
