@@ -69,44 +69,42 @@ class OrdersView extends StatelessWidget {
     }
 
     Widget floatingActionButton() => FloatingActionButton(
-          onPressed: dataServis.data.products.values.isEmpty
-              ? null
-              : () => dataServis.transaction(
-                    orders: [
-                      Order(
-                        uid: const Uuid().v4(),
-                        number: (DateTime.now().millisecondsSinceEpoch ~/ 100).toString(),
-                        isConducted: false,
+          onPressed: () => dataServis.transaction(
+            orders: [
+              Order(
+                uid: const Uuid().v4(),
+                number: (DateTime.now().millisecondsSinceEpoch ~/ 100).toString(),
+                isConducted: false,
+
+                ///
+                products: dataServis.data.products.values
+                    .map(
+                      (Product p) => ProductInOrder(
+                        uidProduct: p.uid,
+                        nameProduct: p.name,
+                        uidWarehaus: '1',
+                        number: Faker().randomGenerator.integer(100, min: 2).toDouble(),
 
                         ///
-                        products: dataServis.data.products.values
-                            .map(
-                              (Product p) => ProductInOrder(
-                                uidProduct: p.uid,
-                                nameProduct: p.name,
-                                uidWarehaus: '1',
-                                number: Faker().randomGenerator.integer(100, min: 2).toDouble(),
-
-                                ///
-                                exciseTaxs: List.generate(
-                                  5,
-                                  (int i) => ExciseTax(
-                                    value: '${i + 1}',
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+                        exciseTaxs: List.generate(
+                          5,
+                          (int i) => ExciseTax(
+                            value: '${i + 1}',
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
           child: const Icon(Icons.add),
         );
 
     return Scaffold(
       appBar: appBar(),
       body: body(),
-      floatingActionButton: floatingActionButton(),
+      floatingActionButton: dataServis.data.products.values.isEmpty ? null : floatingActionButton(),
     );
   }
 }
