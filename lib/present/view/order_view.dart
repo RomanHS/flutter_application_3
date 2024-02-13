@@ -6,6 +6,7 @@ import 'package:flutter_application_3/domain/servis/order_servis.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/dialog/select_product_dialog.dart';
+import 'package:flutter_application_3/present/dialog/text_dialog.dart';
 import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
 
 class OrderView extends StatefulWidget {
@@ -76,7 +77,7 @@ class _OrderViewState extends State<OrderView> {
           actions: [
             ///
             TextButton(
-              onPressed: order.products.isEmpty ? null : () => OrderServis(dataServis).conduct(order),
+              onPressed: order.products.isEmpty ? null : () => OrderServis(dataServis).conduct(order, () => TextDialog.show(context)),
               child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
             ),
 

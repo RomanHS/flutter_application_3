@@ -3,6 +3,7 @@ import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/servis/order_servis.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/present/dialog/text_dialog.dart';
 import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
 
 class OrderDialog extends StatelessWidget {
@@ -70,7 +71,7 @@ class OrderDialog extends StatelessWidget {
 
         ///
         TextButton(
-          onPressed: () => OrderServis(dataServis).conduct(order),
+          onPressed: () => OrderServis(dataServis).conduct(order, () => TextDialog.show(context)),
           child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
         ),
 

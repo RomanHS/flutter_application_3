@@ -4,7 +4,7 @@ import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
 extension OrderServis on DataServis {
-  Future<void> conduct(Order order) {
+  Future<void> conduct(Order order, Future<void> Function() onNegativeLeftovers) {
     final List<Leftover> leftovers = [];
 
     for (ProductInOrder productInOrder in order.products) {
@@ -32,6 +32,12 @@ extension OrderServis on DataServis {
           value: leftover + number,
         ),
       );
+    }
+
+    for (Leftover leftover in leftovers) {
+      if (leftover.value < 0) {
+        return onNegativeLeftovers();
+      }
     }
 
     return transaction(
