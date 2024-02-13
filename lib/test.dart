@@ -182,6 +182,9 @@ List<Order> getOrders() => List.generate(
                 value: '${i + 1}',
               ),
             ),
+
+            ///
+            number: i + 1,
           ),
         ),
       ),

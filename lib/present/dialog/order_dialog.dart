@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
+import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
@@ -19,6 +20,20 @@ class OrderDialog extends StatelessWidget {
         context: context,
         builder: (BuildContext context) => OrderDialog._(uid: uid),
       );
+
+  void conduct(Order order) async {
+    final List<Leftover> leftovers = [];
+
+    for (ProductInOrder productInOrder in order.products) {
+      final double leftover = dataServis.data.leftovers.get(UidLeftover(uidProduct: productInOrder.uidProduct, uidWarehaus: '1'))?.value ?? 0;
+
+      leftovers.add(Leftover(uidProduct: productInOrder.uidProduct, uidWarehouse: '1', value: leftover + productInOrder.number));
+    }
+
+    await dataServis.transaction(
+      leftovers: leftovers,
+    );
+  }
 
   @override
   Widget build(BuildContext context) => StreamBuilder<void>(
@@ -59,6 +74,13 @@ class OrderDialog extends StatelessWidget {
       scrollable: true,
       content: content(),
       actions: [
+        ///
+        TextButton(
+          onPressed: () => conduct(order),
+          child: const Text('Conduct'),
+        ),
+
+        ///
         TextButton(
           onPressed: () => dataServis.transaction(ordersDelete: [uid]),
           child: const Text('Delete'),

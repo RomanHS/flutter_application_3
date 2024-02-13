@@ -22,7 +22,12 @@ class ProductInOrderWidget extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Text(productInOrder.nameProduct),
+        title: Row(
+          children: [
+            Expanded(child: Text(productInOrder.nameProduct)),
+            Text(productInOrder.number.toStringAsFixed(3)),
+          ],
+        ),
         subtitle: Text(leftover.toStringAsFixed(3)),
       ),
     );

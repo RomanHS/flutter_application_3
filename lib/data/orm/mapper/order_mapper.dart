@@ -32,6 +32,7 @@ extension OrderMapper on Order {
                       )
                       .toList() ??
                   [],
+              number: 0,
             ),
           )
           .toList(),

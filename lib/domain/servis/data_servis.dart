@@ -2,6 +2,7 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 
 class DataServis {
@@ -19,6 +20,7 @@ class DataServis {
     Iterable<Order>? orders,
     Iterable<Product>? products,
     Iterable<Message>? messages,
+    Iterable<Leftover>? leftovers,
     Iterable<String>? ordersDelete,
     Iterable<String>? productsDelete,
     Iterable<String>? messagesDelete,
@@ -31,6 +33,7 @@ class DataServis {
       orders: orders,
       products: products,
       messages: messages,
+      leftovers: leftovers,
       ordersDelete: ordersDelete,
       productsDelete: productsDelete,
       messagesDelete: messagesDelete,
@@ -79,6 +82,10 @@ class DataServis {
 
     if (messages != null) {
       data.messages.putAll(messages);
+    }
+
+    if (leftovers != null) {
+      data.leftovers.putAll(leftovers);
     }
   }
 

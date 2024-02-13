@@ -3,6 +3,7 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 
 class DataRepoImpl implements DataRepo {
@@ -24,6 +25,7 @@ class DataRepoImpl implements DataRepo {
     required Iterable<Order>? orders,
     required Iterable<Product>? products,
     required Iterable<Message>? messages,
+    required Iterable<Leftover>? leftovers,
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
     required Iterable<String>? messagesDelete,
@@ -36,6 +38,7 @@ class DataRepoImpl implements DataRepo {
         orders: orders,
         products: products,
         messages: messages,
+        leftovers: leftovers,
         ordersDelete: ordersDelete,
         productsDelete: productsDelete,
         messagesDelete: messagesDelete,

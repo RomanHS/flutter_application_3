@@ -5,11 +5,13 @@ class ProductInOrder extends Equatable {
   final String uidProduct;
   final String nameProduct;
   final List<ExciseTax> exciseTaxs;
+  final double number;
 
   const ProductInOrder({
     required this.uidProduct,
     required this.nameProduct,
     required this.exciseTaxs,
+    required this.number,
   });
 
   @override
@@ -17,5 +19,6 @@ class ProductInOrder extends Equatable {
         uidProduct,
         nameProduct,
         exciseTaxs,
+        number,
       ];
 }

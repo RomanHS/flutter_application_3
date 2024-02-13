@@ -83,6 +83,9 @@ class OrdersView extends StatelessWidget {
                         value: '${i + 1}',
                       ),
                     ),
+
+                    ///
+                    number: i + 1,
                   ),
                 ),
               ),

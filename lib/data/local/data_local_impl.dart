@@ -64,6 +64,7 @@ class DataLocalImpl implements DataLocal {
     required Iterable<Order>? orders,
     required Iterable<Product>? products,
     required Iterable<Message>? messages,
+    required Iterable<Leftover>? leftovers,
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
     required Iterable<String>? messagesDelete,
@@ -158,6 +159,16 @@ class DataLocalImpl implements DataLocal {
             uidUser: uidUser,
             values: messages,
             parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+            txn: txn,
+          );
+        }
+
+        if (leftovers != null) {
+          await db.putRegistrs<Leftover>(
+            table: TableRegistr.leftover,
+            uidUser: uidUser,
+            values: leftovers,
+            parse: (Leftover m) => LeftoverMapper(m).toDB(uidUser: uidUser),
             txn: txn,
           );
         }
