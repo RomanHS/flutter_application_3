@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
+import 'package:flutter_application_3/present/widget/product_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class HomeView extends StatelessWidget {
@@ -56,15 +57,9 @@ class HomeView extends StatelessWidget {
         itemBuilder: (BuildContext context, int i) {
           final Product product = products[i];
 
-          return Card(
+          return ProductWidget(
             key: Key(product.uid),
-            child: ListTile(
-              title: Text(product.name),
-              trailing: IconButton(
-                onPressed: () => dataServis.transaction(productsDelete: [product.uid]),
-                icon: const Icon(Icons.delete),
-              ),
-            ),
+            product: product,
           );
         },
       );
