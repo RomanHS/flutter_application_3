@@ -34,7 +34,6 @@ class OrdersView extends StatelessWidget {
               onPressed: ordersNotConducted.isEmpty
                   ? null
                   : () => dataServis.transaction(
-                        // ordersClear: true,
                         ordersDelete: ordersNotConducted.map((Order o) => o.uid),
                       ),
               icon: const Icon(Icons.delete),
