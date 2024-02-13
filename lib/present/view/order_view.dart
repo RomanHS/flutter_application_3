@@ -69,13 +69,13 @@ class _OrderViewState extends State<OrderView> {
           actions: [
             ///
             TextButton(
-              onPressed: () => OrderServis(dataServis).conduct(order),
+              onPressed: order.products.isEmpty ? null : () => OrderServis(dataServis).conduct(order),
               child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
             ),
 
             ///
             TextButton(
-              onPressed: isSave ? null : () => dataServis.transaction(orders: [order]),
+              onPressed: order.products.isEmpty || isSave ? null : () => dataServis.transaction(orders: [order]),
               child: const Text('Save'),
             ),
           ],
