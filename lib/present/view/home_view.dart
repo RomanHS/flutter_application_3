@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/main.dart';
@@ -75,7 +76,7 @@ class HomeView extends StatelessWidget {
             products: [
               Product(
                 uid: const Uuid().v4(),
-                name: const Uuid().v4(),
+                name: Faker().food.dish(),
               ),
             ],
           ),

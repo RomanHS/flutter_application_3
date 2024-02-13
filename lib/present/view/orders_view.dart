@@ -1,5 +1,7 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
+import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
@@ -67,27 +69,28 @@ class OrdersView extends StatelessWidget {
             orders: [
               Order(
                 uid: const Uuid().v4(),
-                number: const Uuid().v4(),
+                number: Faker().phoneNumber.de(),
                 isConducted: false,
 
                 ///
-                products: List.generate(
-                  10,
-                  (int i) => ProductInOrder(
-                    uidProduct: const Uuid().v4(),
-                    nameProduct: 'Product ${i + 1}',
-                    uidWarehaus: const Uuid().v4(),
-                    number: i + 1,
+                products: dataServis.data.products.values
+                    .map(
+                      (Product p) => ProductInOrder(
+                        uidProduct: p.uid,
+                        nameProduct: p.name,
+                        uidWarehaus: '1',
+                        number: Faker().randomGenerator.integer(100, min: 2).toDouble(),
 
-                    ///
-                    exciseTaxs: List.generate(
-                      5,
-                      (int i) => ExciseTax(
-                        value: '${i + 1}',
+                        ///
+                        exciseTaxs: List.generate(
+                          5,
+                          (int i) => ExciseTax(
+                            value: '${i + 1}',
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
+                    )
+                    .toList(),
               ),
             ],
           ),
