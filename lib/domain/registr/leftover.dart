@@ -20,15 +20,15 @@ class Leftover extends RegistrEntity<UidLeftover> {
   @override
   Iterable<UidLeftover> get uids => [
         UidLeftover(
-          uidWarehaus: null,
+          uidWarehaus: '',
           uidProduct: uidProduct,
         ),
       ];
 }
 
 class UidLeftover extends UidRegistr {
-  final String? uidWarehaus;
-  final String? uidProduct;
+  final String uidWarehaus;
+  final String uidProduct;
 
   const UidLeftover({
     required this.uidWarehaus,

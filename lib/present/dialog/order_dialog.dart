@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
 
 class OrderDialog extends StatelessWidget {
   final String uid;
@@ -46,10 +47,8 @@ class OrderDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: order.products
             .map(
-              (ProductInOrder p) => Card(
-                child: ListTile(
-                  title: Text(p.nameProduct),
-                ),
+              (ProductInOrder productInOrder) => ProductInOrderWidget(
+                productInOrder: productInOrder,
               ),
             )
             .toList(),
