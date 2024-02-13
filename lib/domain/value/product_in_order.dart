@@ -24,4 +24,20 @@ class ProductInOrder extends Equatable {
         exciseTaxs,
         number,
       ];
+
+  ProductInOrder copyWith({
+    String? uidProduct,
+    String? nameProduct,
+    String? uidWarehaus,
+    List<ExciseTax>? exciseTaxs,
+    double? number,
+  }) {
+    return ProductInOrder(
+      uidProduct: uidProduct ?? this.uidProduct,
+      nameProduct: nameProduct ?? this.nameProduct,
+      uidWarehaus: uidWarehaus ?? this.uidWarehaus,
+      exciseTaxs: exciseTaxs ?? this.exciseTaxs,
+      number: number ?? this.number,
+    );
+  }
 }

@@ -50,6 +50,7 @@ class OrderDialog extends StatelessWidget {
             .map(
               (ProductInOrder productInOrder) => ProductInOrderWidget(
                 productInOrder: productInOrder,
+                putProductInOrder: null,
               ),
             )
             .toList(),

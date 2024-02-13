@@ -42,6 +42,8 @@ class _OrderViewState extends State<OrderView> {
 
   void setOrder(Order value) => setState(() => _order = value);
 
+  void putProductInOrder(ProductInOrder value) {}
+
   @override
   Widget build(BuildContext context) {
     final Order order = _order;
@@ -77,6 +79,7 @@ class _OrderViewState extends State<OrderView> {
           return ProductInOrderWidget(
             key: Key(productInOrder.uidProduct),
             productInOrder: productInOrder,
+            putProductInOrder: order.isConducted ? null : putProductInOrder,
           );
         },
       );
