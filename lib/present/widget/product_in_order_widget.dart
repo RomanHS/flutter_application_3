@@ -5,10 +5,12 @@ import 'package:flutter_application_3/main.dart';
 
 class ProductInOrderWidget extends StatelessWidget {
   final ProductInOrder productInOrder;
+  final void Function(ProductInOrder value)? putProductInOrder;
 
   const ProductInOrderWidget({
     super.key,
     required this.productInOrder,
+    required this.putProductInOrder,
   });
 
   @override
@@ -18,6 +20,8 @@ class ProductInOrderWidget extends StatelessWidget {
       );
 
   Widget _build(BuildContext context) {
+    final void Function(ProductInOrder value)? putProductInOrder = this.putProductInOrder;
+
     final double leftover = dataServis.data.leftovers
             .get(
               UidLeftover(
@@ -42,13 +46,32 @@ class ProductInOrderWidget extends StatelessWidget {
             Text(productInOrder.nameProduct),
 
             ///
-            const SizedBox(height: 10),
+            Row(
+              children: [
+                ///
+                Expanded(child: Text('Кількість: ${productInOrder.number.toStringAsFixed(3)}')),
 
-            ///
-            Text('Кількість: ${productInOrder.number.toStringAsFixed(3)}'),
+                ///
+                TextButton(
+                  onPressed: putProductInOrder == null
+                      ? null
+                      : () => putProductInOrder(
+                            productInOrder.copyWith(number: productInOrder.number - 1),
+                          ),
+                  child: const Text('-'),
+                ),
 
-            ///
-            const SizedBox(height: 10),
+                ///
+                TextButton(
+                  onPressed: putProductInOrder == null
+                      ? null
+                      : () => putProductInOrder(
+                            productInOrder.copyWith(number: productInOrder.number + 1),
+                          ),
+                  child: const Text('+'),
+                ),
+              ],
+            ),
 
             ///
             Text('Залишок: ${leftover.toStringAsFixed(3)}'),

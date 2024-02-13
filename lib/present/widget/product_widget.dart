@@ -5,10 +5,14 @@ import 'package:flutter_application_3/main.dart';
 
 class ProductWidget extends StatelessWidget {
   final Product product;
+  final void Function()? click;
+  final bool isDelete;
 
   const ProductWidget({
     super.key,
     required this.product,
+    required this.click,
+    required this.isDelete,
   });
 
   @override
@@ -29,34 +33,38 @@ class ProductWidget extends StatelessWidget {
         0;
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          children: [
-            ///
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ///
-                  Text(product.name),
+      child: InkWell(
+        onTap: click,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              ///
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ///
+                    Text(product.name),
 
-                  ///
-                  const SizedBox(height: 10),
+                    ///
+                    const SizedBox(height: 10),
 
-                  ///
-                  Text('Залишок: ${leftover.toStringAsFixed(3)}'),
-                ],
+                    ///
+                    Text('Залишок: ${leftover.toStringAsFixed(3)}'),
+                  ],
+                ),
               ),
-            ),
 
-            ///
-            IconButton(
-              onPressed: () => dataServis.transaction(productsDelete: [product.uid]),
-              icon: const Icon(Icons.delete),
-            ),
-          ],
+              ///
+              if (isDelete)
+                IconButton(
+                  onPressed: () => dataServis.transaction(productsDelete: [product.uid]),
+                  icon: const Icon(Icons.delete),
+                ),
+            ],
+          ),
         ),
       ),
     );
