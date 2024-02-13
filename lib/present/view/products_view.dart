@@ -49,6 +49,7 @@ class ProductsView extends StatelessWidget {
             key: Key(product.uid),
             product: product,
             click: null,
+            isDelete: true,
           );
         },
       );

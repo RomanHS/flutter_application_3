@@ -52,6 +52,10 @@ class _OrderViewState extends State<OrderView> {
       if (index != -1) {
         products[index] = value;
       }
+      //
+      else {
+        products.add(value);
+      }
     }
     //
     else {

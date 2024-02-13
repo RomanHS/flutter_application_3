@@ -6,11 +6,13 @@ import 'package:flutter_application_3/main.dart';
 class ProductWidget extends StatelessWidget {
   final Product product;
   final void Function()? click;
+  final bool isDelete;
 
   const ProductWidget({
     super.key,
     required this.product,
     required this.click,
+    required this.isDelete,
   });
 
   @override
@@ -56,10 +58,11 @@ class ProductWidget extends StatelessWidget {
               ),
 
               ///
-              IconButton(
-                onPressed: () => dataServis.transaction(productsDelete: [product.uid]),
-                icon: const Icon(Icons.delete),
-              ),
+              if (isDelete)
+                IconButton(
+                  onPressed: () => dataServis.transaction(productsDelete: [product.uid]),
+                  icon: const Icon(Icons.delete),
+                ),
             ],
           ),
         ),

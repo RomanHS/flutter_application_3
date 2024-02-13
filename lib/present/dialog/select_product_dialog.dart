@@ -6,7 +6,7 @@ import 'package:flutter_application_3/present/widget/product_widget.dart';
 class SelectProductDialog extends StatelessWidget {
   const SelectProductDialog._();
 
-  static Future<Product?> show(BuildContext context) => showDialog(
+  static Future<Product?> show(BuildContext context) => showDialog<Product>(
         context: context,
         builder: (BuildContext context) => const SelectProductDialog._(),
       );
@@ -21,6 +21,7 @@ class SelectProductDialog extends StatelessWidget {
               (Product product) => ProductWidget(
                 product: product,
                 click: () => Navigator.pop(context, product),
+                isDelete: false,
               ),
             )
             .toList(),
