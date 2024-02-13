@@ -85,6 +85,32 @@ class _OrderViewState extends State<OrderView> {
               child: const Text('Save'),
             ),
           ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Row(
+              children: [
+                ///
+                Expanded(
+                  child: RadioListTile<bool>(
+                    value: false,
+                    groupValue: true,
+                    onChanged: (bool? _) {},
+                    title: const Text('Приход'),
+                  ),
+                ),
+
+                ///
+                Expanded(
+                  child: RadioListTile<bool>(
+                    value: false,
+                    groupValue: true,
+                    onChanged: (bool? _) {},
+                    title: const Text('Расход'),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
 
     Widget body() {
