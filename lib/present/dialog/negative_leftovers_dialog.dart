@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TextDialog extends StatelessWidget {
-  const TextDialog._();
+class NegativeLeftoversDialog extends StatelessWidget {
+  const NegativeLeftoversDialog._();
 
   static Future<void> show(BuildContext context) => showDialog<void>(
         context: context,
-        builder: (BuildContext context) => const TextDialog._(),
+        builder: (BuildContext context) => const NegativeLeftoversDialog._(),
       );
 
   @override
