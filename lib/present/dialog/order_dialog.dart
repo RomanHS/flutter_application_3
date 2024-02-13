@@ -85,9 +85,16 @@ class OrderDialog extends StatelessWidget {
     }
 
     return AlertDialog(
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       scrollable: true,
       content: content(),
       actions: [
+        ///
+        TextButton(
+          onPressed: order.isConducted ? null : () => dataServis.transaction(ordersDelete: [uid]),
+          child: const Text('Delete'),
+        ),
+
         ///
         TextButton(
           onPressed: () => conduct(order),
@@ -95,10 +102,10 @@ class OrderDialog extends StatelessWidget {
         ),
 
         ///
-        TextButton(
-          onPressed: order.isConducted ? null : () => dataServis.transaction(ordersDelete: [uid]),
-          child: const Text('Delete'),
-        ),
+        // TextButton(
+        //   onPressed: () => Navigator.pop(context),
+        //   child: const Text('Ok'),
+        // ),
       ],
     );
   }
