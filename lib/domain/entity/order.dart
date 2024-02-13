@@ -19,4 +19,18 @@ class Order extends Document {
         number,
         products,
       ];
+
+  Order copyWith({
+    String? uid,
+    bool? isConducted,
+    String? number,
+    List<ProductInOrder>? products,
+  }) {
+    return Order(
+      uid: uid ?? this.uid,
+      isConducted: isConducted ?? this.isConducted,
+      number: number ?? this.number,
+      products: products ?? this.products,
+    );
+  }
 }

@@ -38,6 +38,7 @@ class OrderDialog extends StatelessWidget {
     }
 
     await dataServis.transaction(
+      orders: [order.copyWith(isConducted: !order.isConducted)],
       leftovers: leftovers,
     );
   }
