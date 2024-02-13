@@ -29,14 +29,31 @@ class ProductInOrderWidget extends StatelessWidget {
         0;
 
     return Card(
-      child: ListTile(
-        title: Row(
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(child: Text(productInOrder.nameProduct)),
-            Text(productInOrder.number.toStringAsFixed(3)),
+            ///
+            const SizedBox(width: double.maxFinite),
+
+            ///
+            Text(productInOrder.nameProduct),
+
+            ///
+            const SizedBox(height: 10),
+
+            ///
+            Text('Кількість: ${productInOrder.number.toStringAsFixed(3)}'),
+
+            ///
+            const SizedBox(height: 10),
+
+            ///
+            Text('Залишок: ${leftover.toStringAsFixed(3)}'),
           ],
         ),
-        subtitle: Text(leftover.toStringAsFixed(3)),
       ),
     );
   }
