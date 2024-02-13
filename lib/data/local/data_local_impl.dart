@@ -1,6 +1,8 @@
 import 'package:flutter_application_3/data/local/data_local.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
+import 'package:flutter_application_3/data/orm/entity/registr_entity.dart';
+import 'package:flutter_application_3/data/orm/mapper/leftover_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/message_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DataLocalImpl implements DataLocal {
@@ -48,7 +51,11 @@ class DataLocalImpl implements DataLocal {
         ),
 
         ///
-        leftovers: [],
+        leftovers: await db.getRegistrs<Leftover>(
+          table: TableRegistr.leftover,
+          uidUser: uidUser,
+          parse: (RegistrEntityDB e) => LeftoverMapper.fromDB(e),
+        ),
       );
 
   @override

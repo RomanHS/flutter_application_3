@@ -4,7 +4,7 @@ import 'package:flutter_application_3/domain/store_registr.dart';
 void testStoreRegistr() {
   final StoreRegistr<UidLeftover, Leftover> leftoverStoreRegistr = StoreRegistr(values: []);
 
-  leftoverStoreRegistr.putAll(List.generate(5, (int i) => Leftover(uidProduct: 'Product', uidWarehaus: 'Warehaus ${i + 1}', value: i + 100)));
+  leftoverStoreRegistr.putAll(List.generate(5, (int i) => Leftover(uidProduct: 'Product', uidWarehouse: 'Warehaus ${i + 1}', value: i + 100)));
 
   final List<Leftover> leftovers = leftoverStoreRegistr.getList(const UidLeftover(uidProduct: 'Product', uidWarehaus: null)).toList();
 
