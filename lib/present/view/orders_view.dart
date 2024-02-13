@@ -69,7 +69,7 @@ class OrdersView extends StatelessWidget {
             orders: [
               Order(
                 uid: const Uuid().v4(),
-                number: Faker().phoneNumber.de(),
+                number: Faker().internet.macAddress(),
                 isConducted: false,
 
                 ///
