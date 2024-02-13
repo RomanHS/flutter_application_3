@@ -7,6 +7,7 @@ class Order extends Document {
 
   const Order({
     required super.uid,
+    required super.isConducted,
     required this.number,
     required this.products,
   });
@@ -14,6 +15,7 @@ class Order extends Document {
   @override
   List<Object?> get props => [
         uid,
+        isConducted,
         number,
         products,
       ];

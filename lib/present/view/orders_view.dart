@@ -68,6 +68,7 @@ class OrdersView extends StatelessWidget {
               Order(
                 uid: const Uuid().v4(),
                 number: const Uuid().v4(),
+                isConducted: false,
 
                 ///
                 products: List.generate(

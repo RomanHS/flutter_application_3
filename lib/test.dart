@@ -167,6 +167,7 @@ List<Order> getOrders() => List.generate(
       (int i) => Order(
         uid: '${i + 1}',
         number: '${i + 1}',
+        isConducted: false,
 
         ///
         products: List.generate(

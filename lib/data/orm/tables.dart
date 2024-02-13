@@ -35,6 +35,7 @@ extension TableHeaderExtension on TableHeader {
         ///
         TableHeader.orderTable => [
             'number TEXT',
+            'is_conducted INTEGER',
           ],
 
         ///
