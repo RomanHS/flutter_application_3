@@ -7,4 +7,6 @@ abstract class Document extends Entity {
     required super.uid,
     required this.isConducted,
   });
+
+  bool get isNotConducted => !isConducted;
 }

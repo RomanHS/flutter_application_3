@@ -19,6 +19,7 @@ class OrdersView extends StatelessWidget {
 
   Widget _build(BuildContext context) {
     final List<Order> orders = dataServis.data.orders.values.toList();
+    final List<String> uidsOrdersNotConducted = orders.where((Order o) => o.isNotConducted).map((Order o) => o.uid).toList();
 
     AppBar appBar() => AppBar(
           ///
@@ -28,12 +29,17 @@ class OrdersView extends StatelessWidget {
           title: const Text('Orders'),
 
           ///
-          // actions: [
-          //   IconButton(
-          //     onPressed: orders.isEmpty ? null : () => dataServis.transaction(ordersClear: true),
-          //     icon: const Icon(Icons.delete),
-          //   ),
-          // ],
+          actions: [
+            IconButton(
+              onPressed: uidsOrdersNotConducted.isEmpty
+                  ? null
+                  : () => dataServis.transaction(
+                        // ordersClear: true,
+                        ordersDelete: uidsOrdersNotConducted,
+                      ),
+              icon: const Icon(Icons.delete),
+            ),
+          ],
         );
 
     Widget body() {
