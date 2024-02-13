@@ -14,6 +14,7 @@ class SelectProductDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      scrollable: true,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: dataServis.data.products.values
