@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
+import 'package:flutter_application_3/data/orm/entity/registr_entity.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
 import 'package:sqflite/sqflite.dart';
@@ -102,17 +103,45 @@ class DB {
           .map(parse)
           .toList();
 
+  Future<List<T>> getRegistrs<T>({
+    required TableRegistr table,
+    required String uidUser,
+    // required Iterable<String>? uids,
+    required T Function(RegistrEntityDB) parse,
+  }) async =>
+      (await getEntitysRegistrs(
+        table: table,
+        uidUser: uidUser,
+        // uids: uids,
+      ))
+          .map(parse)
+          .toList();
+
   Future<void> putObjects<T>({
     required TableHeader table,
     required String uidUser,
-    required Iterable<T> objects,
+    required Iterable<T> values,
     required EntityDB Function(T) parse,
     required Transaction txn,
   }) =>
       putEntitys(
         table: table,
         uidUser: uidUser,
-        entitys: objects.map(parse),
+        values: values.map(parse),
+        txn: txn,
+      );
+
+  Future<void> putRegistrs<T>({
+    required TableRegistr table,
+    required String uidUser,
+    required Iterable<T> values,
+    required RegistrEntityDB Function(T) parse,
+    required Transaction txn,
+  }) =>
+      putEntitysRegistrs(
+        table: table,
+        uidUser: uidUser,
+        values: values.map(parse),
         txn: txn,
       );
 
@@ -159,13 +188,28 @@ class DB {
     ).toList();
   }
 
+  Future<List<RegistrEntityDB>> getEntitysRegistrs({
+    required TableRegistr table,
+    required String uidUser,
+  }) async {
+    String where = 'uid_user = $uidUser';
+
+    // if (uids != null) {
+    //   where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
+    // }
+
+    final List<Map<String, Object?>> list = await database.query(table.name, where: where);
+
+    return list.map((Map<String, Object?> e) => RegistrEntityDB(data: e)).toList();
+  }
+
   Future<void> putEntitys({
     required TableHeader table,
     required String uidUser,
-    required Iterable<EntityDB> entitys,
+    required Iterable<EntityDB> values,
     required Transaction txn,
   }) async {
-    final List<EntityDB> entitysList = entitys.toList();
+    final List<EntityDB> entitysList = values.toList();
 
     await delete(
       table: table,
@@ -191,6 +235,21 @@ class DB {
           );
         }
       }
+    }
+  }
+
+  Future<void> putEntitysRegistrs({
+    required TableRegistr table,
+    required String uidUser,
+    required Iterable<RegistrEntityDB> values,
+    required Transaction txn,
+  }) async {
+    for (RegistrEntityDB value in values) {
+      await txn.insert(
+        table.name,
+        value.data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
   }
 

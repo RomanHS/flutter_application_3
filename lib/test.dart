@@ -27,7 +27,7 @@ Future<void> test() async {
     await db.putObjects<Order>(
       table: TableHeader.orderTable,
       uidUser: uidUser,
-      objects: orders,
+      values: orders,
       parse: (Order o) => OrderMapper(o).toDB(uidUser: uidUser),
       txn: txn,
     );
@@ -35,7 +35,7 @@ Future<void> test() async {
     await db.putObjects<Product>(
       table: TableHeader.productTable,
       uidUser: uidUser,
-      objects: products,
+      values: products,
       parse: (Product p) => ProductMapper(p).toDB(uidUser: uidUser),
       txn: txn,
     );
@@ -43,7 +43,7 @@ Future<void> test() async {
     await db.putObjects<Message>(
       table: TableHeader.message,
       uidUser: uidUser,
-      objects: messages,
+      values: messages,
       parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
       txn: txn,
     );
