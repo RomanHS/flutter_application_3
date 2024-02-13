@@ -28,14 +28,14 @@ class Order extends Document {
     bool? isConducted,
     String? number,
     List<ProductInOrder>? products,
-    bool? isComing,
+    bool? isReceipt,
   }) {
     return Order(
       uid: uid ?? this.uid,
       isConducted: isConducted ?? this.isConducted,
       number: number ?? this.number,
       products: products ?? this.products,
-      isReceipt: isComing ?? this.isReceipt,
+      isReceipt: isReceipt ?? this.isReceipt,
     );
   }
 }
