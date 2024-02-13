@@ -41,13 +41,13 @@ class DB {
         await database.execute(sql);
       }
 
-      for (TableRegistr registr in registrs) {
+      for (TableRegistr table in registrs) {
         final List<String> params = [
           'uid_user TEXT',
-          ...registr.createParams,
+          ...table.createParams,
         ];
 
-        final String sql = 'CREATE TABLE ${registr.name} (${params.join(', ')})';
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
 
         await database.execute(sql);
       }
