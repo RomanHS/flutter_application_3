@@ -72,6 +72,7 @@ class _OrderViewState extends State<OrderView> {
     final Order order = _order;
 
     AppBar appBar() => AppBar(
+          ///
           actions: [
             ///
             TextButton(
@@ -85,6 +86,8 @@ class _OrderViewState extends State<OrderView> {
               child: const Text('Save'),
             ),
           ],
+
+          ///
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: Row(
@@ -94,7 +97,7 @@ class _OrderViewState extends State<OrderView> {
                   child: RadioListTile<bool>(
                     value: false,
                     groupValue: true,
-                    onChanged: (bool? _) {},
+                    onChanged: order.isConducted ? null : (bool? _) {},
                     title: const Text('Приход'),
                   ),
                 ),
@@ -104,7 +107,7 @@ class _OrderViewState extends State<OrderView> {
                   child: RadioListTile<bool>(
                     value: false,
                     groupValue: true,
-                    onChanged: (bool? _) {},
+                    onChanged: order.isConducted ? null : (bool? _) {},
                     title: const Text('Расход'),
                   ),
                 ),
