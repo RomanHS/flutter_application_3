@@ -14,6 +14,8 @@ class Order extends Document {
     required this.isReceipt,
   });
 
+  bool get isNotReceipt => !isReceipt;
+
   @override
   List<Object?> get props => [
         uid,

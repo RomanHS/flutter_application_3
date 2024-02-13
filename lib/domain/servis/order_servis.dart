@@ -15,13 +15,21 @@ extension OrderServis on DataServis {
 
       final double leftover = data.leftovers.get(uidLeftover)?.value ?? 0;
 
-      final double number = productInOrder.number;
+      double number = productInOrder.number;
+
+      if (order.isNotReceipt) {
+        number *= -1;
+      }
+
+      if (order.isConducted) {
+        number *= -1;
+      }
 
       leftovers.add(
         Leftover(
           uidProduct: productInOrder.uidProduct,
           uidWarehouse: productInOrder.uidWarehaus,
-          value: order.isConducted ? leftover - number : leftover + number,
+          value: leftover + number,
         ),
       );
     }
