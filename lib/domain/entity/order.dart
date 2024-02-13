@@ -7,6 +7,7 @@ class Order extends Document {
 
   const Order({
     required super.uid,
+    required super.isConducted,
     required this.number,
     required this.products,
   });
@@ -14,7 +15,22 @@ class Order extends Document {
   @override
   List<Object?> get props => [
         uid,
+        isConducted,
         number,
         products,
       ];
+
+  Order copyWith({
+    String? uid,
+    bool? isConducted,
+    String? number,
+    List<ProductInOrder>? products,
+  }) {
+    return Order(
+      uid: uid ?? this.uid,
+      isConducted: isConducted ?? this.isConducted,
+      number: number ?? this.number,
+      products: products ?? this.products,
+    );
+  }
 }

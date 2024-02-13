@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
+import 'package:flutter_application_3/data/orm/entity/registr_entity.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
 import 'package:sqflite/sqflite.dart';
@@ -11,37 +13,76 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_9.db';
+    const String path = 'db_10.db';
 
     // await deleteDatabase(path);
+
+    Future<void> onCreate(Database database, List<TableHeader> header, List<TableTable> table, List<TableRegistr> registrs) async {
+      for (TableHeader table in header) {
+        final List<String> params = [
+          'uid_user TEXT',
+          'uid TEXT',
+          ...table.createParams,
+        ];
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+
+        await database.execute(sql);
+      }
+
+      for (TableTable table in table) {
+        final List<String> params = [
+          'uid_user TEXT',
+          'uid_parent TEXT',
+          ...table.createParams,
+        ];
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+
+        await database.execute(sql);
+      }
+
+      for (TableRegistr table in registrs) {
+        final List<String> params = [
+          'uid_user TEXT',
+          ...table.createParams,
+        ];
+
+        final List<String> keys = [
+          'uid_user',
+          ...table.keys,
+        ];
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')}, PRIMARY key (${keys.join(', ')}))';
+
+        await database.execute(sql);
+      }
+    }
 
     final Database database = await openDatabase(
       path,
       version: 1,
+
+      ///
       onCreate: (Database database, int v) async {
-        for (TableHeader table in TableHeader.values) {
-          final List<String> params = [
-            'uid_user TEXT',
-            'uid TEXT',
-            ...table.createParams,
-          ];
+        await onCreate(database, TableHeader.values, TableTable.values, TableRegistr.values);
+      },
 
-          final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+      ///
+      onUpgrade: (Database database, int vO, int vN) async {
+        log('vO: $vO, vN: $vN');
 
-          await database.execute(sql);
-        }
+        // if (vO < 2) {
+        //   await onCreate(database, [TableHeader.productTable], [], []);
+        // }
 
-        for (TableTable table in TableTable.values) {
-          final List<String> params = [
-            'uid_user TEXT',
-            'uid_parent TEXT',
-            ...table.createParams,
-          ];
+        // if (vO < 3) {
+        //   await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);
+        // }
 
-          final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
-
-          await database.execute(sql);
-        }
+        // if (vO < 4) {
+        //   await onCreate(database, [], [], [TableRegistr.leftover]);
+        // }
       },
     );
 
@@ -52,7 +93,7 @@ class DB {
     required TableHeader table,
     required String uidUser,
     required Iterable<String>? uids,
-    required T Function(Entity) parse,
+    required T Function(EntityDB) parse,
   }) async =>
       (await getEntitys(
         table: table,
@@ -62,19 +103,49 @@ class DB {
           .map(parse)
           .toList();
 
+  Future<List<T>> getRegistrs<T>({
+    required TableRegistr table,
+    required String uidUser,
+    // required Iterable<String>? uids,
+    required T Function(RegistrEntityDB) parse,
+  }) async =>
+      (await getEntitysRegistrs(
+        table: table,
+        uidUser: uidUser,
+        // uids: uids,
+      ))
+          .map(parse)
+          .toList();
+
   Future<void> putObjects<T>({
     required TableHeader table,
     required String uidUser,
-    required Iterable<T> objects,
-    required Entity Function(T) parse,
+    required Iterable<T> values,
+    required EntityDB Function(T) parse,
+    required Transaction txn,
   }) =>
       putEntitys(
         table: table,
         uidUser: uidUser,
-        entitys: objects.map(parse),
+        values: values.map(parse),
+        txn: txn,
       );
 
-  Future<List<Entity>> getEntitys({
+  Future<void> putRegistrs<T>({
+    required TableRegistr table,
+    required String uidUser,
+    required Iterable<T> values,
+    required RegistrEntityDB Function(T) parse,
+    required Transaction txn,
+  }) =>
+      putEntitysRegistrs(
+        table: table,
+        uidUser: uidUser,
+        values: values.map(parse),
+        txn: txn,
+      );
+
+  Future<List<EntityDB>> getEntitys({
     required TableHeader table,
     required String uidUser,
     required Iterable<String>? uids,
@@ -82,7 +153,7 @@ class DB {
     String where = 'uid_user = $uidUser';
 
     if (uids != null) {
-      where += ' AND uid IN (${uids.join(',')})';
+      where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
     }
 
     final List<Map<String, Object?>> list = await database.query(table.name, where: where);
@@ -93,7 +164,7 @@ class DB {
       String where = 'uid_user = $uidUser';
 
       if (uids != null) {
-        where += ' AND uid_parent IN (${uids.join(',')})';
+        where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
       }
 
       final List<Map<String, Object?>> list = await database.query(table.name, where: where);
@@ -109,7 +180,7 @@ class DB {
       (Map<String, Object?> e) {
         final String uid = e['uid'] as String;
 
-        return Entity(
+        return EntityDB(
           data: e,
           tabularParts: tabularsParts[uid] ?? {},
         );
@@ -117,54 +188,72 @@ class DB {
     ).toList();
   }
 
+  Future<List<RegistrEntityDB>> getEntitysRegistrs({
+    required TableRegistr table,
+    required String uidUser,
+  }) async {
+    String where = 'uid_user = $uidUser';
+
+    // if (uids != null) {
+    //   where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
+    // }
+
+    final List<Map<String, Object?>> list = await database.query(table.name, where: where);
+
+    return list.map((Map<String, Object?> e) => RegistrEntityDB(data: e)).toList();
+  }
+
   Future<void> putEntitys({
     required TableHeader table,
     required String uidUser,
-    required Iterable<Entity> entitys,
-  }) =>
-      database.transaction((Transaction txn) async {
-        final List<Entity> entitysList = entitys.toList();
+    required Iterable<EntityDB> values,
+    required Transaction txn,
+  }) async {
+    final List<EntityDB> entitysList = values.toList();
 
-        await _delete(
-          table: table,
-          uidUser: uidUser,
-          uids: entitysList.map((Entity e) => e.uid),
-          txn: txn,
-        );
+    await delete(
+      table: table,
+      uidUser: uidUser,
+      uids: entitysList.map((EntityDB e) => e.uid),
+      txn: txn,
+    );
 
-        for (Entity entity in entitysList) {
+    for (EntityDB entity in entitysList) {
+      await txn.insert(
+        table.name,
+        entity.data,
+      );
+
+      for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
+        final TableTable table = e.key;
+        final List<TabularPart> list = e.value;
+
+        for (TabularPart e in list) {
           await txn.insert(
             table.name,
-            entity.data,
+            e.data,
           );
-
-          for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
-            final TableTable table = e.key;
-            final List<TabularPart> list = e.value;
-
-            for (TabularPart e in list) {
-              await txn.insert(
-                table.name,
-                e.data,
-              );
-            }
-          }
         }
-      });
+      }
+    }
+  }
+
+  Future<void> putEntitysRegistrs({
+    required TableRegistr table,
+    required String uidUser,
+    required Iterable<RegistrEntityDB> values,
+    required Transaction txn,
+  }) async {
+    for (RegistrEntityDB value in values) {
+      await txn.insert(
+        table.name,
+        value.data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  }
 
   Future<void> delete({
-    required TableHeader table,
-    required String uidUser,
-    required Iterable<String>? uids,
-  }) =>
-      database.transaction((Transaction txn) => _delete(
-            table: table,
-            uidUser: uidUser,
-            uids: uids,
-            txn: txn,
-          ));
-
-  Future<void> _delete({
     required TableHeader table,
     required String uidUser,
     required Iterable<String>? uids,
@@ -173,7 +262,7 @@ class DB {
     String where = 'uid_user = $uidUser';
 
     if (uids != null) {
-      where += ' AND uid IN (${uids.join(',')})';
+      where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
     }
 
     await txn.delete(table.name, where: where);
@@ -182,7 +271,7 @@ class DB {
       String where = 'uid_user = $uidUser';
 
       if (uids != null) {
-        where += ' AND uid_parent IN (${uids.join(',')})';
+        where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
       }
 
       await txn.delete(table.name, where: where);

@@ -6,24 +6,27 @@ import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 
 extension OrderMapper on Order {
-  static Order fromDB(Entity entity) {
+  static Order fromDB(EntityDB entity) {
     final Map<String, List<TabularPart>> exciseTaxsMap = {};
 
-    for (TabularPart e in entity.tabularParts[TableTable.exciseTaxInOrderTable] ?? []) {
+    for (TabularPart e in entity.getTabular(TableTable.exciseTaxInOrderTable)) {
       exciseTaxsMap.putIfAbsent(e.get('uid_product'), () => []).add(e);
     }
 
     return Order(
       ///
       uid: entity.uid,
-      number: entity.data['number'] as String,
+      number: entity.get('number'),
+      isConducted: entity.get<int>('is_conducted') != 0,
 
       ///
-      products: (entity.tabularParts[TableTable.productsInOrderTable] ?? [])
+      products: (entity.getTabular(TableTable.productsInOrderTable))
           .map(
             (TabularPart p) => ProductInOrder(
               uidProduct: p.get('uid_product'),
               nameProduct: p.get('name_product'),
+              uidWarehaus: p.get('uid_warehaus'),
+              number: p.get('number'),
               exciseTaxs: exciseTaxsMap[p.get('uid_product')]
                       ?.map(
                         (TabularPart e) => ExciseTax(
@@ -38,15 +41,16 @@ extension OrderMapper on Order {
     );
   }
 
-  Entity toDB({
+  EntityDB toDB({
     required String uidUser,
   }) {
-    return Entity(
+    return EntityDB(
       ///
       data: {
         'uid_user': uidUser,
         'uid': uid,
         'number': number,
+        'is_conducted': isConducted ? 1 : 0,
       },
 
       ///
@@ -60,6 +64,8 @@ extension OrderMapper on Order {
                   'uid_parent': uid,
                   'uid_product': e.uidProduct,
                   'name_product': e.nameProduct,
+                  'uid_warehaus': e.uidWarehaus,
+                  'number': e.number,
                 },
               ),
             )
