@@ -24,6 +24,8 @@ extension OrderMapper on Order {
             (TabularPart p) => ProductInOrder(
               uidProduct: p.get('uid_product'),
               nameProduct: p.get('name_product'),
+              uidWarehaus: p.get('uid_warehaus'),
+              number: p.get('number'),
               exciseTaxs: exciseTaxsMap[p.get('uid_product')]
                       ?.map(
                         (TabularPart e) => ExciseTax(
@@ -32,7 +34,6 @@ extension OrderMapper on Order {
                       )
                       .toList() ??
                   [],
-              number: 0,
             ),
           )
           .toList(),
@@ -61,6 +62,8 @@ extension OrderMapper on Order {
                   'uid_parent': uid,
                   'uid_product': e.uidProduct,
                   'name_product': e.nameProduct,
+                  'uid_warehaus': e.uidWarehaus,
+                  'number': e.number,
                 },
               ),
             )

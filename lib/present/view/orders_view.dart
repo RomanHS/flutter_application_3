@@ -75,6 +75,8 @@ class OrdersView extends StatelessWidget {
                   (int i) => ProductInOrder(
                     uidProduct: '${i + 1}',
                     nameProduct: 'Product ${i + 1}',
+                    uidWarehaus: 'Warehaus ${i + 1}',
+                    number: i + 1,
 
                     ///
                     exciseTaxs: List.generate(
@@ -83,9 +85,6 @@ class OrdersView extends StatelessWidget {
                         value: '${i + 1}',
                       ),
                     ),
-
-                    ///
-                    number: i + 1,
                   ),
                 ),
               ),

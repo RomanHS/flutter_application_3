@@ -174,6 +174,8 @@ List<Order> getOrders() => List.generate(
           (int i) => ProductInOrder(
             uidProduct: '${i + 1}',
             nameProduct: 'Product ${i + 1}',
+            uidWarehaus: 'Warehaus ${i + 1}',
+            number: i + 1,
 
             ///
             exciseTaxs: List.generate(
@@ -182,9 +184,6 @@ List<Order> getOrders() => List.generate(
                 value: '${i + 1}',
               ),
             ),
-
-            ///
-            number: i + 1,
           ),
         ),
       ),

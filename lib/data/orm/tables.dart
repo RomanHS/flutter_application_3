@@ -55,6 +55,8 @@ extension TableTableExtension on TableTable {
         TableTable.productsInOrderTable => [
             'uid_product TEXT',
             'name_product TEXT',
+            'uid_warehaus TEXT',
+            'number REAL',
           ],
 
         ///

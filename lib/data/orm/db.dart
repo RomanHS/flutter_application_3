@@ -13,7 +13,7 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_9.db';
+    const String path = 'db_10.db';
 
     // await deleteDatabase(path);
 
@@ -61,7 +61,7 @@ class DB {
 
     final Database database = await openDatabase(
       path,
-      version: 4,
+      version: 1,
 
       ///
       onCreate: (Database database, int v) async {
@@ -72,17 +72,17 @@ class DB {
       onUpgrade: (Database database, int vO, int vN) async {
         log('vO: $vO, vN: $vN');
 
-        if (vO < 2) {
-          await onCreate(database, [TableHeader.productTable], [], []);
-        }
+        // if (vO < 2) {
+        //   await onCreate(database, [TableHeader.productTable], [], []);
+        // }
 
-        if (vO < 3) {
-          await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);
-        }
+        // if (vO < 3) {
+        //   await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);
+        // }
 
-        if (vO < 4) {
-          await onCreate(database, [], [], [TableRegistr.leftover]);
-        }
+        // if (vO < 4) {
+        //   await onCreate(database, [], [], [TableRegistr.leftover]);
+        // }
       },
     );
 

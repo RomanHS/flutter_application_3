@@ -18,7 +18,15 @@ class ProductInOrderWidget extends StatelessWidget {
       );
 
   Widget _build(BuildContext context) {
-    final double leftover = dataServis.data.leftovers.get(UidLeftover(uidProduct: productInOrder.uidProduct, uidWarehaus: '1'))?.value ?? 0;
+    final double leftover = dataServis.data.leftovers
+            .get(
+              UidLeftover(
+                uidProduct: productInOrder.uidProduct,
+                uidWarehaus: productInOrder.uidWarehaus,
+              ),
+            )
+            ?.value ??
+        0;
 
     return Card(
       child: ListTile(
