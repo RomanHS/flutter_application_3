@@ -26,8 +26,15 @@ class OrderDialog extends StatelessWidget {
 
     for (ProductInOrder productInOrder in order.products) {
       final double leftover = dataServis.data.leftovers.get(UidLeftover(uidProduct: productInOrder.uidProduct, uidWarehaus: '1'))?.value ?? 0;
+      final double number = productInOrder.number;
 
-      leftovers.add(Leftover(uidProduct: productInOrder.uidProduct, uidWarehouse: '1', value: leftover + productInOrder.number));
+      leftovers.add(
+        Leftover(
+          uidProduct: productInOrder.uidProduct,
+          uidWarehouse: '1',
+          value: order.isConducted ? leftover - number : leftover + number,
+        ),
+      );
     }
 
     await dataServis.transaction(
@@ -77,7 +84,7 @@ class OrderDialog extends StatelessWidget {
         ///
         TextButton(
           onPressed: () => conduct(order),
-          child: const Text('Conduct'),
+          child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
         ),
 
         ///
