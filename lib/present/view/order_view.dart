@@ -124,7 +124,7 @@ class _OrderViewState extends State<OrderView> {
     return Scaffold(
       appBar: appBar(),
       body: body(),
-      floatingActionButton: floatingActionButton(),
+      floatingActionButton: order.isConducted ? null : floatingActionButton(),
     );
   }
 }
