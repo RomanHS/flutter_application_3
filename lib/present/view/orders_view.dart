@@ -26,12 +26,12 @@ class OrdersView extends StatelessWidget {
           title: const Text('Orders'),
 
           ///
-          actions: [
-            IconButton(
-              onPressed: orders.isEmpty ? null : () => dataServis.transaction(ordersClear: true),
-              icon: const Icon(Icons.delete),
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     onPressed: orders.isEmpty ? null : () => dataServis.transaction(ordersClear: true),
+          //     icon: const Icon(Icons.delete),
+          //   ),
+          // ],
         );
 
     Widget body() {
@@ -52,7 +52,7 @@ class OrdersView extends StatelessWidget {
               onTap: () => OrderDialog.show(context: context, uid: order.uid),
               title: Text(order.number),
               trailing: IconButton(
-                onPressed: () => dataServis.transaction(ordersDelete: [order.uid]),
+                onPressed: order.isConducted ? null : () => dataServis.transaction(ordersDelete: [order.uid]),
                 icon: const Icon(Icons.delete),
               ),
             ),
