@@ -10,6 +10,10 @@ enum TableTable {
   messageSurvey,
 }
 
+enum TableRegistr {
+  leftover,
+}
+
 extension TableHeaderExtension on TableHeader {
   Iterable<TableTable> get tables => switch (this) {
         ///
@@ -62,6 +66,17 @@ extension TableTableExtension on TableTable {
         ///
         TableTable.messageSurvey => [
             'value TEXT',
+          ],
+      };
+}
+
+extension TableRegistrExtension on TableRegistr {
+  Iterable<String> get createParams => switch (this) {
+        ///
+        TableRegistr.leftover => [
+            'uid_product TEXT PRIMARY KEY',
+            'uid_warehouse TEXT PRIMARY KEY',
+            'value REAL',
           ],
       };
 }

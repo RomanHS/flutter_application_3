@@ -16,7 +16,7 @@ class DB {
 
     // await deleteDatabase(path);
 
-    Future<void> onCreate(Database database, List<TableHeader> header, List<TableTable> table) async {
+    Future<void> onCreate(Database database, List<TableHeader> header, List<TableTable> table, List<TableRegistr> registrs) async {
       for (TableHeader table in header) {
         final List<String> params = [
           'uid_user TEXT',
@@ -40,15 +40,26 @@ class DB {
 
         await database.execute(sql);
       }
+
+      for (TableRegistr registr in registrs) {
+        final List<String> params = [
+          'uid_user TEXT',
+          ...registr.createParams,
+        ];
+
+        final String sql = 'CREATE TABLE ${registr.name} (${params.join(', ')})';
+
+        await database.execute(sql);
+      }
     }
 
     final Database database = await openDatabase(
       path,
-      version: 3,
+      version: 4,
 
       ///
       onCreate: (Database database, int v) async {
-        await onCreate(database, TableHeader.values, TableTable.values);
+        await onCreate(database, TableHeader.values, TableTable.values, TableRegistr.values);
       },
 
       ///
@@ -56,11 +67,15 @@ class DB {
         log('vO: $vO, vN: $vN');
 
         if (vO < 2) {
-          await onCreate(database, [TableHeader.productTable], []);
+          await onCreate(database, [TableHeader.productTable], [], []);
         }
 
         if (vO < 3) {
-          await onCreate(database, [TableHeader.message], [TableTable.messageSurvey]);
+          await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);
+        }
+
+        if (vO < 4) {
+          await onCreate(database, [], [], [TableRegistr.leftover]);
         }
       },
     );

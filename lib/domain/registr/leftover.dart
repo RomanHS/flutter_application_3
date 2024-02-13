@@ -3,10 +3,12 @@ import 'package:flutter_application_3/domain/registr/registr.dart';
 class Leftover extends RegistrEntity<UidLeftover> {
   final String uidWarehaus;
   final String uidProduct;
+  final double value;
 
   Leftover({
     required this.uidWarehaus,
     required this.uidProduct,
+    required this.value,
   });
 
   @override
