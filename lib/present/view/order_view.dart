@@ -96,7 +96,7 @@ class _OrderViewState extends State<OrderView> {
                 Expanded(
                   child: RadioListTile<bool>(
                     value: false,
-                    groupValue: true,
+                    groupValue: order.isReceipt,
                     onChanged: order.isConducted ? null : (bool? _) {},
                     title: const Text('Приход'),
                   ),
@@ -106,7 +106,7 @@ class _OrderViewState extends State<OrderView> {
                 Expanded(
                   child: RadioListTile<bool>(
                     value: false,
-                    groupValue: true,
+                    groupValue: !order.isReceipt,
                     onChanged: order.isConducted ? null : (bool? _) {},
                     title: const Text('Расход'),
                   ),

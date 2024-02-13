@@ -80,6 +80,7 @@ class OrdersView extends StatelessWidget {
                   number: (DateTime.now().millisecondsSinceEpoch ~/ 100).toString(),
                   isConducted: false,
                   products: const [],
+                  isReceipt: false,
                 ),
               ),
             ),

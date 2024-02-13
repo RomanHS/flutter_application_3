@@ -187,5 +187,6 @@ List<Order> getOrders() => List.generate(
             ),
           ),
         ),
+        isReceipt: false,
       ),
     );
