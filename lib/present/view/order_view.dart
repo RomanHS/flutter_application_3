@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
+import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/servis/order_servis.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/present/dialog/select_product_dialog.dart';
 import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
 
 class OrderView extends StatefulWidget {
@@ -102,9 +104,23 @@ class _OrderViewState extends State<OrderView> {
       );
     }
 
+    Widget floatingActionButton() => FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () async {
+            final Product? product = await SelectProductDialog.show(context);
+
+            if (product == null) {
+              return;
+            }
+
+            putProductInOrder(ProductInOrder(uidProduct: product.uid, nameProduct: product.name, uidWarehaus: '1', exciseTaxs: const [], number: 1));
+          },
+        );
+
     return Scaffold(
       appBar: appBar(),
       body: body(),
+      floatingActionButton: floatingActionButton(),
     );
   }
 }
