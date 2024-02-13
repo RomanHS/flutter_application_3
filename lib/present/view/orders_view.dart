@@ -74,9 +74,9 @@ class OrdersView extends StatelessWidget {
                 products: List.generate(
                   10,
                   (int i) => ProductInOrder(
-                    uidProduct: '${i + 1}',
+                    uidProduct: const Uuid().v4(),
                     nameProduct: 'Product ${i + 1}',
-                    uidWarehaus: 'Warehaus ${i + 1}',
+                    uidWarehaus: const Uuid().v4(),
                     number: i + 1,
 
                     ///
