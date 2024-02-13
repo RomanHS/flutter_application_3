@@ -25,13 +25,19 @@ class OrderDialog extends StatelessWidget {
     final List<Leftover> leftovers = [];
 
     for (ProductInOrder productInOrder in order.products) {
-      final double leftover = dataServis.data.leftovers.get(UidLeftover(uidProduct: productInOrder.uidProduct, uidWarehaus: '1'))?.value ?? 0;
+      final UidLeftover uidLeftover = UidLeftover(
+        uidProduct: productInOrder.uidProduct,
+        uidWarehaus: productInOrder.uidWarehaus,
+      );
+
+      final double leftover = dataServis.data.leftovers.get(uidLeftover)?.value ?? 0;
+
       final double number = productInOrder.number;
 
       leftovers.add(
         Leftover(
           uidProduct: productInOrder.uidProduct,
-          uidWarehouse: '1',
+          uidWarehouse: productInOrder.uidWarehaus,
           value: order.isConducted ? leftover - number : leftover + number,
         ),
       );
