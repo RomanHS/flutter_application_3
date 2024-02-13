@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/servis/order_servis.dart';
