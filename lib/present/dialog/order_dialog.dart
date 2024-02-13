@@ -96,7 +96,7 @@ class OrderDialog extends StatelessWidget {
 
         ///
         TextButton(
-          onPressed: () => dataServis.transaction(ordersDelete: [uid]),
+          onPressed: order.isConducted ? null : () => dataServis.transaction(ordersDelete: [uid]),
           child: const Text('Delete'),
         ),
       ],
