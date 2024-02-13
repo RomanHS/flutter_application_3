@@ -42,7 +42,25 @@ class _OrderViewState extends State<OrderView> {
 
   void setOrder(Order value) => setState(() => _order = value);
 
-  void putProductInOrder(ProductInOrder value) {}
+  void putProductInOrder(ProductInOrder value) {
+    final List<ProductInOrder> products = _order.products.toList();
+
+    final int index = products.indexWhere((ProductInOrder p) => p.uidProduct == value.uidProduct);
+
+    if (value.number > 0) {
+      if (index != -1) {
+        products[index] = value;
+      }
+    }
+    //
+    else {
+      if (index != -1) {
+        products.removeAt(index);
+      }
+    }
+
+    setOrder(_order.copyWith(products: products));
+  }
 
   @override
   Widget build(BuildContext context) {
