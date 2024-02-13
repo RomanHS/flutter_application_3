@@ -6,6 +6,7 @@ import 'package:flutter_application_3/domain/servis/order_servis.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
 import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/dialog/select_product_dialog.dart';
+import 'package:flutter_application_3/present/dialog/negative_leftovers_dialog.dart';
 import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
 
 class OrderView extends StatefulWidget {
@@ -72,10 +73,11 @@ class _OrderViewState extends State<OrderView> {
     final Order order = _order;
 
     AppBar appBar() => AppBar(
+          ///
           actions: [
             ///
             TextButton(
-              onPressed: order.products.isEmpty ? null : () => OrderServis(dataServis).conduct(order),
+              onPressed: order.products.isEmpty ? null : () => OrderServis(dataServis).conduct(order, () => NegativeLeftoversDialog.show(context)),
               child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
             ),
 
@@ -85,6 +87,34 @@ class _OrderViewState extends State<OrderView> {
               child: const Text('Save'),
             ),
           ],
+
+          ///
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Row(
+              children: [
+                ///
+                Expanded(
+                  child: RadioListTile<bool>(
+                    value: order.isReceipt,
+                    groupValue: true,
+                    onChanged: order.isConducted ? null : (bool? _) => setOrder(order.copyWith(isReceipt: true)),
+                    title: const Text('Приход'),
+                  ),
+                ),
+
+                ///
+                Expanded(
+                  child: RadioListTile<bool>(
+                    value: !order.isReceipt,
+                    groupValue: true,
+                    onChanged: order.isConducted ? null : (bool? _) => setOrder(order.copyWith(isReceipt: false)),
+                    title: const Text('Расход'),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
 
     Widget body() {

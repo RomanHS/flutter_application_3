@@ -61,7 +61,7 @@ class DB {
 
     final Database database = await openDatabase(
       path,
-      version: 1,
+      version: 2,
 
       ///
       onCreate: (Database database, int v) async {
@@ -72,9 +72,11 @@ class DB {
       onUpgrade: (Database database, int vO, int vN) async {
         log('vO: $vO, vN: $vN');
 
-        // if (vO < 2) {
-        //   await onCreate(database, [TableHeader.productTable], [], []);
-        // }
+        if (vO < 2) {
+          final String sql = 'ALTER TABLE ${TableHeader.orderTable.name} ADD COLUMN is_receipt INTEGER DEFAULT 0';
+
+          await database.execute(sql);
+        }
 
         // if (vO < 3) {
         //   await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);

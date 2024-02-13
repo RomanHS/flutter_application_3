@@ -18,6 +18,7 @@ extension OrderMapper on Order {
       uid: entity.uid,
       number: entity.get('number'),
       isConducted: entity.get<int>('is_conducted') != 0,
+      isReceipt: entity.get<int>('is_receipt') != 0,
 
       ///
       products: (entity.getTabular(TableTable.productsInOrderTable))
@@ -51,6 +52,7 @@ extension OrderMapper on Order {
         'uid': uid,
         'number': number,
         'is_conducted': isConducted ? 1 : 0,
+        'is_receipt': isReceipt ? 1 : 0,
       },
 
       ///
