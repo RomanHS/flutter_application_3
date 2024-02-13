@@ -47,7 +47,12 @@ class DB {
           ...table.createParams,
         ];
 
-        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+        final List<String> keys = [
+          'uid_user',
+          ...table.keys,
+        ];
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')}, PRIMARY key (${keys.join(', ')}))';
 
         await database.execute(sql);
       }

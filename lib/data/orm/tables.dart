@@ -71,11 +71,19 @@ extension TableTableExtension on TableTable {
 }
 
 extension TableRegistrExtension on TableRegistr {
+  Iterable<String> get keys => switch (this) {
+        ///
+        TableRegistr.leftover => [
+            'uid_product',
+            'uid_warehouse',
+          ],
+      };
+
   Iterable<String> get createParams => switch (this) {
         ///
         TableRegistr.leftover => [
-            'uid_product TEXT PRIMARY KEY',
-            'uid_warehouse TEXT PRIMARY KEY',
+            'uid_product TEXT',
+            'uid_warehouse TEXT',
             'value REAL',
           ],
       };
