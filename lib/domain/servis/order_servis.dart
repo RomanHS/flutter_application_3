@@ -10,7 +10,7 @@ extension OrderServis on DataServis {
     for (ProductInOrder productInOrder in order.products) {
       final UidLeftover uidLeftover = UidLeftover(
         uidProduct: productInOrder.uidProduct,
-        uidWarehaus: productInOrder.uidWarehaus,
+        uidWarehouse: productInOrder.uidWarehaus,
       );
 
       final double leftover = data.leftovers.get(uidLeftover)?.value ?? 0;

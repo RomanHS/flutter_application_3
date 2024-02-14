@@ -13,31 +13,31 @@ class Leftover extends RegistrEntity<UidLeftover> {
 
   @override
   UidLeftover get uid => UidLeftover(
-        uidWarehaus: uidWarehouse,
+        uidWarehouse: uidWarehouse,
         uidProduct: uidProduct,
       );
 
   @override
   Iterable<UidLeftover> get uids => [
         UidLeftover(
-          uidWarehaus: null,
+          uidWarehouse: null,
           uidProduct: uidProduct,
         ),
       ];
 }
 
 class UidLeftover extends UidRegistr {
-  final String? uidWarehaus;
+  final String? uidWarehouse;
   final String? uidProduct;
 
   const UidLeftover({
-    required this.uidWarehaus,
+    required this.uidWarehouse,
     required this.uidProduct,
   });
 
   @override
   List<Object?> get props => [
-        uidWarehaus,
+        uidWarehouse,
         uidProduct,
       ];
 }

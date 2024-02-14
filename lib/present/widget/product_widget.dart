@@ -26,7 +26,7 @@ class ProductWidget extends StatelessWidget {
             .get(
               UidLeftover(
                 uidProduct: product.uid,
-                uidWarehaus: '1',
+                uidWarehouse: '1',
               ),
             )
             ?.value ??

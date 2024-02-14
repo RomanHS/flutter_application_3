@@ -7,7 +7,7 @@ extension UidLeftoverMapper on UidLeftover {
   }) =>
       UidRegistrEntityDB(
         keys: {
-          'uid_warehaus': uidWarehaus,
+          'uid_warehouse': uidWarehouse,
           'uid_product': uidProduct,
         },
       );

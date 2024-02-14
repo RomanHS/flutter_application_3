@@ -4,6 +4,7 @@ import 'package:flutter_application_3/data/local/data_local.dart';
 import 'package:flutter_application_3/data/local/data_local_impl.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
+import 'package:flutter_application_3/delete_registrs_test.dart';
 import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
@@ -27,6 +28,8 @@ void main() async {
   final Data data = await dataRepo.get(uidUser: uidUser);
 
   dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
+
+  await deleteRegistrsTest(db);
 
   runApp(const App());
 }
