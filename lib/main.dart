@@ -28,7 +28,5 @@ void main() async {
 
   dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
 
-  // testStoreRegistr();
-
   runApp(const App());
 }
