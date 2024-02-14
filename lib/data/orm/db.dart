@@ -166,7 +166,7 @@ class DB {
     required String uidUser,
     required Iterable<String>? uids,
   }) async {
-    String where = 'uid_user = $uidUser';
+    String where = 'uid_user = "$uidUser"';
 
     if (uids != null) {
       where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
@@ -177,7 +177,7 @@ class DB {
     final Map<String, Map<TableTable, List<TabularPart>>> tabularsParts = {};
 
     for (TableTable table in table.tables) {
-      String where = 'uid_user = $uidUser';
+      String where = 'uid_user = "$uidUser"';
 
       if (uids != null) {
         where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
@@ -208,7 +208,7 @@ class DB {
     required TableRegistr table,
     required String uidUser,
   }) async {
-    String where = 'uid_user = $uidUser';
+    String where = 'uid_user = "$uidUser"';
 
     // if (uids != null) {
     //   where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
@@ -275,7 +275,7 @@ class DB {
     required Iterable<String>? uids,
     required Transaction txn,
   }) async {
-    String where = 'uid_user = $uidUser';
+    String where = 'uid_user = "$uidUser"';
 
     if (uids != null) {
       where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
@@ -284,7 +284,7 @@ class DB {
     await txn.delete(table.name, where: where);
 
     for (TableTable table in table.tables) {
-      String where = 'uid_user = $uidUser';
+      String where = 'uid_user = "$uidUser"';
 
       if (uids != null) {
         where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
@@ -301,21 +301,27 @@ class DB {
     required Transaction txn,
   }) async {
     if (uids == null) {
-      String where = 'uid_user = $uidUser';
+      String where = 'uid_user = "$uidUser"';
 
       await txn.delete(table.name, where: where);
     }
     //
     else {
       for (UidRegistrEntityDB uid in uids) {
-        String where = 'uid_user = $uidUser';
+        String where = 'uid_user = "$uidUser"';
 
         for (MapEntry<String, Object?> e in uid.keys.entries) {
           final String key = e.key;
           final Object? value = e.value;
 
           if (value != null) {
-            where += ' AND $key = $value';
+            if (value is String) {
+              where += ' AND $key = "$value"';
+            }
+            //
+            else {
+              where += ' AND $key = $value';
+            }
           }
         }
 

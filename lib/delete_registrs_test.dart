@@ -7,12 +7,22 @@ import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<void> deleteRegistrsTest(DB db) async {
-  const String uidUser = '1';
+  const String uidUser = 'testUser';
 
   final List<Leftover> leftovers = [
-    ...List.generate(5, (int i) => Leftover(uidProduct: (i + 1).toString(), uidWarehouse: '1', value: i + 1)),
-    ...List.generate(5, (int i) => Leftover(uidProduct: (i + 1).toString(), uidWarehouse: '2', value: i + 1)),
+    ...List.generate(5, (int i) => Leftover(uidProduct: (i + 1).toString(), uidWarehouse: 'Warehouse 1', value: i + 1)),
+    ...List.generate(5, (int i) => Leftover(uidProduct: (i + 1).toString(), uidWarehouse: 'Warehouse 2', value: i + 1)),
   ];
+
+  await db.database.transaction(
+    (Transaction txn) => db.deleteRegistrs(
+      table: TableRegistr.leftover,
+      uidUser: uidUser,
+      uids: null,
+      parse: (UidLeftover e) => UidLeftoverMapper(e).toDB(uidUser: uidUser),
+      txn: txn,
+    ),
+  );
 
   await db.database.transaction(
     (Transaction txn) => db.putRegistrs(
@@ -32,7 +42,7 @@ Future<void> deleteRegistrsTest(DB db) async {
       table: TableRegistr.leftover,
       uidUser: uidUser,
       uids: [
-        const UidLeftover(uidProduct: null, uidWarehouse: '1'),
+        const UidLeftover(uidProduct: null, uidWarehouse: 'Warehouse 1'),
       ],
       parse: (UidLeftover e) => UidLeftoverMapper(e).toDB(uidUser: uidUser),
       txn: txn,
