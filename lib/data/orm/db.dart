@@ -314,7 +314,9 @@ class DB {
           final String key = e.key;
           final Object? value = e.value;
 
-          where += ' AND $key = $value';
+          if (value != null) {
+            where += ' AND $key = $value';
+          }
         }
 
         await txn.delete(table.name, where: where);
