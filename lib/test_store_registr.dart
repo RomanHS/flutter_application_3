@@ -10,7 +10,7 @@ void testStoreRegistr() {
 
   leftovers;
 
-  leftoverStoreRegistr.deleteList(const UidLeftover(uidProduct: 'Product', uidWarehaus: null));
+  leftoverStoreRegistr.delete(const UidLeftover(uidProduct: 'Product', uidWarehaus: null));
 
   final List<Leftover> list = leftoverStoreRegistr.values.toList();
 
