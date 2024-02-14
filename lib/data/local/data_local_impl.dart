@@ -68,6 +68,7 @@ class DataLocalImpl implements DataLocal {
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
     required Iterable<String>? messagesDelete,
+    required Iterable<UidLeftover>? leftoversDelete,
     required bool ordersClear,
     required bool productsClear,
     required bool messagesClear,

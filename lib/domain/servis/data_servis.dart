@@ -24,6 +24,7 @@ class DataServis {
     Iterable<String>? ordersDelete,
     Iterable<String>? productsDelete,
     Iterable<String>? messagesDelete,
+    Iterable<UidLeftover>? leftoversDelete,
     bool ordersClear = false,
     bool productsClear = false,
     bool messagesClear = false,
@@ -37,6 +38,7 @@ class DataServis {
       ordersDelete: ordersDelete,
       productsDelete: productsDelete,
       messagesDelete: messagesDelete,
+      leftoversDelete: leftoversDelete,
       ordersClear: ordersClear,
       productsClear: productsClear,
       messagesClear: messagesClear,
@@ -68,6 +70,10 @@ class DataServis {
 
     if (messagesDelete != null) {
       data.messages.deleteAll(messagesDelete);
+    }
+
+    if (leftoversDelete != null) {
+      data.leftovers.deleteAll(leftoversDelete);
     }
 
     /// Put
