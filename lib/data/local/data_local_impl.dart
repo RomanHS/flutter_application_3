@@ -138,7 +138,7 @@ class DataLocalImpl implements DataLocal {
             table: TableRegistr.leftover,
             uidUser: uidUser,
             uids: leftoversDelete,
-            parse: (UidLeftover u) => UidLeftoverMapper(u).toDB(uidUser: uidUser),
+            parse: (UidLeftover u) => UidLeftoverMapper(u).toDB(),
             txn: txn,
           );
         }

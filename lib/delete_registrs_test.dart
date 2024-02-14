@@ -19,7 +19,7 @@ Future<void> deleteRegistrsTest(DB db) async {
       table: TableRegistr.leftover,
       uidUser: uidUser,
       uids: null,
-      parse: (UidLeftover e) => UidLeftoverMapper(e).toDB(uidUser: uidUser),
+      parse: (UidLeftover e) => UidLeftoverMapper(e).toDB(),
       txn: txn,
     ),
   );
@@ -44,7 +44,7 @@ Future<void> deleteRegistrsTest(DB db) async {
       uids: [
         const UidLeftover(uidProduct: null, uidWarehouse: 'Warehouse 1'),
       ],
-      parse: (UidLeftover e) => UidLeftoverMapper(e).toDB(uidUser: uidUser),
+      parse: (UidLeftover e) => UidLeftoverMapper(e).toDB(),
       txn: txn,
     ),
   );
