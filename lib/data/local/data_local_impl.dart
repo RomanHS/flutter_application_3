@@ -6,6 +6,7 @@ import 'package:flutter_application_3/data/orm/mapper/leftover_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/message_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
+import 'package:flutter_application_3/data/orm/mapper/uid_leftover_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
@@ -68,6 +69,7 @@ class DataLocalImpl implements DataLocal {
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
     required Iterable<String>? messagesDelete,
+    required Iterable<UidLeftover>? leftoversDelete,
     required bool ordersClear,
     required bool productsClear,
     required bool messagesClear,
@@ -76,7 +78,7 @@ class DataLocalImpl implements DataLocal {
         /// Clear
 
         if (ordersClear) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.orderTable,
             uidUser: uidUser,
             uids: null,
@@ -85,7 +87,7 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (productsClear) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.productTable,
             uidUser: uidUser,
             uids: null,
@@ -94,7 +96,7 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (messagesClear) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.message,
             uidUser: uidUser,
             uids: null,
@@ -105,7 +107,7 @@ class DataLocalImpl implements DataLocal {
         /// Delete
 
         if (ordersDelete != null) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.orderTable,
             uidUser: uidUser,
             uids: ordersDelete,
@@ -114,7 +116,7 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (productsDelete != null) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.productTable,
             uidUser: uidUser,
             uids: productsDelete,
@@ -123,10 +125,20 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (messagesDelete != null) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.message,
             uidUser: uidUser,
             uids: messagesDelete,
+            txn: txn,
+          );
+        }
+
+        if (leftoversDelete != null) {
+          await db.deleteRegistrs(
+            table: TableRegistr.leftover,
+            uidUser: uidUser,
+            uids: leftoversDelete,
+            parse: (UidLeftover u) => UidLeftoverMapper(u).toDB(),
             txn: txn,
           );
         }

@@ -1,7 +1,7 @@
 import 'package:flutter_application_3/domain/entity/handbook.dart';
 
-class Product extends Handbook {
-  const Product({
+class Warehaus extends Handbook {
+  const Warehaus({
     required super.uid,
     required super.name,
   });

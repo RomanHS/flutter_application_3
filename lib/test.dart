@@ -91,21 +91,21 @@ Future<void> test() async {
   /// delete
   {
     await db.database.transaction((txn) async {
-      await db.delete(
+      await db.deleteEntitys(
         table: TableHeader.orderTable,
         uidUser: uidUser,
         uids: ['2', '3'],
         txn: txn,
       );
 
-      await db.delete(
+      await db.deleteEntitys(
         table: TableHeader.productTable,
         uidUser: uidUser,
         uids: null,
         txn: txn,
       );
 
-      await db.delete(
+      await db.deleteEntitys(
         table: TableHeader.message,
         uidUser: uidUser,
         uids: null,

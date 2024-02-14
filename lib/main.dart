@@ -28,7 +28,7 @@ void main() async {
 
   dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
 
-  // testStoreRegistr();
+  // await deleteRegistrsTest(db);
 
   runApp(const App());
 }
