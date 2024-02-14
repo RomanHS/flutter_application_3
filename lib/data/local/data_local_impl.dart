@@ -77,7 +77,7 @@ class DataLocalImpl implements DataLocal {
         /// Clear
 
         if (ordersClear) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.orderTable,
             uidUser: uidUser,
             uids: null,
@@ -86,7 +86,7 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (productsClear) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.productTable,
             uidUser: uidUser,
             uids: null,
@@ -95,7 +95,7 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (messagesClear) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.message,
             uidUser: uidUser,
             uids: null,
@@ -106,7 +106,7 @@ class DataLocalImpl implements DataLocal {
         /// Delete
 
         if (ordersDelete != null) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.orderTable,
             uidUser: uidUser,
             uids: ordersDelete,
@@ -115,7 +115,7 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (productsDelete != null) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.productTable,
             uidUser: uidUser,
             uids: productsDelete,
@@ -124,10 +124,20 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (messagesDelete != null) {
-          await db.delete(
+          await db.deleteEntitys(
             table: TableHeader.message,
             uidUser: uidUser,
             uids: messagesDelete,
+            txn: txn,
+          );
+        }
+
+        if (leftoversDelete != null) {
+          await db.deleteRegistrs(
+            table: TableRegistr.leftover,
+            uidUser: uidUser,
+            uids: leftoversDelete,
+            parse: (UidLeftover u) {},
             txn: txn,
           );
         }
