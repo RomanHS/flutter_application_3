@@ -9,9 +9,11 @@ class RegistrEntityDB {
 }
 
 class UidRegistrEntityDB {
-  final Map<String, Object> keys;
+  final Map<String, Object?> keys;
 
   UidRegistrEntityDB({
     required this.keys,
   });
+
+  // T? get<T>(String key) => keys[key] as T?;
 }

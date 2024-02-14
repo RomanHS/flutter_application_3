@@ -310,9 +310,9 @@ class DB {
       for (UidRegistrEntityDB uid in uids) {
         String where = 'uid_user = $uidUser';
 
-        for (MapEntry<String, Object> e in uid.keys.entries) {
+        for (MapEntry<String, Object?> e in uid.keys.entries) {
           final String key = e.key;
-          final Object value = e.value;
+          final Object? value = e.value;
 
           where += ' AND $key = $value';
         }

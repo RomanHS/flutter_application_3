@@ -6,6 +6,7 @@ import 'package:flutter_application_3/data/orm/mapper/leftover_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/message_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
+import 'package:flutter_application_3/data/orm/mapper/uid_leftover_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
@@ -137,7 +138,7 @@ class DataLocalImpl implements DataLocal {
             table: TableRegistr.leftover,
             uidUser: uidUser,
             uids: leftoversDelete,
-            parse: (UidLeftover u) {},
+            parse: (UidLeftover u) => UidLeftoverMapper(u).toDB(uidUser: uidUser),
             txn: txn,
           );
         }
