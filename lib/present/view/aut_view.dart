@@ -11,13 +11,21 @@ class AutView extends StatefulWidget {
 class _AutViewState extends State<AutView> {
   final TextEditingController textEditingController = TextEditingController();
 
+  bool _isLoad = false;
+
   @override
   void dispose() {
     textEditingController.dispose();
     super.dispose();
   }
 
-  void logIn() => autServis.logIn(login: textEditingController.text);
+  void logIn() async {
+    setState(() => _isLoad = true);
+
+    await autServis.logIn(login: textEditingController.text);
+
+    setState(() => _isLoad = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,29 +37,33 @@ class _AutViewState extends State<AutView> {
       ),
 
       ///
-      body: Column(
-        ///
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: _isLoad
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              ///
+              mainAxisAlignment: MainAxisAlignment.center,
 
-        ///
-        children: [
-          ///
-          TextField(
-            controller: textEditingController,
-          ),
+              ///
+              children: [
+                ///
+                TextField(
+                  controller: textEditingController,
+                ),
 
-          ///
-          ListenableBuilder(
-            listenable: textEditingController,
-            builder: (BuildContext context, Widget? child) {
-              return TextButton(
-                onPressed: textEditingController.text.isEmpty ? null : logIn,
-                child: const Text('logIn'),
-              );
-            },
-          ),
-        ],
-      ),
+                ///
+                ListenableBuilder(
+                  listenable: textEditingController,
+                  builder: (BuildContext context, Widget? child) {
+                    return TextButton(
+                      onPressed: textEditingController.text.isEmpty ? null : logIn,
+                      child: const Text('logIn'),
+                    );
+                  },
+                ),
+              ],
+            ),
     );
   }
 }
