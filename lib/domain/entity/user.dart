@@ -5,6 +5,8 @@ class User extends Entity {
     required super.uid,
   });
 
+  factory User.empty() => const User(uid: '');
+
   @override
   List<Object?> get props => [
         uid,

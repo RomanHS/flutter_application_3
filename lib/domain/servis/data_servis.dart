@@ -2,16 +2,17 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 
 class DataServis {
-  final String uidUser;
+  final User user;
   final DataRepo dataRepo;
   final Data data;
 
   DataServis({
-    required this.uidUser,
+    required this.user,
     required this.dataRepo,
     required this.data,
   });
@@ -30,7 +31,7 @@ class DataServis {
     bool messagesClear = false,
   }) async {
     await dataRepo.transaction(
-      uidUser: uidUser,
+      uidUser: user.uid,
       orders: orders,
       products: products,
       messages: messages,

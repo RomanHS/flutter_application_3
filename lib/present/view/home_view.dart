@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:flutter_application_3/present/view/products_view.dart';
 
@@ -15,6 +16,15 @@ class HomeView extends StatelessWidget {
 
         ///
         title: const Text('Home'),
+
+        ///
+        actions: [
+          ///
+          IconButton(
+            onPressed: () => autServis.logOut(user: dataServis.user),
+            icon: const Icon(Icons.exit_to_app),
+          ),
+        ],
       ),
 
       ///

@@ -7,6 +7,7 @@ import 'package:flutter_application_3/data/repo/aut_repo_impl.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
 import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/data.dart';
+import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 import 'package:flutter_application_3/domain/servis/aut_servis.dart';
@@ -30,15 +31,15 @@ void main() async {
 
   autServis = AutServis(autRepo: autRepo, aut: aut);
 
-  const String uidUser = '1';
-
   final DataLocal dataLocal = DataLocalImpl(db: db);
 
   final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
 
-  final Data data = await dataRepo.get(uidUser: uidUser);
+  final User user = aut.user.value ?? User.empty();
 
-  dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
+  final Data data = await dataRepo.get(uidUser: user.uid);
+
+  dataServis = DataServis(user: user, dataRepo: dataRepo, data: data);
 
   // await deleteRegistrsTest(db);
 
