@@ -25,15 +25,19 @@ void main() async {
 
   final DB db = await DB.init();
 
+  final DataLocal dataLocal = DataLocalImpl(db: db);
+
   final AutRepo autRepo = AutRepoImpl();
+
+  final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
 
   final Aut aut = await autRepo.getAut();
 
-  autServis = AutServis(autRepo: autRepo, aut: aut);
-
-  final DataLocal dataLocal = DataLocalImpl(db: db);
-
-  final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
+  autServis = AutServis(
+    autRepo: autRepo,
+    dataRepo: dataRepo,
+    aut: aut,
+  );
 
   final User user = aut.user.value ?? User.empty();
 

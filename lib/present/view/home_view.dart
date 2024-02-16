@@ -3,8 +3,15 @@ import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:flutter_application_3/present/view/products_view.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  // bool _isLoad = false;
 
   @override
   Widget build(BuildContext context) {
