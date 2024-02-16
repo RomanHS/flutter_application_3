@@ -11,6 +11,8 @@ class StoreValue<T> {
 
   T get value => _value;
 
+  Stream<T> get stream => _streamController.stream;
+
   void put(T value) {
     _value = value;
     _streamController.add(value);
