@@ -9,8 +9,11 @@ class AutRepoImpl implements AutRepo {
   @override
   Future<User> logIn({
     required String login,
-  }) async =>
-      User(uid: login);
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return User(uid: login);
+  }
 
   @override
   Future<void> logOut({
