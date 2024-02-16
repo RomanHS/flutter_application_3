@@ -4,4 +4,21 @@ import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 class AutRepoImpl implements AutRepo {
   @override
   Future<User?> getAutUser() async => null;
+
+  @override
+  Future<User> logIn({
+    required String login,
+  }) async =>
+      User(uid: login);
+
+  @override
+  Future<void> logOut({
+    required User user,
+  }) async {}
+
+  @override
+  Future<void> transaction({
+    required User? user,
+    required String? uidUserDelete,
+  }) async {}
 }

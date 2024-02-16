@@ -1,4 +1,5 @@
 import 'package:flutter_application_3/domain/aut.dart';
+import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 
 class AutServis {
@@ -9,4 +10,30 @@ class AutServis {
     required this.autRepo,
     required this.aut,
   });
+
+  Future<void> logIn({
+    required String login,
+  }) async {
+    final User user = await autRepo.logIn(login: login);
+
+    await autRepo.transaction(
+      user: user,
+      uidUserDelete: null,
+    );
+
+    aut.user.put(user);
+  }
+
+  Future<void> logOut({
+    required User user,
+  }) async {
+    await autRepo.logOut(user: user);
+
+    await autRepo.transaction(
+      user: null,
+      uidUserDelete: user.uid,
+    );
+
+    aut.user.put(null);
+  }
 }
