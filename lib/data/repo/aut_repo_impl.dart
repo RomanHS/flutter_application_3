@@ -1,9 +1,10 @@
+import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 
 class AutRepoImpl implements AutRepo {
   @override
-  Future<User?> getAutUser() async => null;
+  Future<Aut> getAut() async => Aut.empty();
 
   @override
   Future<User> logIn({

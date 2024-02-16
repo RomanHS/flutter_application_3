@@ -1,7 +1,8 @@
+import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 
 abstract interface class AutRepo {
-  Future<User?> getAutUser();
+  Future<Aut> getAut();
 
   Future<User> logIn({
     required String login,

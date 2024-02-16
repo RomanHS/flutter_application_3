@@ -7,7 +7,6 @@ import 'package:flutter_application_3/data/repo/aut_repo_impl.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
 import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/data.dart';
-import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 import 'package:flutter_application_3/domain/servis/aut_servis.dart';
@@ -27,9 +26,7 @@ void main() async {
 
   final AutRepo autRepo = AutRepoImpl();
 
-  final User? user = await autRepo.getAutUser();
-
-  final Aut aut = Aut(user: user);
+  final Aut aut = await autRepo.getAut();
 
   autServis = AutServis(autRepo: autRepo, aut: aut);
 

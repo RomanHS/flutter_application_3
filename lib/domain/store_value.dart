@@ -1,18 +1,17 @@
 import 'dart:async';
-import 'package:flutter_application_3/domain/entity/entity.dart';
 
-class StoreValue<TEntity extends Entity?> {
-  TEntity _value;
+class StoreValue<T> {
+  T _value;
 
-  late final StreamController<TEntity> _streamController = StreamController.broadcast();
+  late final StreamController<T> _streamController = StreamController.broadcast();
 
   StoreValue({
-    required TEntity value,
+    required T value,
   }) : _value = value;
 
-  TEntity get value => _value;
+  T get value => _value;
 
-  void put(TEntity value) {
+  void put(T value) {
     _value = value;
     _streamController.add(value);
   }
