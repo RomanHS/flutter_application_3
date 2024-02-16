@@ -21,6 +21,13 @@ class Data {
         messages = Store<Message>(values: messages),
         leftovers = StoreRegistr<UidLeftover, Leftover>(values: leftovers);
 
+  factory Data.empty() => Data(
+        leftovers: [],
+        messages: [],
+        orders: [],
+        products: [],
+      );
+
   Future<void> dispose() async {
     await orders.dispose();
     await products.dispose();

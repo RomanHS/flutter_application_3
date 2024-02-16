@@ -16,7 +16,7 @@ import 'package:flutter_application_3/present/app/app.dart';
 
 late final AutServis autServis;
 
-late final DataServis dataServis;
+late DataServis dataServis;
 
 void main() async {
   log('main');
