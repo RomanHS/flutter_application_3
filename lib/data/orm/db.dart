@@ -13,15 +13,13 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_10.db';
+    const String path = 'db_11.db';
 
     // await deleteDatabase(path);
 
     Future<void> onCreate(Database database, List<TableHeader> header, List<TableTable> table, List<TableRegistr> registrs) async {
       for (TableHeader table in header) {
         final List<String> params = [
-          'uid_user TEXT',
-          'uid TEXT',
           ...table.createParams,
         ];
 
@@ -32,8 +30,6 @@ class DB {
 
       for (TableTable table in table) {
         final List<String> params = [
-          'uid_user TEXT',
-          'uid_parent TEXT',
           ...table.createParams,
         ];
 
@@ -61,7 +57,7 @@ class DB {
 
     final Database database = await openDatabase(
       path,
-      version: 2,
+      version: 1,
 
       ///
       onCreate: (Database database, int v) async {
@@ -72,11 +68,11 @@ class DB {
       onUpgrade: (Database database, int vO, int vN) async {
         log('vO: $vO, vN: $vN');
 
-        if (vO < 2) {
-          final String sql = 'ALTER TABLE ${TableHeader.orderTable.name} ADD COLUMN is_receipt INTEGER DEFAULT 0';
+        // if (vO < 2) {
+        //   final String sql = 'ALTER TABLE ${TableHeader.orderTable.name} ADD COLUMN is_receipt INTEGER DEFAULT 0';
 
-          await database.execute(sql);
-        }
+        //   await database.execute(sql);
+        // }
 
         // if (vO < 3) {
         //   await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);
@@ -93,7 +89,7 @@ class DB {
 
   Future<List<T>> getObjects<T>({
     required TableHeader table,
-    required String uidUser,
+    required String? uidUser,
     required Iterable<String>? uids,
     required T Function(EntityDB) parse,
   }) async =>
@@ -121,7 +117,7 @@ class DB {
 
   Future<void> putObjects<T>({
     required TableHeader table,
-    required String uidUser,
+    required String? uidUser,
     required Iterable<T> values,
     required EntityDB Function(T) parse,
     required Transaction txn,
@@ -163,27 +159,43 @@ class DB {
 
   Future<List<EntityDB>> getEntitys({
     required TableHeader table,
-    required String uidUser,
+    required String? uidUser,
     required Iterable<String>? uids,
   }) async {
-    String where = 'uid_user = "$uidUser"';
+    String where = '';
 
-    if (uids != null) {
-      where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
+    if (uidUser != null) {
+      where += 'uid_user = "$uidUser"';
     }
 
-    final List<Map<String, Object?>> list = await database.query(table.name, where: where);
+    if (uids != null) {
+      if (where.isNotEmpty) {
+        where += ' AND ';
+      }
+
+      where += 'uid IN (${uids.map((String e) => '"$e"').join(',')})';
+    }
+
+    final List<Map<String, Object?>> list = await database.query(table.name, where: where.isEmpty ? null : where);
 
     final Map<String, Map<TableTable, List<TabularPart>>> tabularsParts = {};
 
     for (TableTable table in table.tables) {
-      String where = 'uid_user = "$uidUser"';
+      String where = '';
 
-      if (uids != null) {
-        where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
+      if (uidUser != null) {
+        where += 'uid_user = "$uidUser"';
       }
 
-      final List<Map<String, Object?>> list = await database.query(table.name, where: where);
+      if (uids != null) {
+        if (where.isNotEmpty) {
+          where += ' AND ';
+        }
+
+        where += 'uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
+      }
+
+      final List<Map<String, Object?>> list = await database.query(table.name, where: where.isEmpty ? null : where);
 
       for (Map<String, Object?> json in list) {
         final TabularPart tabularPart = TabularPart(data: json);
@@ -221,7 +233,7 @@ class DB {
 
   Future<void> putEntitys({
     required TableHeader table,
-    required String uidUser,
+    required String? uidUser,
     required Iterable<EntityDB> values,
     required Transaction txn,
   }) async {
@@ -271,26 +283,42 @@ class DB {
 
   Future<void> deleteEntitys({
     required TableHeader table,
-    required String uidUser,
+    required String? uidUser,
     required Iterable<String>? uids,
     required Transaction txn,
   }) async {
-    String where = 'uid_user = "$uidUser"';
+    String where = '';
 
-    if (uids != null) {
-      where += ' AND uid IN (${uids.map((String e) => '"$e"').join(',')})';
+    if (uidUser != null) {
+      where += 'uid_user = "$uidUser"';
     }
 
-    await txn.delete(table.name, where: where);
-
-    for (TableTable table in table.tables) {
-      String where = 'uid_user = "$uidUser"';
-
-      if (uids != null) {
-        where += ' AND uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
+    if (uids != null) {
+      if (where.isNotEmpty) {
+        where += ' AND ';
       }
 
-      await txn.delete(table.name, where: where);
+      where += 'uid IN (${uids.map((String e) => '"$e"').join(',')})';
+    }
+
+    await txn.delete(table.name, where: where.isEmpty ? null : where);
+
+    for (TableTable table in table.tables) {
+      String where = '';
+
+      if (uidUser != null) {
+        where = 'uid_user = "$uidUser"';
+      }
+
+      if (uids != null) {
+        if (where.isNotEmpty) {
+          where += ' AND ';
+        }
+
+        where += 'uid_parent IN (${uids.map((String e) => '"$e"').join(',')})';
+      }
+
+      await txn.delete(table.name, where: where.isEmpty ? null : where);
     }
   }
 

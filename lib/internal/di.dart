@@ -1,3 +1,5 @@
+import 'package:flutter_application_3/data/local/aut_local.dart';
+import 'package:flutter_application_3/data/local/aut_local_impl.dart';
 import 'package:flutter_application_3/data/local/data_local.dart';
 import 'package:flutter_application_3/data/local/data_local_impl.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
@@ -17,8 +19,9 @@ class DI {
   final DB db;
 
   late final DataLocal dataLocal = DataLocalImpl(db: db);
+  late final AutLocal autLocal = AutLocalImpl(db: db);
 
-  late final AutRepo autRepo = AutRepoImpl();
+  late final AutRepo autRepo = AutRepoImpl(dataLocal: autLocal);
   late final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
 
   late AutServis _autServis = AutServis(aut: Aut.empty(), autRepo: autRepo);

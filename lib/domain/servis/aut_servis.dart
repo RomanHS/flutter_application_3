@@ -20,7 +20,6 @@ class AutServis {
     await autRepo.transaction(
       user: user,
       settings: null,
-      uidUserDelete: null,
     );
 
     aut.user.put(user);
@@ -31,13 +30,14 @@ class AutServis {
   }) async {
     await autRepo.logOut(user: user);
 
+    user = user.copyWith(isAut: false);
+
     await autRepo.transaction(
-      user: null,
+      user: user,
       settings: null,
-      uidUserDelete: user.uid,
     );
 
-    aut.user.put(null);
+    aut.user.put(user);
   }
 
   Future<void> putSettings({
@@ -46,7 +46,6 @@ class AutServis {
     await autRepo.transaction(
       user: null,
       settings: settings,
-      uidUserDelete: null,
     );
 
     aut.settings.put(settings);

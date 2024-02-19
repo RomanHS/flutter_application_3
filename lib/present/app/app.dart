@@ -30,10 +30,10 @@ class _AppState extends State<App> {
     super.dispose();
   }
 
-  void _listen(User? user) => _navigatorKey.currentState?.pushAndRemoveUntil(
+  void _listen(User user) => _navigatorKey.currentState?.pushAndRemoveUntil(
         ///
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => user == null ? const AutView() : const HomeView(),
+          builder: (BuildContext context) => user.isAut ? const HomeView() : const AutView(),
         ),
 
         ///
@@ -47,7 +47,7 @@ class _AppState extends State<App> {
       );
 
   Widget _build(BuildContext context) {
-    final User? user = DI.i.autServis.aut.user.value;
+    final User user = DI.i.autServis.aut.user.value;
 
     final Settings settings = DI.i.autServis.aut.settings.value;
 
@@ -57,7 +57,7 @@ class _AppState extends State<App> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: settings.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
-      home: user == null ? const AutView() : const HomeView(),
+      home: user.isAut ? const HomeView() : const AutView(),
     );
   }
 }
