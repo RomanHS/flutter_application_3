@@ -14,11 +14,9 @@ void main() async {
 
   final Aut aut = await di.autRepo.getAut();
 
-  di.setAutServis(
-    AutServis(
-      autRepo: di.autRepo,
-      aut: aut,
-    ),
+  di.autServis = AutServis(
+    autRepo: di.autRepo,
+    aut: aut,
   );
 
   // await deleteRegistrsTest(db);

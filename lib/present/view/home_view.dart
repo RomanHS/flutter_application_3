@@ -28,12 +28,10 @@ class _HomeViewState extends State<HomeView> {
 
     final Data data = await DI.i.dataRepo.get(uidUser: user.uid);
 
-    DI.i.setDataServis(
-      DataServis(
-        user: user,
-        dataRepo: DI.i.dataRepo,
-        data: data,
-      ),
+    DI.i.dataServis = DataServis(
+      user: user,
+      dataRepo: DI.i.dataRepo,
+      data: data,
     );
 
     setState(() => _isLoad = false);
