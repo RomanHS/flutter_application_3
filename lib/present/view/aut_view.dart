@@ -10,7 +10,7 @@ class AutView extends StatefulWidget {
 }
 
 class _AutViewState extends State<AutView> {
-  final TextEditingController textEditingController = TextEditingController();
+  final TextEditingController textEditingController = TextEditingController(text: DI.i.autServis.aut.user.value.uid);
 
   bool _isLoad = false;
 
