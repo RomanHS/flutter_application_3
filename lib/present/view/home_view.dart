@@ -87,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
             child: CheckboxListTile(
               title: const Text('DarkTheme'),
               value: settings.isDarkTheme,
-              onChanged: (bool? _) => autServis.aut.settings.put(settings.copyWith(isDarkTheme: !settings.isDarkTheme)),
+              onChanged: (bool? _) => autServis.putSettings(settings: settings.copyWith(isDarkTheme: !settings.isDarkTheme)),
             ),
           ),
 

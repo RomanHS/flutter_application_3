@@ -2,6 +2,7 @@ import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
+import 'package:flutter_application_3/domain/value/settings.dart';
 
 class AutServis {
   final AutRepo autRepo;
@@ -40,5 +41,17 @@ class AutServis {
     );
 
     aut.user.put(null);
+  }
+
+  Future<void> putSettings({
+    required Settings settings,
+  }) async {
+    await autRepo.transaction(
+      user: null,
+      settings: settings,
+      uidUserDelete: null,
+    );
+
+    aut.settings.put(settings);
   }
 }
