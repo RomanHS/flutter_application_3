@@ -8,5 +8,6 @@ abstract interface class AutLocal {
   Future<void> transaction({
     required User? user,
     required Settings? settings,
+    required String? uidUserDelete,
   });
 }

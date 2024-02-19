@@ -16,5 +16,6 @@ abstract interface class AutRepo {
   Future<void> transaction({
     required User? user,
     required Settings? settings,
+    required String? uidUserDelete,
   });
 }
