@@ -158,7 +158,7 @@ class _HomeViewState extends State<HomeView> {
             builder: (BuildContext context, AsyncSnapshot<void> _) {
               return Card(
                 child: ListTile(
-                  title: Text('isNegativeLeftovers: ${!DI.i.dataServis.data.settings.value.isNegativeLeftovers}'),
+                  title: Text('isNegativeLeftovers: ${DI.i.dataServis.data.settings.value.isNegativeLeftovers}'),
                 ),
               );
             },
