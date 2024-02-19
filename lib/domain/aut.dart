@@ -24,6 +24,7 @@ class Aut {
 
   Future<void> dispose() async {
     await user.dispose();
+    await users.dispose();
     await settings.dispose();
   }
 }

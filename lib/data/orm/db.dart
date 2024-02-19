@@ -265,34 +265,29 @@ class DB {
       txn: txn,
     );
 
+    final Batch batch = txn.batch();
+
     for (EntityDB entity in entitysList) {
-      // final int i =
-      await txn.insert(
+      batch.insert(
         table.name,
         entity.data,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
-
-      // if (i == 0) {
-      //   await txn.update(
-      //     table.name,
-      //     entity.data,
-      //     // conflictAlgorithm: ConflictAlgorithm.replace,
-      //   );
-      // }
 
       for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
         final TableTable table = e.key;
         final List<TabularPart> list = e.value;
 
         for (TabularPart e in list) {
-          await txn.insert(
+          batch.insert(
             table.name,
             e.data,
           );
         }
       }
     }
+
+    await batch.commit();
   }
 
   Future<void> putEntitysRegistrs({
@@ -301,13 +296,17 @@ class DB {
     required Iterable<RegistrEntityDB> values,
     required Transaction txn,
   }) async {
+    final Batch batch = txn.batch();
+
     for (RegistrEntityDB value in values) {
-      await txn.insert(
+      batch.insert(
         table.name,
         value.data,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
+
+    await batch.commit();
   }
 
   Future<void> deleteEntitys({
