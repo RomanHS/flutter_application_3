@@ -13,27 +13,38 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_14.db';
+    const String path = 'db_15.db';
 
     // await deleteDatabase(path);
 
     Future<void> onCreate(Database database, List<TableHeader> header, List<TableTable> table, List<TableRegistr> registrs) async {
       for (TableHeader table in header) {
+        final bool isUserKey = table.isUserKey;
+
         final List<String> params = [
+          if (isUserKey) 'uid_user TEXT',
+          'uid TEXT',
           ...table.createParams,
         ];
 
         final List<String> keys = [
-          ...table.keys,
+          if (isUserKey) 'uid_user',
+          'uid',
         ];
 
-        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')}, PRIMARY key (${keys.join(', ')}))';
+        final String foreignKey = isUserKey ? ', FOREIGN KEY(uid_user) REFERENCES ${TableHeader.userTable.name}(uid)' : '';
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')}, PRIMARY key (${keys.join(', ')})$foreignKey)';
 
         await database.execute(sql);
       }
 
       for (TableTable table in table) {
+        final bool isUserKey = table.isUserKey;
+
         final List<String> params = [
+          if (isUserKey) 'uid_user TEXT',
+          'uid_parent TEXT',
           ...table.createParams,
         ];
 
@@ -87,6 +98,8 @@ class DB {
         // }
       },
     );
+
+    database.execute('PRAGMA Foreign_keys = ON;');
 
     return DB._(database: database);
   }
