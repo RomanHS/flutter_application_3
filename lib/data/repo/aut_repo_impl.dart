@@ -20,7 +20,7 @@ class AutRepoImpl implements AutRepo {
   }) async {
     await Future.delayed(const Duration(seconds: 1));
 
-    return User(uid: login, isAut: true);
+    return User(uid: login, login: login, isAut: true);
   }
 
   @override

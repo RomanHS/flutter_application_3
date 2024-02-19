@@ -10,7 +10,7 @@ class AutView extends StatefulWidget {
 }
 
 class _AutViewState extends State<AutView> {
-  final TextEditingController textEditingController = TextEditingController(text: DI.i.autServis.aut.user.value.uid);
+  final TextEditingController textEditingController = TextEditingController(text: DI.i.autServis.aut.user.value.login);
 
   bool _isLoad = false;
 
@@ -75,7 +75,7 @@ class _AutViewState extends State<AutView> {
                             ...DI.i.autServis.aut.users.values.map(
                               (User e) => Card(
                                 child: InkWell(
-                                  onTap: () => textEditingController.text = e.uid,
+                                  onTap: () => textEditingController.text = e.login,
                                   child: Row(
                                     children: [
                                       ///
@@ -85,7 +85,7 @@ class _AutViewState extends State<AutView> {
                                       ),
 
                                       ///
-                                      Text(e.uid),
+                                      Text(e.login),
 
                                       ///
                                       IconButton(
