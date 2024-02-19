@@ -5,14 +5,14 @@ extension UserMapper on User {
   static User fromDB(EntityDB entity) => User(
         uid: entity.get('uid'),
         login: entity.get('login'),
-        isAut: entity.get<int>('is_aut') != 0,
+        token: entity.get('token'),
       );
 
   EntityDB toDB() => EntityDB(
         data: {
           'uid': uid,
           'login': login,
-          'is_aut': isAut ? 1 : 0,
+          'token': token,
         },
         tabularParts: {},
       );

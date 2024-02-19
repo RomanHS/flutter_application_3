@@ -2,15 +2,17 @@ import 'package:flutter_application_3/domain/entity/entity.dart';
 
 class User extends Entity {
   final String login;
-  final bool isAut;
+  final String token;
 
   const User({
     required super.uid,
     required this.login,
-    required this.isAut,
+    required this.token,
   });
 
-  factory User.empty() => const User(uid: '', login: '', isAut: false);
+  factory User.empty() => const User(uid: '', login: '', token: '');
+
+  bool get isAut => token.isNotEmpty;
 
   @override
   List<Object?> get props => [
@@ -21,12 +23,12 @@ class User extends Entity {
   User copyWith({
     String? uid,
     String? login,
-    bool? isAut,
+    String? token,
   }) {
     return User(
       uid: uid ?? this.uid,
       login: login ?? this.login,
-      isAut: isAut ?? this.isAut,
+      token: token ?? this.token,
     );
   }
 }

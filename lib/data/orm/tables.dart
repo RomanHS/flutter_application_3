@@ -51,7 +51,7 @@ extension TableHeaderExtension on TableHeader {
         ///
         TableHeader.userTable => [
             'login TEXT',
-            'is_aut INTEGER',
+            'token TEXT',
           ],
 
         ///
