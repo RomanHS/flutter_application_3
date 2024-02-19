@@ -39,6 +39,36 @@ extension TableHeaderExtension on TableHeader {
           ],
       };
 
+  Iterable<String> get keys => switch (this) {
+        ///
+        TableHeader.userTable => [
+            'uid',
+          ],
+
+        ///
+        TableHeader.settingsTable => [
+            'uid',
+          ],
+
+        ///
+        TableHeader.orderTable => [
+            'uid_user',
+            'uid',
+          ],
+
+        ///
+        TableHeader.productTable => [
+            'uid_user',
+            'uid',
+          ],
+
+        ///
+        TableHeader.message => [
+            'uid_user',
+            'uid',
+          ],
+      };
+
   Iterable<String> get createParams => switch (this) {
         ///
         TableHeader.userTable => [

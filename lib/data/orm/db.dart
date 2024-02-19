@@ -13,7 +13,7 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_12.db';
+    const String path = 'db_14.db';
 
     // await deleteDatabase(path);
 
@@ -23,7 +23,11 @@ class DB {
           ...table.createParams,
         ];
 
-        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+        final List<String> keys = [
+          ...table.keys,
+        ];
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')}, PRIMARY key (${keys.join(', ')}))';
 
         await database.execute(sql);
       }
