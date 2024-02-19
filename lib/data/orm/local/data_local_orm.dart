@@ -17,10 +17,10 @@ import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/value/settings_user.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DataLocalImpl implements DataLocal {
+class DataLocalOrm implements DataLocal {
   final DB db;
 
-  DataLocalImpl({
+  DataLocalOrm({
     required this.db,
   });
 

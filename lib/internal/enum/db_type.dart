@@ -1,0 +1,4 @@
+enum DBType {
+  mouk,
+  orm,
+}

@@ -1,7 +1,8 @@
 import 'package:flutter_application_3/data/local/aut_local.dart';
-import 'package:flutter_application_3/data/local/aut_local_impl.dart';
+import 'package:flutter_application_3/data/local/db.dart';
+import 'package:flutter_application_3/data/orm/local/aut_local_orm.dart';
 import 'package:flutter_application_3/data/local/data_local.dart';
-import 'package:flutter_application_3/data/local/data_local_impl.dart';
+import 'package:flutter_application_3/data/orm/local/data_local_orm.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/repo/aut_repo_impl.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
@@ -12,14 +13,16 @@ import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
 import 'package:flutter_application_3/domain/servis/aut_servis.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
+import 'package:flutter_application_3/internal/enum/db_type.dart';
 
 class DI {
   static late final DI i;
 
-  final DB db;
+  final DBValue db;
 
-  late final DataLocal dataLocal = DataLocalImpl(db: db);
-  late final AutLocal autLocal = AutLocalImpl(db: db);
+  late final DataLocal dataLocal = _getDataLocal();
+
+  late final AutLocal autLocal = _getAutLocal();
 
   late final AutRepo autRepo = AutRepoImpl(dataLocal: autLocal);
   late final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
@@ -44,11 +47,34 @@ class DI {
     _dataServis = dataServis;
   }
 
-  static Future<DI> init() async {
-    final DB db = await DB.init();
+  static Future<DI> init({
+    required DBType dBType,
+  }) async {
+    final DBValue db = switch (dBType) {
+      DBType.mouk => DBMouk(),
+      DBType.orm => DBORM(db: await DB.init()),
+    };
 
     return i = DI._(
       db: db,
     );
+  }
+
+  AutLocal _getAutLocal() {
+    final DBValue db = this.db;
+
+    return switch (db) {
+      DBMouk() => AutLocalMouk(),
+      DBORM() => AutLocalOrm(db: db.db),
+    };
+  }
+
+  DataLocal _getDataLocal() {
+    final DBValue db = this.db;
+
+    return switch (db) {
+      DBMouk() => DataLocalMouk(),
+      DBORM() => DataLocalOrm(db: db.db),
+    };
   }
 }

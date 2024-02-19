@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/servis/aut_servis.dart';
 import 'package:flutter_application_3/internal/di.dart';
+import 'package:flutter_application_3/internal/enum/db_type.dart';
 import 'package:flutter_application_3/present/app/app.dart';
 
 void main() async {
@@ -10,7 +11,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  final DI di = await DI.init();
+  final DI di = await DI.init(dBType: DBType.orm);
 
   final Aut aut = await di.autRepo.getAut();
 

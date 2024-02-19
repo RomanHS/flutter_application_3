@@ -82,6 +82,7 @@ class _OrderViewState extends State<OrderView> {
                   : () => OrderServis(DI.i.dataServis).conduct(
                         order,
                         () => NegativeLeftoversDialog.show(context),
+                        DI.i.dataServis.data.settings.value.isNegativeLeftovers,
                       ),
               child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
             ),
