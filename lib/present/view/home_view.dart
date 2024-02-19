@@ -10,6 +10,7 @@ import 'package:flutter_application_3/domain/value/settings_user.dart';
 import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:flutter_application_3/present/view/products_view.dart';
+import 'package:uuid/uuid.dart';
 
 final StreamController<Message> messageStreamController = StreamController<Message>.broadcast();
 
@@ -137,6 +138,22 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ],
+      ),
+
+      ///
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final SettingsUser settings = DI.i.dataServis.data.settings.value;
+
+          messageStreamController.add(
+            Message(
+              uid: const Uuid().v4(),
+              text: 'isNegativeLeftovers: ${!settings.isNegativeLeftovers}',
+              settings: settings.copyWith(isNegativeLeftovers: !settings.isNegativeLeftovers),
+              surveys: const [],
+            ),
+          );
+        },
       ),
     );
   }
