@@ -20,9 +20,8 @@ class DI {
 
   final DBValue db;
 
-  late final DataLocal dataLocal = _getDataLocal();
-
-  late final AutLocal autLocal = _getAutLocal();
+  late final AutLocal autLocal = db.when(mouk: (DBMouk db) => AutLocalMouk(), orm: (DBORM db) => AutLocalOrm(db: db.db));
+  late final DataLocal dataLocal = db.when(mouk: (DBMouk db) => DataLocalMouk(), orm: (DBORM db) => DataLocalOrm(db: db.db));
 
   late final AutRepo autRepo = AutRepoImpl(dataLocal: autLocal);
   late final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
@@ -58,23 +57,5 @@ class DI {
     return i = DI._(
       db: db,
     );
-  }
-
-  AutLocal _getAutLocal() {
-    final DBValue db = this.db;
-
-    return switch (db) {
-      DBMouk() => AutLocalMouk(),
-      DBORM() => AutLocalOrm(db: db.db),
-    };
-  }
-
-  DataLocal _getDataLocal() {
-    final DBValue db = this.db;
-
-    return switch (db) {
-      DBMouk() => DataLocalMouk(),
-      DBORM() => DataLocalOrm(db: db.db),
-    };
   }
 }
