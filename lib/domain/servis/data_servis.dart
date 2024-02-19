@@ -22,7 +22,7 @@ class DataServis {
     SettingsUser? settings,
     Iterable<Order>? orders,
     Iterable<Product>? products,
-    Iterable<Message>? messages,
+    Iterable<MessageText>? messages,
     Iterable<Leftover>? leftovers,
     Iterable<String>? ordersDelete,
     Iterable<String>? productsDelete,

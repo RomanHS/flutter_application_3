@@ -26,7 +26,7 @@ class DataRepoImpl implements DataRepo {
     required SettingsUser? settings,
     required Iterable<Order>? orders,
     required Iterable<Product>? products,
-    required Iterable<Message>? messages,
+    required Iterable<MessageText>? messages,
     required Iterable<Leftover>? leftovers,
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,

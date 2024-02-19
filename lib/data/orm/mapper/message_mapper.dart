@@ -4,8 +4,8 @@ import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 
-extension MessageMapper on Message {
-  static Message fromDB(EntityDB entity) => Message(
+extension MessageMapper on MessageText {
+  static MessageText fromDB(EntityDB entity) => MessageText(
         uid: entity.get('uid'),
         text: entity.get('text'),
         surveys: entity

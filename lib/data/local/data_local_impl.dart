@@ -56,7 +56,7 @@ class DataLocalImpl implements DataLocal {
         ),
 
         ///
-        messages: await db.getObjects<Message>(
+        messages: await db.getObjects<MessageText>(
           table: TableHeader.message,
           uidUser: uidUser,
           uids: null,
@@ -77,7 +77,7 @@ class DataLocalImpl implements DataLocal {
     required SettingsUser? settings,
     required Iterable<Order>? orders,
     required Iterable<Product>? products,
-    required Iterable<Message>? messages,
+    required Iterable<MessageText>? messages,
     required Iterable<Leftover>? leftovers,
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
@@ -189,11 +189,11 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (messages != null) {
-          await db.putObjects<Message>(
+          await db.putObjects<MessageText>(
             table: TableHeader.message,
             uidUser: uidUser,
             values: messages,
-            parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+            parse: (MessageText m) => MessageMapper(m).toDB(uidUser: uidUser),
             txn: txn,
           );
         }
