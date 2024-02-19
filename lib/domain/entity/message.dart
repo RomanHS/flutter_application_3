@@ -1,4 +1,5 @@
 import 'package:flutter_application_3/domain/entity/entity.dart';
+import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 import 'package:flutter_application_3/domain/value/settings_user.dart';
 
@@ -13,6 +14,18 @@ class Message extends Entity {
     required this.surveys,
     required this.settings,
   });
+
+  MessageText? get messageText {
+    if (text.isEmpty) {
+      return null;
+    }
+
+    return MessageText(
+      uid: uid,
+      text: text,
+      surveys: surveys,
+    );
+  }
 
   @override
   List<Object?> get props => [
