@@ -13,7 +13,7 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_15.db';
+    const String path = 'db_16.db';
 
     // await deleteDatabase(path);
 
@@ -32,7 +32,7 @@ class DB {
           'uid',
         ];
 
-        final String foreignKey = isUserKey ? ', FOREIGN KEY(uid_user) REFERENCES ${TableHeader.userTable.name}(uid)' : '';
+        final String foreignKey = isUserKey ? ', FOREIGN KEY(uid_user) REFERENCES ${TableHeader.userTable.name}(uid) ON DELETE CASCADE' : '';
 
         final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')}, PRIMARY key (${keys.join(', ')})$foreignKey)';
 
