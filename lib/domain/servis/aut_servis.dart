@@ -20,6 +20,7 @@ class AutServis {
     await autRepo.transaction(
       user: user,
       settings: null,
+      uidUserDelete: null,
     );
 
     aut.user.put(user);
@@ -36,6 +37,7 @@ class AutServis {
     await autRepo.transaction(
       user: user,
       settings: null,
+      uidUserDelete: null,
     );
 
     aut.user.put(user);
@@ -48,9 +50,22 @@ class AutServis {
     await autRepo.transaction(
       user: null,
       settings: settings,
+      uidUserDelete: null,
     );
 
     aut.settings.put(settings);
+  }
+
+  Future<void> deleteUser({
+    required String uidUser,
+  }) async {
+    await autRepo.transaction(
+      user: null,
+      settings: null,
+      uidUserDelete: uidUser,
+    );
+
+    aut.users.delete(uidUser);
   }
 
   Future<void> dispose() => aut.dispose();

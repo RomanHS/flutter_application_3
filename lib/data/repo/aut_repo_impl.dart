@@ -34,9 +34,11 @@ class AutRepoImpl implements AutRepo {
   Future<void> transaction({
     required User? user,
     required Settings? settings,
+    required String? uidUserDelete,
   }) =>
       dataLocal.transaction(
         user: user,
         settings: settings,
+        uidUserDelete: uidUserDelete,
       );
 }

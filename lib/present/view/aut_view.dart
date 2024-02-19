@@ -10,7 +10,7 @@ class AutView extends StatefulWidget {
 }
 
 class _AutViewState extends State<AutView> {
-  final TextEditingController textEditingController = TextEditingController();
+  final TextEditingController textEditingController = TextEditingController(text: DI.i.autServis.aut.user.value.uid);
 
   bool _isLoad = false;
 
@@ -24,8 +24,6 @@ class _AutViewState extends State<AutView> {
     setState(() => _isLoad = true);
 
     await DI.i.autServis.logIn(login: textEditingController.text);
-
-    setState(() => _isLoad = false);
   }
 
   @override
@@ -65,20 +63,45 @@ class _AutViewState extends State<AutView> {
                 ),
 
                 ///
-                Row(
-                  children: [
-                    ...DI.i.autServis.aut.users.values.map(
-                      (User e) => Card(
-                        child: InkWell(
-                          onTap: () => textEditingController.text = e.uid,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(e.uid),
-                          ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: StreamBuilder<void>(
+                    stream: DI.i.autServis.aut.users.stream,
+                    builder: (BuildContext context, AsyncSnapshot<void> _) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ...DI.i.autServis.aut.users.values.map(
+                              (User e) => Card(
+                                child: InkWell(
+                                  onTap: () => textEditingController.text = e.uid,
+                                  child: Row(
+                                    children: [
+                                      ///
+                                      const IconButton(
+                                        onPressed: null,
+                                        icon: Icon(Icons.supervised_user_circle_rounded),
+                                      ),
+
+                                      ///
+                                      Text(e.uid),
+
+                                      ///
+                                      IconButton(
+                                        onPressed: () => DI.i.autServis.deleteUser(uidUser: e.uid),
+                                        icon: const Icon(Icons.delete),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

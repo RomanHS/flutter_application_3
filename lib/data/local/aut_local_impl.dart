@@ -49,8 +49,22 @@ class AutLocalImpl implements AutLocal {
   Future<void> transaction({
     required User? user,
     required Settings? settings,
+    required String? uidUserDelete,
   }) =>
       db.database.transaction((Transaction txn) async {
+        /// delete
+
+        if (uidUserDelete != null) {
+          await db.deleteEntitys(
+            table: TableHeader.userTable,
+            uidUser: null,
+            uids: [uidUserDelete],
+            txn: txn,
+          );
+        }
+
+        /// put
+
         if (user != null) {
           await db.putObjects(
             table: TableHeader.userTable,
