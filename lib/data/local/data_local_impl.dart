@@ -27,49 +27,50 @@ class DataLocalImpl implements DataLocal {
   @override
   Future<Data> get({
     required String uidUser,
-  }) async =>
-      Data(
-        ///
-        settings: (await db.getObjects<SettingsUser>(
-              table: TableHeader.settingsUserTable,
-              uidUser: uidUser,
-              uids: null,
-              parse: (EntityDB e) => SettingsUserMapper.fromDB(e),
-            ))
-                .firstOrNull ??
-            SettingsUser.empty(),
+  }) async {
+    final List<SettingsUser> settings = await db.getObjects<SettingsUser>(
+      table: TableHeader.settingsUserTable,
+      uidUser: uidUser,
+      uids: null,
+      parse: (EntityDB e) => SettingsUserMapper.fromDB(e),
+    );
 
-        ///
-        orders: await db.getObjects<Order>(
-          table: TableHeader.orderTable,
-          uidUser: uidUser,
-          uids: null,
-          parse: (EntityDB e) => OrderMapper.fromDB(e),
-        ),
+    return Data(
+      ///
+      settings: settings.firstOrNull ?? SettingsUser.empty(),
 
-        ///
-        products: await db.getObjects<Product>(
-          table: TableHeader.productTable,
-          uidUser: uidUser,
-          uids: null,
-          parse: (EntityDB e) => ProductMapper.fromDB(e),
-        ),
+      ///
+      orders: await db.getObjects<Order>(
+        table: TableHeader.orderTable,
+        uidUser: uidUser,
+        uids: null,
+        parse: (EntityDB e) => OrderMapper.fromDB(e),
+      ),
 
-        ///
-        messages: await db.getObjects<MessageText>(
-          table: TableHeader.message,
-          uidUser: uidUser,
-          uids: null,
-          parse: (EntityDB e) => MessageMapper.fromDB(e),
-        ),
+      ///
+      products: await db.getObjects<Product>(
+        table: TableHeader.productTable,
+        uidUser: uidUser,
+        uids: null,
+        parse: (EntityDB e) => ProductMapper.fromDB(e),
+      ),
 
-        ///
-        leftovers: await db.getRegistrs<Leftover>(
-          table: TableRegistr.leftover,
-          uidUser: uidUser,
-          parse: (RegistrEntityDB e) => LeftoverMapper.fromDB(e),
-        ),
-      );
+      ///
+      messages: await db.getObjects<MessageText>(
+        table: TableHeader.message,
+        uidUser: uidUser,
+        uids: null,
+        parse: (EntityDB e) => MessageMapper.fromDB(e),
+      ),
+
+      ///
+      leftovers: await db.getRegistrs<Leftover>(
+        table: TableRegistr.leftover,
+        uidUser: uidUser,
+        parse: (RegistrEntityDB e) => LeftoverMapper.fromDB(e),
+      ),
+    );
+  }
 
   @override
   Future<void> transaction({
