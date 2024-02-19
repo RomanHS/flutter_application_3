@@ -1,6 +1,7 @@
 import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/repo/aut_repo.dart';
+import 'package:flutter_application_3/domain/value/settings.dart';
 
 class AutRepoImpl implements AutRepo {
   @override
@@ -23,6 +24,7 @@ class AutRepoImpl implements AutRepo {
   @override
   Future<void> transaction({
     required User? user,
+    required Settings? settings,
     required String? uidUserDelete,
   }) async {}
 }

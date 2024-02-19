@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
-import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/present/view/home_view.dart';
 
 class ProductWidget extends StatelessWidget {
   final Product product;

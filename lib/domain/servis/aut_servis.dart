@@ -21,6 +21,7 @@ class AutServis {
 
     await autRepo.transaction(
       user: user,
+      settings: null,
       uidUserDelete: null,
     );
 
@@ -34,6 +35,7 @@ class AutServis {
 
     await autRepo.transaction(
       user: null,
+      settings: null,
       uidUserDelete: user.uid,
     );
 
