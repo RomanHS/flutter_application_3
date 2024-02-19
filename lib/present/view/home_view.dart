@@ -8,6 +8,7 @@ import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/domain/value/settings.dart';
 import 'package:flutter_application_3/domain/value/settings_user.dart';
 import 'package:flutter_application_3/internal/di.dart';
+import 'package:flutter_application_3/present/view/messages_view.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:flutter_application_3/present/view/products_view.dart';
 import 'package:uuid/uuid.dart';
@@ -139,6 +140,19 @@ class _HomeViewState extends State<HomeView> {
           ),
 
           ///
+          Card(
+            child: ListTile(
+              title: const Text('Messages'),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const MessagesView(),
+                ),
+              ),
+            ),
+          ),
+
+          ///
           StreamBuilder<void>(
             stream: DI.i.dataServis.data.settings.stream,
             builder: (BuildContext context, AsyncSnapshot<void> _) {
@@ -154,6 +168,7 @@ class _HomeViewState extends State<HomeView> {
 
       ///
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.message),
         onPressed: () {
           final SettingsUser settings = DI.i.dataServis.data.settings.value;
 
