@@ -24,8 +24,6 @@ class _AutViewState extends State<AutView> {
     setState(() => _isLoad = true);
 
     await DI.i.autServis.logIn(login: textEditingController.text);
-
-    setState(() => _isLoad = false);
   }
 
   @override
