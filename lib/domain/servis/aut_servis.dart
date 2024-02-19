@@ -23,6 +23,7 @@ class AutServis {
     );
 
     aut.user.put(user);
+    aut.users.put(user);
   }
 
   Future<void> logOut({
@@ -38,6 +39,7 @@ class AutServis {
     );
 
     aut.user.put(user);
+    aut.users.put(user);
   }
 
   Future<void> putSettings({

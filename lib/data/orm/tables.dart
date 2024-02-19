@@ -1,5 +1,6 @@
 enum TableHeader {
   userTable,
+  settingsTable,
   orderTable,
   productTable,
   message,
@@ -21,6 +22,9 @@ extension TableHeaderExtension on TableHeader {
         TableHeader.userTable => [],
 
         ///
+        TableHeader.settingsTable => [],
+
+        ///
         TableHeader.orderTable => [
             TableTable.productsInOrderTable,
             TableTable.exciseTaxInOrderTable,
@@ -40,6 +44,12 @@ extension TableHeaderExtension on TableHeader {
         TableHeader.userTable => [
             'uid TEXT',
             'is_aut INTEGER',
+          ],
+
+        ///
+        TableHeader.settingsTable => [
+            'uid TEXT',
+            'is_dark_theme INTEGER',
           ],
 
         ///
