@@ -1,7 +1,7 @@
 import 'package:flutter_application_3/data/local/aut_local.dart';
-import 'package:flutter_application_3/data/local/aut_local_impl.dart';
+import 'package:flutter_application_3/data/orm/local/aut_local_impl.dart';
 import 'package:flutter_application_3/data/local/data_local.dart';
-import 'package:flutter_application_3/data/local/data_local_impl.dart';
+import 'package:flutter_application_3/data/orm/local/data_local_impl.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/repo/aut_repo_impl.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
