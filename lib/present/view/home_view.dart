@@ -37,9 +37,15 @@ class _HomeViewState extends State<HomeView> {
   void _init() async {
     final User user = autServis.aut.user.value ?? User.empty();
 
-    final Data data = await DI.instance.dataRepo.get(uidUser: user.uid);
+    final DI di = DI.instance;
 
-    dataServis = _dataServis = DataServis(user: user, dataRepo: DI.instance.dataRepo, data: data);
+    final Data data = await di.dataRepo.get(uidUser: user.uid);
+
+    dataServis = _dataServis = DataServis(
+      user: user,
+      dataRepo: di.dataRepo,
+      data: data,
+    );
 
     setState(() => _isLoad = false);
   }
