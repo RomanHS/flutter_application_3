@@ -256,8 +256,8 @@ class DB {
   }) async {
     final List<EntityDB> entitysList = values.toList();
 
-    await deleteEntitys(
-      table: table,
+    await _deleteTables(
+      tables: table.tables,
       uidUser: uidUser,
       uids: entitysList.map((EntityDB e) => e.uid),
       txn: txn,
@@ -267,6 +267,7 @@ class DB {
       await txn.insert(
         table.name,
         entity.data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
       for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
@@ -320,7 +321,21 @@ class DB {
 
     await txn.delete(table.name, where: where.isEmpty ? null : where);
 
-    for (TableTable table in table.tables) {
+    await _deleteTables(
+      tables: table.tables,
+      uidUser: uidUser,
+      uids: uids,
+      txn: txn,
+    );
+  }
+
+  Future<void> _deleteTables({
+    required Iterable<TableTable> tables,
+    required String? uidUser,
+    required Iterable<String>? uids,
+    required Transaction txn,
+  }) async {
+    for (TableTable table in tables) {
       String where = '';
 
       if (uidUser != null) {
