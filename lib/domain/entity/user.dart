@@ -17,7 +17,8 @@ class User extends Entity {
   @override
   List<Object?> get props => [
         uid,
-        isAut,
+        login,
+        token,
       ];
 
   User copyWith({
