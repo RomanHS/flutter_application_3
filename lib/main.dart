@@ -11,7 +11,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  final DI di = await DI.init(dBType: DBType.mouk);
+  final DI di = await DI.init(dBType: DBType.orm);
 
   final Aut aut = await di.autRepo.getAut();
 
