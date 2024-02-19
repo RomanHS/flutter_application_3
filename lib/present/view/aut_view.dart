@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/internal/di.dart';
 
 class AutView extends StatefulWidget {
   const AutView({super.key});
@@ -22,7 +22,7 @@ class _AutViewState extends State<AutView> {
   void logIn() async {
     setState(() => _isLoad = true);
 
-    await autServis.logIn(login: textEditingController.text);
+    await DI.i.autServis.logIn(login: textEditingController.text);
 
     setState(() => _isLoad = false);
   }

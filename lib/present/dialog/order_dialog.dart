@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/servis/order_servis.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
+import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/present/dialog/negative_leftovers_dialog.dart';
-import 'package:flutter_application_3/present/view/home_view.dart';
 import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
 
 class OrderDialog extends StatelessWidget {
@@ -24,12 +24,12 @@ class OrderDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<void>(
-        stream: dataServis.data.orders.stream.where((Order o) => o.uid == uid),
+        stream: DI.i.dataServis.data.orders.stream.where((Order o) => o.uid == uid),
         builder: (BuildContext context, AsyncSnapshot<void> _) => _build(context),
       );
 
   Widget _build(BuildContext context) {
-    final Order? order = dataServis.data.orders.get(uid);
+    final Order? order = DI.i.dataServis.data.orders.get(uid);
 
     if (order == null) {
       return AlertDialog(
@@ -65,13 +65,13 @@ class OrderDialog extends StatelessWidget {
       actions: [
         ///
         TextButton(
-          onPressed: order.isConducted ? null : () => dataServis.transaction(ordersDelete: [uid]),
+          onPressed: order.isConducted ? null : () => DI.i.dataServis.transaction(ordersDelete: [uid]),
           child: const Text('Delete'),
         ),
 
         ///
         TextButton(
-          onPressed: () => OrderServis(dataServis).conduct(order, () => NegativeLeftoversDialog.show(context)),
+          onPressed: () => OrderServis(DI.i.dataServis).conduct(order, () => NegativeLeftoversDialog.show(context)),
           child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
         ),
 

@@ -4,9 +4,9 @@ import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/servis/order_servis.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
+import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/present/dialog/select_product_dialog.dart';
 import 'package:flutter_application_3/present/dialog/negative_leftovers_dialog.dart';
-import 'package:flutter_application_3/present/view/home_view.dart';
 import 'package:flutter_application_3/present/widget/product_in_order_widget.dart';
 
 class OrderView extends StatefulWidget {
@@ -26,13 +26,13 @@ class _OrderViewState extends State<OrderView> {
 
   StreamSubscription<Order>? _streamSubscription;
 
-  Order? get orderSave => dataServis.data.orders.get(_order.uid);
+  Order? get orderSave => DI.i.dataServis.data.orders.get(_order.uid);
 
   bool get isSave => _order == orderSave;
 
   @override
   void initState() {
-    _streamSubscription = dataServis.data.orders.stream.where((Order o) => o.uid == _order.uid).listen(setOrder);
+    _streamSubscription = DI.i.dataServis.data.orders.stream.where((Order o) => o.uid == _order.uid).listen(setOrder);
     super.initState();
   }
 
@@ -77,13 +77,18 @@ class _OrderViewState extends State<OrderView> {
           actions: [
             ///
             TextButton(
-              onPressed: order.products.isEmpty ? null : () => OrderServis(dataServis).conduct(order, () => NegativeLeftoversDialog.show(context)),
+              onPressed: order.products.isEmpty
+                  ? null
+                  : () => OrderServis(DI.i.dataServis).conduct(
+                        order,
+                        () => NegativeLeftoversDialog.show(context),
+                      ),
               child: Text(order.isConducted ? 'Cancel conduct' : 'Conduct'),
             ),
 
             ///
             TextButton(
-              onPressed: order.products.isEmpty || isSave ? null : () => dataServis.transaction(orders: [order]),
+              onPressed: order.products.isEmpty || isSave ? null : () => DI.i.dataServis.transaction(orders: [order]),
               child: const Text('Save'),
             ),
           ],

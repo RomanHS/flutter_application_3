@@ -51,4 +51,6 @@ class AutServis {
 
     aut.settings.put(settings);
   }
+
+  Future<void> dispose() => aut.dispose();
 }

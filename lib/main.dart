@@ -5,8 +5,6 @@ import 'package:flutter_application_3/domain/servis/aut_servis.dart';
 import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/present/app/app.dart';
 
-late final AutServis autServis;
-
 void main() async {
   log('main');
 
@@ -16,9 +14,11 @@ void main() async {
 
   final Aut aut = await di.autRepo.getAut();
 
-  autServis = AutServis(
-    autRepo: di.autRepo,
-    aut: aut,
+  di.setAutServis(
+    AutServis(
+      autRepo: di.autRepo,
+      aut: aut,
+    ),
   );
 
   // await deleteRegistrsTest(db);

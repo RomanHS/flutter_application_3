@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
-import 'package:flutter_application_3/present/view/home_view.dart';
+import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/present/widget/product_widget.dart';
 import 'package:uuid/uuid.dart';
 
@@ -10,12 +10,12 @@ class ProductsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<void>(
-        stream: dataServis.data.products.stream,
+        stream: DI.i.dataServis.data.products.stream,
         builder: (BuildContext context, AsyncSnapshot<void> _) => _build(context),
       );
 
   Widget _build(BuildContext context) {
-    final List<Product> products = dataServis.data.products.values.toList();
+    final List<Product> products = DI.i.dataServis.data.products.values.toList();
 
     AppBar appBar() => AppBar(
           ///
@@ -27,7 +27,7 @@ class ProductsView extends StatelessWidget {
           ///
           actions: [
             IconButton(
-              onPressed: products.isEmpty ? null : () => dataServis.transaction(productsClear: true),
+              onPressed: products.isEmpty ? null : () => DI.i.dataServis.transaction(productsClear: true),
               icon: const Icon(Icons.delete),
             ),
           ],
@@ -57,7 +57,7 @@ class ProductsView extends StatelessWidget {
 
     Widget floatingActionButton() => FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () => dataServis.transaction(
+          onPressed: () => DI.i.dataServis.transaction(
             products: [
               Product(
                 uid: const Uuid().v4(),

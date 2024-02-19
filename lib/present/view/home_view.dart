@@ -4,11 +4,8 @@ import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/domain/value/settings.dart';
 import 'package:flutter_application_3/internal/di.dart';
-import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:flutter_application_3/present/view/products_view.dart';
-
-late DataServis dataServis;
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -20,31 +17,23 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   bool _isLoad = false;
 
-  DataServis? _dataServis;
-
   @override
   void initState() {
     _init();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _dataServis?.dispose();
-    super.dispose();
-  }
-
   void _init() async {
-    final User user = autServis.aut.user.value ?? User.empty();
+    final User user = DI.i.autServis.aut.user.value ?? User.empty();
 
-    final DI di = DI.instance;
+    final Data data = await DI.i.dataRepo.get(uidUser: user.uid);
 
-    final Data data = await di.dataRepo.get(uidUser: user.uid);
-
-    dataServis = _dataServis = DataServis(
-      user: user,
-      dataRepo: di.dataRepo,
-      data: data,
+    DI.i.setDataServis(
+      DataServis(
+        user: user,
+        dataRepo: DI.i.dataRepo,
+        data: data,
+      ),
     );
 
     setState(() => _isLoad = false);
@@ -52,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<void>(
-        stream: autServis.aut.settings.stream,
+        stream: DI.i.autServis.aut.settings.stream,
         builder: (BuildContext context, AsyncSnapshot<void> _) => _build(context),
       );
 
@@ -65,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
       );
     }
 
-    final Settings settings = autServis.aut.settings.value;
+    final Settings settings = DI.i.autServis.aut.settings.value;
 
     return Scaffold(
       ///
@@ -80,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           ///
           IconButton(
-            onPressed: () => autServis.logOut(user: dataServis.user),
+            onPressed: () => DI.i.autServis.logOut(user: DI.i.dataServis.user),
             icon: const Icon(Icons.exit_to_app),
           ),
         ],
@@ -94,7 +83,7 @@ class _HomeViewState extends State<HomeView> {
             child: CheckboxListTile(
               title: const Text('DarkTheme'),
               value: settings.isDarkTheme,
-              onChanged: (bool? _) => autServis.putSettings(settings: settings.copyWith(isDarkTheme: !settings.isDarkTheme)),
+              onChanged: (bool? _) => DI.i.autServis.putSettings(settings: settings.copyWith(isDarkTheme: !settings.isDarkTheme)),
             ),
           ),
 
