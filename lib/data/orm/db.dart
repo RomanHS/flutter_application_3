@@ -13,23 +13,40 @@ class DB {
   });
 
   static Future<DB> init() async {
-    const String path = 'db_12.db';
+    const String path = 'db_17.db';
 
     // await deleteDatabase(path);
 
     Future<void> onCreate(Database database, List<TableHeader> header, List<TableTable> table, List<TableRegistr> registrs) async {
       for (TableHeader table in header) {
+        final bool isUserKey = table.isUserKey;
+
         final List<String> params = [
+          if (isUserKey) 'uid_user TEXT',
+          'uid TEXT',
           ...table.createParams,
         ];
 
-        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')})';
+        final List<String> keys = [
+          if (isUserKey) 'uid_user',
+          'uid',
+        ];
+
+        // final String foreignKey = isUserKey ? ', FOREIGN KEY(uid_user) REFERENCES ${TableHeader.userTable.name}(uid) ON DELETE CASCADE' : '';
+
+        const String foreignKey = '';
+
+        final String sql = 'CREATE TABLE ${table.name} (${params.join(', ')}, PRIMARY key (${keys.join(', ')})$foreignKey)';
 
         await database.execute(sql);
       }
 
       for (TableTable table in table) {
+        final bool isUserKey = table.isUserKey;
+
         final List<String> params = [
+          if (isUserKey) 'uid_user TEXT',
+          'uid_parent TEXT',
           ...table.createParams,
         ];
 
@@ -83,6 +100,8 @@ class DB {
         // }
       },
     );
+
+    // database.execute('PRAGMA Foreign_keys = ON;');
 
     return DB._(database: database);
   }
@@ -239,18 +258,28 @@ class DB {
   }) async {
     final List<EntityDB> entitysList = values.toList();
 
-    await deleteEntitys(
-      table: table,
+    await _deleteTables(
+      tables: table.tables,
       uidUser: uidUser,
       uids: entitysList.map((EntityDB e) => e.uid),
       txn: txn,
     );
 
     for (EntityDB entity in entitysList) {
+      // final int i =
       await txn.insert(
         table.name,
         entity.data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
       );
+
+      // if (i == 0) {
+      //   await txn.update(
+      //     table.name,
+      //     entity.data,
+      //     // conflictAlgorithm: ConflictAlgorithm.replace,
+      //   );
+      // }
 
       for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
         final TableTable table = e.key;
@@ -303,7 +332,21 @@ class DB {
 
     await txn.delete(table.name, where: where.isEmpty ? null : where);
 
-    for (TableTable table in table.tables) {
+    await _deleteTables(
+      tables: table.tables,
+      uidUser: uidUser,
+      uids: uids,
+      txn: txn,
+    );
+  }
+
+  Future<void> _deleteTables({
+    required Iterable<TableTable> tables,
+    required String? uidUser,
+    required Iterable<String>? uids,
+    required Transaction txn,
+  }) async {
+    for (TableTable table in tables) {
       String where = '';
 
       if (uidUser != null) {

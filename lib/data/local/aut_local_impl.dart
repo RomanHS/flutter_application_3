@@ -61,6 +61,28 @@ class AutLocalImpl implements AutLocal {
             uids: [uidUserDelete],
             txn: txn,
           );
+
+          for (TableHeader t in TableHeader.values) {
+            if (t.isUserKey == false) {
+              continue;
+            }
+
+            await db.deleteEntitys(
+              table: t,
+              uidUser: uidUserDelete,
+              uids: null,
+              txn: txn,
+            );
+          }
+
+          for (TableRegistr t in TableRegistr.values) {
+            await db.deleteEntitysRegistrs(
+              table: t,
+              uidUser: uidUserDelete,
+              uids: null,
+              txn: txn,
+            );
+          }
         }
 
         /// put

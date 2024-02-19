@@ -39,23 +39,27 @@ extension TableHeaderExtension on TableHeader {
           ],
       };
 
+  bool get isUserKey => switch (this) {
+        TableHeader.userTable => false,
+        TableHeader.settingsTable => false,
+        TableHeader.orderTable => true,
+        TableHeader.productTable => true,
+        TableHeader.message => true,
+      };
+
   Iterable<String> get createParams => switch (this) {
         ///
         TableHeader.userTable => [
-            'uid TEXT',
             'is_aut INTEGER',
           ],
 
         ///
         TableHeader.settingsTable => [
-            'uid TEXT',
             'is_dark_theme INTEGER',
           ],
 
         ///
         TableHeader.orderTable => [
-            'uid_user TEXT',
-            'uid TEXT',
             'number TEXT',
             'is_conducted INTEGER',
             'is_receipt INTEGER',
@@ -63,26 +67,26 @@ extension TableHeaderExtension on TableHeader {
 
         ///
         TableHeader.productTable => [
-            'uid_user TEXT',
-            'uid TEXT',
             'name TEXT',
           ],
 
         ///
         TableHeader.message => [
-            'uid_user TEXT',
-            'uid TEXT',
             'text TEXT',
           ],
       };
 }
 
 extension TableTableExtension on TableTable {
+  bool get isUserKey => switch (this) {
+        TableTable.productsInOrderTable => true,
+        TableTable.exciseTaxInOrderTable => true,
+        TableTable.messageSurvey => true,
+      };
+
   Iterable<String> get createParams => switch (this) {
         ///
         TableTable.productsInOrderTable => [
-            'uid_user TEXT',
-            'uid_parent TEXT',
             'uid_product TEXT',
             'name_product TEXT',
             'uid_warehaus TEXT',
@@ -91,16 +95,12 @@ extension TableTableExtension on TableTable {
 
         ///
         TableTable.exciseTaxInOrderTable => [
-            'uid_user TEXT',
-            'uid_parent TEXT',
             'uid_product TEXT',
             'value TEXT',
           ],
 
         ///
         TableTable.messageSurvey => [
-            'uid_user TEXT',
-            'uid_parent TEXT',
             'value TEXT',
           ],
       };
