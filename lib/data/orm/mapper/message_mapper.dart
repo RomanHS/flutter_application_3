@@ -1,7 +1,7 @@
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
-import 'package:flutter_application_3/domain/entity/message.dart';
+import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 
 extension MessageMapper on MessageText {
