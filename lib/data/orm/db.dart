@@ -264,19 +264,20 @@ class DB {
     );
 
     for (EntityDB entity in entitysList) {
-      final int i = await txn.insert(
+      // final int i =
+      await txn.insert(
         table.name,
         entity.data,
-        conflictAlgorithm: ConflictAlgorithm.ignore,
+        conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
-      if (i == 0) {
-        await txn.update(
-          table.name,
-          entity.data,
-          // conflictAlgorithm: ConflictAlgorithm.replace,
-        );
-      }
+      // if (i == 0) {
+      //   await txn.update(
+      //     table.name,
+      //     entity.data,
+      //     // conflictAlgorithm: ConflictAlgorithm.replace,
+      //   );
+      // }
 
       for (MapEntry<TableTable, List<TabularPart>> e in entity.tabularParts.entries) {
         final TableTable table = e.key;
