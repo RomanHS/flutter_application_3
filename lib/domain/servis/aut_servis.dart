@@ -2,6 +2,7 @@ import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 import 'package:flutter_application_3/domain/value/settings.dart';
+import 'package:flutter_application_3/domain/value/user_and_settings.dart';
 
 class AutServis {
   final AutRepo autRepo;
@@ -15,16 +16,17 @@ class AutServis {
   Future<void> logIn({
     required String login,
   }) async {
-    final User user = await autRepo.logIn(login: login);
+    final UserAndSettings userAndSettings = await autRepo.logIn(login: login);
 
     await autRepo.transaction(
-      user: user,
+      user: userAndSettings.user,
       settings: null,
+      settingsUser: userAndSettings.settingsUser,
       uidUserDelete: null,
     );
 
-    aut.user.put(user);
-    aut.users.put(user);
+    aut.user.put(userAndSettings.user);
+    aut.users.put(userAndSettings.user);
   }
 
   Future<void> logOut({
@@ -37,6 +39,7 @@ class AutServis {
     await autRepo.transaction(
       user: user,
       settings: null,
+      settingsUser: null,
       uidUserDelete: null,
     );
 
@@ -50,6 +53,7 @@ class AutServis {
     await autRepo.transaction(
       user: null,
       settings: settings,
+      settingsUser: null,
       uidUserDelete: null,
     );
 
@@ -62,6 +66,7 @@ class AutServis {
     await autRepo.transaction(
       user: null,
       settings: null,
+      settingsUser: null,
       uidUserDelete: uidUser,
     );
 

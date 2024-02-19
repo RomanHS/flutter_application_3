@@ -1,6 +1,7 @@
 enum TableHeader {
   userTable,
   settingsTable,
+  settingsUserTable,
   orderTable,
   productTable,
   message,
@@ -25,6 +26,9 @@ extension TableHeaderExtension on TableHeader {
         TableHeader.settingsTable => [],
 
         ///
+        TableHeader.settingsUserTable => [],
+
+        ///
         TableHeader.orderTable => [
             TableTable.productsInOrderTable,
             TableTable.exciseTaxInOrderTable,
@@ -42,6 +46,7 @@ extension TableHeaderExtension on TableHeader {
   bool get isUserKey => switch (this) {
         TableHeader.userTable => false,
         TableHeader.settingsTable => false,
+        TableHeader.settingsUserTable => true,
         TableHeader.orderTable => true,
         TableHeader.productTable => true,
         TableHeader.message => true,
@@ -57,6 +62,11 @@ extension TableHeaderExtension on TableHeader {
         ///
         TableHeader.settingsTable => [
             'is_dark_theme INTEGER',
+          ],
+
+        ///
+        TableHeader.settingsUserTable => [
+            'is_negative_leftovers INTEGER',
           ],
 
         ///

@@ -5,6 +5,7 @@ import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
+import 'package:flutter_application_3/domain/value/settings_user.dart';
 
 class DataRepoImpl implements DataRepo {
   final DataLocal dataLocal;
@@ -22,6 +23,7 @@ class DataRepoImpl implements DataRepo {
   @override
   Future<void> transaction({
     required String uidUser,
+    required SettingsUser? settings,
     required Iterable<Order>? orders,
     required Iterable<Product>? products,
     required Iterable<Message>? messages,
@@ -36,6 +38,7 @@ class DataRepoImpl implements DataRepo {
   }) =>
       dataLocal.transaction(
         uidUser: uidUser,
+        settings: settings,
         orders: orders,
         products: products,
         messages: messages,
