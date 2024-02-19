@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_application_3/data/local/aut_local.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
+import 'package:flutter_application_3/data/orm/mapper/settings_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/user_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/aut.dart';
@@ -17,20 +18,32 @@ class AutLocalImpl implements AutLocal {
   });
 
   @override
-  Future<Aut> getAut() async => Aut(
-        ///
-        user: (await db.getObjects<User>(
-              table: TableHeader.userTable,
-              uidUser: null,
-              uids: null,
-              parse: (EntityDB e) => UserMapper.fromDB(e),
-            ))
-                .firstWhereOrNull((User user) => user.isAut) ??
-            User.empty(),
+  Future<Aut> getAut() async {
+    final List<User> users = await db.getObjects<User>(
+      table: TableHeader.userTable,
+      uidUser: null,
+      uids: null,
+      parse: (EntityDB e) => UserMapper.fromDB(e),
+    );
 
-        ///
-        settings: Settings.empty(),
-      );
+    final List<Settings> settings = await db.getObjects<Settings>(
+      table: TableHeader.settingsTable,
+      uidUser: null,
+      uids: null,
+      parse: (EntityDB e) => SettingsMapper.fromDB(e),
+    );
+
+    return Aut(
+      ///
+      user: users.firstWhereOrNull((User user) => user.isAut) ?? User.empty(),
+
+      ///
+      users: users,
+
+      ///
+      settings: settings.firstOrNull ?? Settings.empty(),
+    );
+  }
 
   @override
   Future<void> transaction({
@@ -44,6 +57,16 @@ class AutLocalImpl implements AutLocal {
             uidUser: null,
             values: [user],
             parse: (User e) => UserMapper(e).toDB(),
+            txn: txn,
+          );
+        }
+
+        if (settings != null) {
+          await db.putObjects(
+            table: TableHeader.settingsTable,
+            uidUser: null,
+            values: [settings],
+            parse: (Settings e) => SettingsMapper(e).toDB(),
             txn: txn,
           );
         }
