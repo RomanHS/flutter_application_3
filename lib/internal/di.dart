@@ -31,12 +31,12 @@ class DI {
   AutServis get autServis => _autServis;
   DataServis get dataServis => _dataServis;
 
-  void setAutServis(AutServis autServis) {
+  set autServis(AutServis autServis) {
     _autServis.dispose();
     _autServis = autServis;
   }
 
-  void setDataServis(DataServis dataServis) {
+  set dataServis(DataServis dataServis) {
     _dataServis.dispose();
     _dataServis = dataServis;
   }
