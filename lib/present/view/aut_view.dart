@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/internal/di.dart';
 
 class AutView extends StatefulWidget {
@@ -61,6 +62,23 @@ class _AutViewState extends State<AutView> {
                       child: const Text('logIn'),
                     );
                   },
+                ),
+
+                ///
+                Row(
+                  children: [
+                    ...DI.i.autServis.aut.users.values.map(
+                      (User e) => Card(
+                        child: InkWell(
+                          onTap: () => textEditingController.text = e.uid,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(e.uid),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
