@@ -3,6 +3,7 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/domain/value/settings.dart';
+import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:flutter_application_3/present/view/products_view.dart';
@@ -36,9 +37,9 @@ class _HomeViewState extends State<HomeView> {
   void _init() async {
     final User user = autServis.aut.user.value ?? User.empty();
 
-    final Data data = await autServis.dataRepo.get(uidUser: user.uid);
+    final Data data = await DI.instance.dataRepo.get(uidUser: user.uid);
 
-    dataServis = _dataServis = DataServis(user: user, dataRepo: autServis.dataRepo, data: data);
+    dataServis = _dataServis = DataServis(user: user, dataRepo: DI.instance.dataRepo, data: data);
 
     setState(() => _isLoad = false);
   }
