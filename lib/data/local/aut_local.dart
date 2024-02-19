@@ -13,3 +13,16 @@ abstract interface class AutLocal {
     required String? uidUserDelete,
   });
 }
+
+class AutLocalMouk implements AutLocal {
+  @override
+  Future<Aut> getAut() async => Aut.empty();
+
+  @override
+  Future<void> transaction({
+    required User? user,
+    required Settings? settings,
+    required SettingsUser? settingsUser,
+    required String? uidUserDelete,
+  }) async {}
+}

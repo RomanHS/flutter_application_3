@@ -26,3 +26,25 @@ abstract interface class DataLocal {
     required bool messagesClear,
   });
 }
+
+class DataLocalMouk implements DataLocal {
+  @override
+  Future<Data> get({required String uidUser}) async => Data.empty();
+
+  @override
+  Future<void> transaction({
+    required String uidUser,
+    required SettingsUser? settings,
+    required Iterable<Order>? orders,
+    required Iterable<Product>? products,
+    required Iterable<MessageText>? messages,
+    required Iterable<Leftover>? leftovers,
+    required Iterable<String>? ordersDelete,
+    required Iterable<String>? productsDelete,
+    required Iterable<String>? messagesDelete,
+    required Iterable<UidLeftover>? leftoversDelete,
+    required bool ordersClear,
+    required bool productsClear,
+    required bool messagesClear,
+  }) async {}
+}

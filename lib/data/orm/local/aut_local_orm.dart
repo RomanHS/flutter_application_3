@@ -12,10 +12,10 @@ import 'package:flutter_application_3/domain/value/settings.dart';
 import 'package:flutter_application_3/domain/value/settings_user.dart';
 import 'package:sqflite/sqflite.dart';
 
-class AutLocalImpl implements AutLocal {
+class AutLocalOrm implements AutLocal {
   final DB db;
 
-  AutLocalImpl({
+  AutLocalOrm({
     required this.db,
   });
 
