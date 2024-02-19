@@ -137,6 +137,18 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
           ),
+
+          ///
+          StreamBuilder<void>(
+            stream: DI.i.dataServis.data.settings.stream,
+            builder: (BuildContext context, AsyncSnapshot<void> _) {
+              return Card(
+                child: ListTile(
+                  title: Text('isNegativeLeftovers: ${!DI.i.dataServis.data.settings.value.isNegativeLeftovers}'),
+                ),
+              );
+            },
+          ),
         ],
       ),
 
