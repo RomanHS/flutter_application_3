@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
-import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/present/view/home_view.dart';
 
 class ProductInOrderWidget extends StatelessWidget {
   final ProductInOrder productInOrder;

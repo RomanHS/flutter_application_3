@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/data/local/data_local.dart';
 import 'package:flutter_application_3/data/local/data_local_impl.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
+import 'package:flutter_application_3/data/repo/aut_repo_impl.dart';
 import 'package:flutter_application_3/data/repo/data_repo_impl.dart';
-import 'package:flutter_application_3/domain/data.dart';
+import 'package:flutter_application_3/domain/aut.dart';
+import 'package:flutter_application_3/domain/repo/aut_repo.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
-import 'package:flutter_application_3/domain/servis/data_servis.dart';
+import 'package:flutter_application_3/domain/servis/aut_servis.dart';
 import 'package:flutter_application_3/present/app/app.dart';
 
-late final DataServis dataServis;
+late final AutServis autServis;
 
 void main() async {
   log('main');
@@ -18,15 +20,19 @@ void main() async {
 
   final DB db = await DB.init();
 
-  const String uidUser = '1';
-
   final DataLocal dataLocal = DataLocalImpl(db: db);
+
+  final AutRepo autRepo = AutRepoImpl();
 
   final DataRepo dataRepo = DataRepoImpl(dataLocal: dataLocal);
 
-  final Data data = await dataRepo.get(uidUser: uidUser);
+  final Aut aut = await autRepo.getAut();
 
-  dataServis = DataServis(uidUser: uidUser, dataRepo: dataRepo, data: data);
+  autServis = AutServis(
+    autRepo: autRepo,
+    dataRepo: dataRepo,
+    aut: aut,
+  );
 
   // await deleteRegistrsTest(db);
 
