@@ -1,5 +1,5 @@
 import 'package:flutter_application_3/domain/data.dart';
-import 'package:flutter_application_3/domain/entity/message.dart';
+import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
@@ -22,7 +22,7 @@ class DataServis {
     SettingsUser? settings,
     Iterable<Order>? orders,
     Iterable<Product>? products,
-    Iterable<Message>? messages,
+    Iterable<MessageText>? messages,
     Iterable<Leftover>? leftovers,
     Iterable<String>? ordersDelete,
     Iterable<String>? productsDelete,

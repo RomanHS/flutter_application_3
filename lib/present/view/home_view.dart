@@ -1,11 +1,19 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/data.dart';
+import 'package:flutter_application_3/domain/entity/message.dart';
+import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/domain/value/settings.dart';
+import 'package:flutter_application_3/domain/value/settings_user.dart';
 import 'package:flutter_application_3/internal/di.dart';
+import 'package:flutter_application_3/present/view/messages_view.dart';
 import 'package:flutter_application_3/present/view/orders_view.dart';
 import 'package:flutter_application_3/present/view/products_view.dart';
+import 'package:uuid/uuid.dart';
+
+final StreamController<Message> messageStreamController = StreamController<Message>.broadcast();
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -17,10 +25,18 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   bool _isLoad = false;
 
+  StreamSubscription<void>? _streamSubscription;
+
   @override
   void initState() {
     _init();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _streamSubscription?.cancel();
+    super.dispose();
   }
 
   void _init() async {
@@ -34,7 +50,19 @@ class _HomeViewState extends State<HomeView> {
       data: data,
     );
 
+    _streamSubscription = messageStreamController.stream.asyncMap(_listen).listen((void _) {});
+
     setState(() => _isLoad = false);
+  }
+
+  Future<void> _listen(Message message) async {
+    final MessageText? messageText = message.messageText;
+    final SettingsUser? settings = message.settings;
+
+    return DI.i.dataServis.transaction(
+      settings: settings,
+      messages: messageText == null ? null : [messageText],
+    );
   }
 
   @override
@@ -110,7 +138,49 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
           ),
+
+          ///
+          Card(
+            child: ListTile(
+              title: const Text('Messages'),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const MessagesView(),
+                ),
+              ),
+            ),
+          ),
+
+          ///
+          StreamBuilder<void>(
+            stream: DI.i.dataServis.data.settings.stream,
+            builder: (BuildContext context, AsyncSnapshot<void> _) {
+              return Card(
+                child: ListTile(
+                  title: Text('isNegativeLeftovers: ${DI.i.dataServis.data.settings.value.isNegativeLeftovers}'),
+                ),
+              );
+            },
+          ),
         ],
+      ),
+
+      ///
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.message),
+        onPressed: () {
+          final SettingsUser settings = DI.i.dataServis.data.settings.value;
+
+          messageStreamController.add(
+            Message(
+              uid: const Uuid().v4(),
+              text: 'isNegativeLeftovers: ${!settings.isNegativeLeftovers}',
+              settings: settings.copyWith(isNegativeLeftovers: !settings.isNegativeLeftovers),
+              surveys: const [],
+            ),
+          );
+        },
       ),
     );
   }

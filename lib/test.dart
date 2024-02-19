@@ -6,7 +6,7 @@ import 'package:flutter_application_3/data/orm/mapper/message_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
-import 'package:flutter_application_3/domain/entity/message.dart';
+import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/value/excise_tax.dart';
@@ -20,7 +20,7 @@ Future<void> test() async {
 
   final List<Order> orders = getOrders();
   final List<Product> products = getProducts();
-  final List<Message> messages = getMessages();
+  final List<MessageText> messages = getMessages();
 
   /// put
   await db.database.transaction((txn) async {
@@ -40,11 +40,11 @@ Future<void> test() async {
       txn: txn,
     );
 
-    await db.putObjects<Message>(
+    await db.putObjects<MessageText>(
       table: TableHeader.message,
       uidUser: uidUser,
       values: messages,
-      parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+      parse: (MessageText m) => MessageMapper(m).toDB(uidUser: uidUser),
       txn: txn,
     );
   });
@@ -64,7 +64,7 @@ Future<void> test() async {
     parse: (EntityDB e) => ProductMapper.fromDB(e),
   );
 
-  final List<Message> messagesDB = await db.getObjects<Message>(
+  final List<MessageText> messagesDB = await db.getObjects<MessageText>(
     table: TableHeader.message,
     uidUser: uidUser,
     uids: null,
@@ -84,8 +84,8 @@ Future<void> test() async {
   log('productsDB: ${productsDB.map((Product p) => p.uid).toList()}');
   log('isEquals products: $isEqualsProducts');
 
-  log('messages:   ${messages.map((Message m) => m.uid).toList()}');
-  log('messagesDB: ${messagesDB.map((Message m) => m.uid).toList()}');
+  log('messages:   ${messages.map((MessageText m) => m.uid).toList()}');
+  log('messagesDB: ${messagesDB.map((MessageText m) => m.uid).toList()}');
   log('isEquals messages: $isEqualsMessages');
 
   /// delete
@@ -127,7 +127,7 @@ Future<void> test() async {
       parse: (EntityDB e) => ProductMapper.fromDB(e),
     );
 
-    final List<Message> messagesDB = await db.getObjects<Message>(
+    final List<MessageText> messagesDB = await db.getObjects<MessageText>(
       table: TableHeader.message,
       uidUser: uidUser,
       uids: null,
@@ -136,13 +136,13 @@ Future<void> test() async {
 
     log('delete orders:   ${ordersDB.map((Order o) => o.uid).toList()}');
     log('delete products: ${productsDB.map((Product p) => p.uid).toList()}');
-    log('delete messages: ${messagesDB.map((Message m) => m.uid).toList()}');
+    log('delete messages: ${messagesDB.map((MessageText m) => m.uid).toList()}');
   }
 }
 
-List<Message> getMessages() => List.generate(
+List<MessageText> getMessages() => List.generate(
       100,
-      (int i) => Message(
+      (int i) => MessageText(
         uid: '${i + 1}',
         text: 'Message ${i + 1}',
         surveys: List.generate(

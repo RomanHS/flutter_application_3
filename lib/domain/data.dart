@@ -1,4 +1,4 @@
-import 'package:flutter_application_3/domain/entity/message.dart';
+import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
@@ -11,19 +11,19 @@ class Data {
   final StoreValue<SettingsUser> settings;
   final Store<Order> orders;
   final Store<Product> products;
-  final Store<Message> messages;
+  final Store<MessageText> messages;
   final StoreRegistr<UidLeftover, Leftover> leftovers;
 
   Data({
     required SettingsUser settings,
     required Iterable<Order> orders,
     required Iterable<Product> products,
-    required Iterable<Message> messages,
+    required Iterable<MessageText> messages,
     required Iterable<Leftover> leftovers,
   })  : settings = StoreValue<SettingsUser>(value: settings),
         orders = Store<Order>(values: orders),
         products = Store<Product>(values: products),
-        messages = Store<Message>(values: messages),
+        messages = Store<MessageText>(values: messages),
         leftovers = StoreRegistr<UidLeftover, Leftover>(values: leftovers);
 
   factory Data.empty() => Data(

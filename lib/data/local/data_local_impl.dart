@@ -10,7 +10,7 @@ import 'package:flutter_application_3/data/orm/mapper/settings_user_mapper.dart'
 import 'package:flutter_application_3/data/orm/mapper/uid_leftover_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/data.dart';
-import 'package:flutter_application_3/domain/entity/message.dart';
+import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
@@ -27,49 +27,50 @@ class DataLocalImpl implements DataLocal {
   @override
   Future<Data> get({
     required String uidUser,
-  }) async =>
-      Data(
-        ///
-        settings: (await db.getObjects<SettingsUser>(
-              table: TableHeader.settingsUserTable,
-              uidUser: uidUser,
-              uids: null,
-              parse: (EntityDB e) => SettingsUserMapper.fromDB(e),
-            ))
-                .firstOrNull ??
-            SettingsUser.empty(),
+  }) async {
+    final List<SettingsUser> settings = await db.getObjects<SettingsUser>(
+      table: TableHeader.settingsUserTable,
+      uidUser: uidUser,
+      uids: null,
+      parse: (EntityDB e) => SettingsUserMapper.fromDB(e),
+    );
 
-        ///
-        orders: await db.getObjects<Order>(
-          table: TableHeader.orderTable,
-          uidUser: uidUser,
-          uids: null,
-          parse: (EntityDB e) => OrderMapper.fromDB(e),
-        ),
+    return Data(
+      ///
+      settings: settings.firstOrNull ?? SettingsUser.empty(),
 
-        ///
-        products: await db.getObjects<Product>(
-          table: TableHeader.productTable,
-          uidUser: uidUser,
-          uids: null,
-          parse: (EntityDB e) => ProductMapper.fromDB(e),
-        ),
+      ///
+      orders: await db.getObjects<Order>(
+        table: TableHeader.orderTable,
+        uidUser: uidUser,
+        uids: null,
+        parse: (EntityDB e) => OrderMapper.fromDB(e),
+      ),
 
-        ///
-        messages: await db.getObjects<Message>(
-          table: TableHeader.message,
-          uidUser: uidUser,
-          uids: null,
-          parse: (EntityDB e) => MessageMapper.fromDB(e),
-        ),
+      ///
+      products: await db.getObjects<Product>(
+        table: TableHeader.productTable,
+        uidUser: uidUser,
+        uids: null,
+        parse: (EntityDB e) => ProductMapper.fromDB(e),
+      ),
 
-        ///
-        leftovers: await db.getRegistrs<Leftover>(
-          table: TableRegistr.leftover,
-          uidUser: uidUser,
-          parse: (RegistrEntityDB e) => LeftoverMapper.fromDB(e),
-        ),
-      );
+      ///
+      messages: await db.getObjects<MessageText>(
+        table: TableHeader.message,
+        uidUser: uidUser,
+        uids: null,
+        parse: (EntityDB e) => MessageMapper.fromDB(e),
+      ),
+
+      ///
+      leftovers: await db.getRegistrs<Leftover>(
+        table: TableRegistr.leftover,
+        uidUser: uidUser,
+        parse: (RegistrEntityDB e) => LeftoverMapper.fromDB(e),
+      ),
+    );
+  }
 
   @override
   Future<void> transaction({
@@ -77,7 +78,7 @@ class DataLocalImpl implements DataLocal {
     required SettingsUser? settings,
     required Iterable<Order>? orders,
     required Iterable<Product>? products,
-    required Iterable<Message>? messages,
+    required Iterable<MessageText>? messages,
     required Iterable<Leftover>? leftovers,
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
@@ -189,11 +190,11 @@ class DataLocalImpl implements DataLocal {
         }
 
         if (messages != null) {
-          await db.putObjects<Message>(
+          await db.putObjects<MessageText>(
             table: TableHeader.message,
             uidUser: uidUser,
             values: messages,
-            parse: (Message m) => MessageMapper(m).toDB(uidUser: uidUser),
+            parse: (MessageText m) => MessageMapper(m).toDB(uidUser: uidUser),
             txn: txn,
           );
         }
