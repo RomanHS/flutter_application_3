@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
-import 'package:flutter_application_3/present/view/home_view.dart';
+import 'package:flutter_application_3/internal/di.dart';
 
 class ProductWidget extends StatelessWidget {
   final Product product;
@@ -17,12 +17,12 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<void>(
-        stream: dataServis.data.leftovers.stream.where((Leftover l) => l.uidProduct == product.uid),
+        stream: DI.i.dataServis.data.leftovers.stream.where((Leftover l) => l.uidProduct == product.uid),
         builder: (BuildContext context, AsyncSnapshot<void> _) => _build(context),
       );
 
   Widget _build(BuildContext context) {
-    final double leftover = dataServis.data.leftovers
+    final double leftover = DI.i.dataServis.data.leftovers
             .get(
               UidLeftover(
                 uidProduct: product.uid,
@@ -60,7 +60,7 @@ class ProductWidget extends StatelessWidget {
               ///
               if (isDelete)
                 IconButton(
-                  onPressed: () => dataServis.transaction(productsDelete: [product.uid]),
+                  onPressed: () => DI.i.dataServis.transaction(productsDelete: [product.uid]),
                   icon: const Icon(Icons.delete),
                 ),
             ],

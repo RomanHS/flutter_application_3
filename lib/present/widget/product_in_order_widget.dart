@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
-import 'package:flutter_application_3/present/view/home_view.dart';
+import 'package:flutter_application_3/internal/di.dart';
 
 class ProductInOrderWidget extends StatelessWidget {
   final ProductInOrder productInOrder;
@@ -15,14 +15,14 @@ class ProductInOrderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<void>(
-        stream: dataServis.data.leftovers.stream.where((Leftover l) => l.uidProduct == productInOrder.uidProduct),
+        stream: DI.i.dataServis.data.leftovers.stream.where((Leftover l) => l.uidProduct == productInOrder.uidProduct),
         builder: (BuildContext context, AsyncSnapshot<void> _) => _build(context),
       );
 
   Widget _build(BuildContext context) {
     final void Function(ProductInOrder value)? putProductInOrder = this.putProductInOrder;
 
-    final double leftover = dataServis.data.leftovers
+    final double leftover = DI.i.dataServis.data.leftovers
             .get(
               UidLeftover(
                 uidProduct: productInOrder.uidProduct,

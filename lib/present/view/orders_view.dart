@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
-import 'package:flutter_application_3/present/view/home_view.dart';
+import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/present/view/order_view.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,12 +9,12 @@ class OrdersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<void>(
-        stream: dataServis.data.orders.stream,
+        stream: DI.i.dataServis.data.orders.stream,
         builder: (BuildContext context, AsyncSnapshot<void> _) => _build(context),
       );
 
   Widget _build(BuildContext context) {
-    final List<Order> orders = dataServis.data.orders.values.toList();
+    final List<Order> orders = DI.i.dataServis.data.orders.values.toList();
     final List<Order> ordersNotConducted = orders.where((Order o) => o.isNotConducted).toList();
 
     AppBar appBar() => AppBar(
@@ -29,7 +29,7 @@ class OrdersView extends StatelessWidget {
             IconButton(
               onPressed: ordersNotConducted.isEmpty
                   ? null
-                  : () => dataServis.transaction(
+                  : () => DI.i.dataServis.transaction(
                         ordersDelete: ordersNotConducted.map((Order o) => o.uid),
                       ),
               icon: const Icon(Icons.delete),
@@ -61,7 +61,7 @@ class OrdersView extends StatelessWidget {
               ),
               title: Text(order.number),
               trailing: IconButton(
-                onPressed: order.isConducted ? null : () => dataServis.transaction(ordersDelete: [order.uid]),
+                onPressed: order.isConducted ? null : () => DI.i.dataServis.transaction(ordersDelete: [order.uid]),
                 icon: const Icon(Icons.delete),
               ),
             ),
@@ -121,7 +121,7 @@ class OrdersView extends StatelessWidget {
     return Scaffold(
       appBar: appBar(),
       body: body(),
-      floatingActionButton: dataServis.data.products.values.isEmpty ? null : floatingActionButton(),
+      floatingActionButton: DI.i.dataServis.data.products.values.isEmpty ? null : floatingActionButton(),
     );
   }
 }
