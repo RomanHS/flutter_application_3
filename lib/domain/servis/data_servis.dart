@@ -5,6 +5,7 @@ import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
 import 'package:flutter_application_3/domain/repo/data_repo.dart';
+import 'package:flutter_application_3/domain/value/settings_user.dart';
 
 class DataServis {
   final User user;
@@ -18,6 +19,7 @@ class DataServis {
   });
 
   Future<void> transaction({
+    SettingsUser? settings,
     Iterable<Order>? orders,
     Iterable<Product>? products,
     Iterable<Message>? messages,
@@ -32,6 +34,7 @@ class DataServis {
   }) async {
     await dataRepo.transaction(
       uidUser: user.uid,
+      settings: settings,
       orders: orders,
       products: products,
       messages: messages,
@@ -78,6 +81,10 @@ class DataServis {
     }
 
     /// Put
+
+    if (settings != null) {
+      data.settings.put(settings);
+    }
 
     if (orders != null) {
       data.orders.putAll(orders);

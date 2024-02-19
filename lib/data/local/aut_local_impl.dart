@@ -3,11 +3,13 @@ import 'package:flutter_application_3/data/local/aut_local.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
 import 'package:flutter_application_3/data/orm/mapper/settings_mapper.dart';
+import 'package:flutter_application_3/data/orm/mapper/settings_user_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/user_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/aut.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/value/settings.dart';
+import 'package:flutter_application_3/domain/value/settings_user.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AutLocalImpl implements AutLocal {
@@ -49,6 +51,7 @@ class AutLocalImpl implements AutLocal {
   Future<void> transaction({
     required User? user,
     required Settings? settings,
+    required SettingsUser? settingsUser,
     required String? uidUserDelete,
   }) =>
       db.database.transaction((Transaction txn) async {
@@ -95,6 +98,16 @@ class AutLocalImpl implements AutLocal {
             parse: (User e) => UserMapper(e).toDB(),
             txn: txn,
           );
+
+          if (settingsUser != null) {
+            await db.putObjects<SettingsUser>(
+              table: TableHeader.settingsUserTable,
+              uidUser: user.uid,
+              values: [settingsUser],
+              parse: (SettingsUser s) => SettingsUserMapper(s).toDB(uidUser: user.uid),
+              txn: txn,
+            );
+          }
         }
 
         if (settings != null) {
