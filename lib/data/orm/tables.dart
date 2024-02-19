@@ -50,7 +50,8 @@ extension TableHeaderExtension on TableHeader {
   Iterable<String> get createParams => switch (this) {
         ///
         TableHeader.userTable => [
-            'is_aut INTEGER',
+            'login TEXT',
+            'token TEXT',
           ],
 
         ///

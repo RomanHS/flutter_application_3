@@ -32,7 +32,7 @@ class AutServis {
   }) async {
     await autRepo.logOut(user: user);
 
-    user = user.copyWith(isAut: false);
+    user = user.copyWith(token: '');
 
     await autRepo.transaction(
       user: user,

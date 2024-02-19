@@ -1,28 +1,35 @@
 import 'package:flutter_application_3/domain/entity/entity.dart';
 
 class User extends Entity {
-  final bool isAut;
+  final String login;
+  final String token;
 
   const User({
     required super.uid,
-    required this.isAut,
+    required this.login,
+    required this.token,
   });
 
-  factory User.empty() => const User(uid: '', isAut: false);
+  factory User.empty() => const User(uid: '', login: '', token: '');
+
+  bool get isAut => token.isNotEmpty;
 
   @override
   List<Object?> get props => [
         uid,
-        isAut,
+        login,
+        token,
       ];
 
   User copyWith({
     String? uid,
-    bool? isAut,
+    String? login,
+    String? token,
   }) {
     return User(
       uid: uid ?? this.uid,
-      isAut: isAut ?? this.isAut,
+      login: login ?? this.login,
+      token: token ?? this.token,
     );
   }
 }
