@@ -65,20 +65,39 @@ class _AutViewState extends State<AutView> {
                 ),
 
                 ///
-                Row(
-                  children: [
-                    ...DI.i.autServis.aut.users.values.map(
-                      (User e) => Card(
-                        child: InkWell(
-                          onTap: () => textEditingController.text = e.uid,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(e.uid),
+                StreamBuilder<void>(
+                  stream: DI.i.autServis.aut.users.stream,
+                  builder: (BuildContext context, AsyncSnapshot<void> _) {
+                    return Row(
+                      children: [
+                        ...DI.i.autServis.aut.users.values.map(
+                          (User e) => Card(
+                            child: InkWell(
+                              onTap: () => textEditingController.text = e.uid,
+                              child: Row(
+                                children: [
+                                  ///
+                                  const IconButton(
+                                    onPressed: null,
+                                    icon: Icon(Icons.supervised_user_circle_rounded),
+                                  ),
+
+                                  ///
+                                  Text(e.uid),
+
+                                  ///
+                                  IconButton(
+                                    onPressed: () => DI.i.autServis.deleteUser(uidUser: e.uid),
+                                    icon: const Icon(Icons.delete),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
+                      ],
+                    );
+                  },
                 ),
               ],
             ),
