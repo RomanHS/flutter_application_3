@@ -1,50 +1,27 @@
-import 'package:flutter_application_3/data/orm/entity/entity.dart';
-import 'package:flutter_application_3/data/orm/tables.dart';
-import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
-import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/data/orm/entity/registr_entity.dart';
+import 'package:flutter_application_3/domain/registr/message_text.dart';
 import 'package:flutter_application_3/domain/enum/type_message.dart';
-import 'package:flutter_application_3/domain/value/message_survey.dart';
 
 extension MessageMapper on MessageText {
-  static MessageText fromDB(EntityDB entity) => MessageText(
-        uid: entity.get('uid'),
+  static MessageText fromDB(RegistrEntityDB entity) => MessageText(
+        uidMessage: entity.get('uid_message'),
         text: entity.get('text'),
         type: TypeMessage.values.byName(entity.get('type')),
-        surveys: entity
-            .getTabular(TableTable.messageSurvey)
-            .map(
-              (TabularPart e) => MessageSurvey(
-                value: e.get('value'),
-              ),
-            )
-            .toList(),
+        isArchive: entity.get<int>('is_archive') != 0,
+        surveys: [],
       );
 
-  EntityDB toDB({
+  RegistrEntityDB toDB({
     required String uidUser,
   }) =>
-      EntityDB(
+      RegistrEntityDB(
         ///
         data: {
           'uid_user': uidUser,
-          'uid': uid,
+          'uid_message': uidMessage,
+          'is_archive': isArchive ? 1 : 0,
           'text': text,
           'type': type.name,
-        },
-
-        ///
-        tabularParts: {
-          TableTable.messageSurvey: surveys
-              .map(
-                (MessageSurvey e) => TabularPart(
-                  data: {
-                    'uid_user': uidUser,
-                    'uid_parent': uid,
-                    'value': e.value,
-                  },
-                ),
-              )
-              .toList(),
         },
       );
 }

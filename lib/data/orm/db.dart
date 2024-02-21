@@ -77,7 +77,7 @@ class DB {
       path,
 
       ///
-      version: 3,
+      version: 5,
 
       ///
       onCreate: (Database database, int v) async {
@@ -96,17 +96,23 @@ class DB {
           await onCreate(database, [TableHeader.settingsUserTable], [], []);
         }
 
-        if (vO < 3) {
-          final String sql = 'ALTER TABLE ${TableHeader.message.name} ADD COLUMN type INTEGER DEFAULT "bs"';
+        // if (vO < 3) {
+        //   final String sql = 'ALTER TABLE ${TableHeader.message.name} ADD COLUMN type INTEGER DEFAULT "bs"';
 
-          await database.execute(sql);
+        //   await database.execute(sql);
 
-          // await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);
+        //   // await onCreate(database, [TableHeader.message], [TableTable.messageSurvey], []);
+        // }
+
+        if (vO < 4) {
+          await onCreate(database, [], [], [TableRegistr.messageTable]);
         }
 
-        // if (vO < 4) {
-        //   await onCreate(database, [], [], [TableRegistr.leftover]);
-        // }
+        if (vO < 5) {
+          final String sql = 'ALTER TABLE ${TableRegistr.messageTable.name} ADD COLUMN is_archive INTEGER DEFAULT 0';
+
+          await database.execute(sql);
+        }
       },
     );
 

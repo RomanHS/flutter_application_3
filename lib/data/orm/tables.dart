@@ -4,7 +4,6 @@ enum TableHeader {
   settingsUserTable,
   orderTable,
   productTable,
-  message,
 }
 
 enum TableTable {
@@ -15,6 +14,7 @@ enum TableTable {
 
 enum TableRegistr {
   leftover,
+  messageTable,
 }
 
 extension TableHeaderExtension on TableHeader {
@@ -36,11 +36,6 @@ extension TableHeaderExtension on TableHeader {
 
         ///
         TableHeader.productTable => [],
-
-        ///
-        TableHeader.message => [
-            TableTable.messageSurvey,
-          ],
       };
 
   bool get isUserKey => switch (this) {
@@ -49,7 +44,6 @@ extension TableHeaderExtension on TableHeader {
         TableHeader.settingsUserTable => true,
         TableHeader.orderTable => true,
         TableHeader.productTable => true,
-        TableHeader.message => true,
       };
 
   Iterable<String> get createParams => switch (this) {
@@ -79,11 +73,6 @@ extension TableHeaderExtension on TableHeader {
         ///
         TableHeader.productTable => [
             'name TEXT',
-          ],
-
-        ///
-        TableHeader.message => [
-            'text TEXT',
           ],
       };
 }
@@ -124,6 +113,11 @@ extension TableRegistrExtension on TableRegistr {
             'uid_product',
             'uid_warehouse',
           ],
+
+        ///
+        TableRegistr.messageTable => [
+            'uid_message',
+          ],
       };
 
   Iterable<String> get createParams => switch (this) {
@@ -132,6 +126,14 @@ extension TableRegistrExtension on TableRegistr {
             'uid_product TEXT',
             'uid_warehouse TEXT',
             'value REAL',
+          ],
+
+        ///
+        TableRegistr.messageTable => [
+            'uid_message TEXT',
+            'text TEXT',
+            'type TEXT',
+            'is_archive INT',
           ],
       };
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_application_3/domain/entity/entity.dart';
-import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/registr/message_text.dart';
 import 'package:flutter_application_3/domain/enum/type_message.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 import 'package:flutter_application_3/domain/value/settings_user.dart';
@@ -7,6 +7,7 @@ import 'package:flutter_application_3/domain/value/settings_user.dart';
 class Message extends Entity {
   final String text;
   final TypeMessage type;
+  final DateTime date;
   final List<MessageSurvey> surveys;
   final SettingsUser? settings;
 
@@ -14,6 +15,7 @@ class Message extends Entity {
     required super.uid,
     required this.text,
     required this.type,
+    required this.date,
     required this.surveys,
     required this.settings,
   });
@@ -23,11 +25,15 @@ class Message extends Entity {
       return null;
     }
 
+    final DateTime dateNow = DateTime.now();
+    final DateTime dateThisDay = DateTime(dateNow.year, dateNow.month, dateNow.day);
+
     return MessageText(
-      uid: uid,
+      uidMessage: uid,
       text: text,
       type: type,
       surveys: surveys,
+      isArchive: date.isBefore(dateThisDay),
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter_application_3/data/local/data_local.dart';
 import 'package:flutter_application_3/domain/data.dart';
-import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/registr/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
@@ -30,11 +30,10 @@ class DataRepoImpl implements DataRepo {
     required Iterable<Leftover>? leftovers,
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
-    required Iterable<String>? messagesDelete,
+    required Iterable<UidMessageText>? messagesDelete,
     required Iterable<UidLeftover>? leftoversDelete,
     required bool ordersClear,
     required bool productsClear,
-    required bool messagesClear,
   }) =>
       dataLocal.transaction(
         uidUser: uidUser,
@@ -49,6 +48,5 @@ class DataRepoImpl implements DataRepo {
         leftoversDelete: leftoversDelete,
         ordersClear: ordersClear,
         productsClear: productsClear,
-        messagesClear: messagesClear,
       );
 }

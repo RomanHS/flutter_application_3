@@ -1,5 +1,5 @@
 import 'package:flutter_application_3/domain/data.dart';
-import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/registr/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
@@ -26,11 +26,10 @@ class DataServis {
     Iterable<Leftover>? leftovers,
     Iterable<String>? ordersDelete,
     Iterable<String>? productsDelete,
-    Iterable<String>? messagesDelete,
+    Iterable<UidMessageText>? messagesDelete,
     Iterable<UidLeftover>? leftoversDelete,
     bool ordersClear = false,
     bool productsClear = false,
-    bool messagesClear = false,
   }) async {
     await dataRepo.transaction(
       uidUser: user.uid,
@@ -45,7 +44,6 @@ class DataServis {
       leftoversDelete: leftoversDelete,
       ordersClear: ordersClear,
       productsClear: productsClear,
-      messagesClear: messagesClear,
     );
 
     /// Clear
@@ -56,10 +54,6 @@ class DataServis {
 
     if (productsClear) {
       data.products.clear();
-    }
-
-    if (messagesClear) {
-      data.messages.clear();
     }
 
     /// Delete

@@ -8,9 +8,10 @@ import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/settings_user_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/uid_leftover_mapper.dart';
+import 'package:flutter_application_3/data/orm/mapper/uid_message_text_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/data.dart';
-import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/registr/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/registr/leftover.dart';
@@ -56,11 +57,10 @@ class DataLocalOrm implements DataLocal {
       ),
 
       ///
-      messages: await db.getObjects<MessageText>(
-        table: TableHeader.message,
+      messages: await db.getRegistrs<MessageText>(
+        table: TableRegistr.messageTable,
         uidUser: uidUser,
-        uids: null,
-        parse: (EntityDB e) => MessageMapper.fromDB(e),
+        parse: (RegistrEntityDB e) => MessageMapper.fromDB(e),
       ),
 
       ///
@@ -82,11 +82,10 @@ class DataLocalOrm implements DataLocal {
     required Iterable<Leftover>? leftovers,
     required Iterable<String>? ordersDelete,
     required Iterable<String>? productsDelete,
-    required Iterable<String>? messagesDelete,
+    required Iterable<UidMessageText>? messagesDelete,
     required Iterable<UidLeftover>? leftoversDelete,
     required bool ordersClear,
     required bool productsClear,
-    required bool messagesClear,
   }) =>
       db.database.transaction((Transaction txn) async {
         /// Clear
@@ -103,15 +102,6 @@ class DataLocalOrm implements DataLocal {
         if (productsClear) {
           await db.deleteEntitys(
             table: TableHeader.productTable,
-            uidUser: uidUser,
-            uids: null,
-            txn: txn,
-          );
-        }
-
-        if (messagesClear) {
-          await db.deleteEntitys(
-            table: TableHeader.message,
             uidUser: uidUser,
             uids: null,
             txn: txn,
@@ -139,10 +129,11 @@ class DataLocalOrm implements DataLocal {
         }
 
         if (messagesDelete != null) {
-          await db.deleteEntitys(
-            table: TableHeader.message,
+          await db.deleteRegistrs(
+            table: TableRegistr.messageTable,
             uidUser: uidUser,
             uids: messagesDelete,
+            parse: (UidMessageText u) => UidMessageTextMapper(u).toDB(),
             txn: txn,
           );
         }
@@ -190,8 +181,8 @@ class DataLocalOrm implements DataLocal {
         }
 
         if (messages != null) {
-          await db.putObjects<MessageText>(
-            table: TableHeader.message,
+          await db.putRegistrs<MessageText>(
+            table: TableRegistr.messageTable,
             uidUser: uidUser,
             values: messages,
             parse: (MessageText m) => MessageMapper(m).toDB(uidUser: uidUser),

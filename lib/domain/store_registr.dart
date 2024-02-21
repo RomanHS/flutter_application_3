@@ -28,6 +28,8 @@ class StoreRegistr<TUidRegistr extends UidRegistr, TRegistrEntity extends Regist
 
   Iterable<TRegistrEntity> getList(TUidRegistr uid) => _mapList[uid]?.values ?? const [];
 
+  int getListLength(TUidRegistr uid) => _mapList[uid]?.length ?? 0;
+
   void put(TRegistrEntity value) {
     _map[value.uid] = value;
 

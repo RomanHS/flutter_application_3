@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
-import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/registr/message_text.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
 import 'package:flutter_application_3/domain/enum/type_message.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
@@ -147,7 +147,7 @@ class _HomeViewState extends State<HomeView> {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MessagesView(),
+                  builder: (BuildContext context) => const MessagesView(isArchive: false),
                 ),
               ),
             ),
@@ -180,6 +180,7 @@ class _HomeViewState extends State<HomeView> {
               text: 'isNegativeLeftovers: ${!settings.isNegativeLeftovers}',
               settings: settings.copyWith(isNegativeLeftovers: !settings.isNegativeLeftovers),
               surveys: const [],
+              date: DateTime.now(),
             ),
           );
         },

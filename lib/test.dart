@@ -2,11 +2,12 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_application_3/data/orm/db.dart';
 import 'package:flutter_application_3/data/orm/entity/entity.dart';
+import 'package:flutter_application_3/data/orm/entity/registr_entity.dart';
 import 'package:flutter_application_3/data/orm/mapper/message_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/order_mapper.dart';
 import 'package:flutter_application_3/data/orm/mapper/product_mapper.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
-import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/registr/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
 import 'package:flutter_application_3/domain/enum/type_message.dart';
@@ -41,8 +42,8 @@ Future<void> test() async {
       txn: txn,
     );
 
-    await db.putObjects<MessageText>(
-      table: TableHeader.message,
+    await db.putRegistrs<MessageText>(
+      table: TableRegistr.messageTable,
       uidUser: uidUser,
       values: messages,
       parse: (MessageText m) => MessageMapper(m).toDB(uidUser: uidUser),
@@ -65,11 +66,10 @@ Future<void> test() async {
     parse: (EntityDB e) => ProductMapper.fromDB(e),
   );
 
-  final List<MessageText> messagesDB = await db.getObjects<MessageText>(
-    table: TableHeader.message,
+  final List<MessageText> messagesDB = await db.getRegistrs<MessageText>(
+    table: TableRegistr.messageTable,
     uidUser: uidUser,
-    uids: null,
-    parse: (EntityDB e) => MessageMapper.fromDB(e),
+    parse: (RegistrEntityDB e) => MessageMapper.fromDB(e),
   );
 
   /// equals
@@ -106,8 +106,8 @@ Future<void> test() async {
         txn: txn,
       );
 
-      await db.deleteEntitys(
-        table: TableHeader.message,
+      await db.deleteEntitysRegistrs(
+        table: TableRegistr.messageTable,
         uidUser: uidUser,
         uids: null,
         txn: txn,
@@ -128,11 +128,10 @@ Future<void> test() async {
       parse: (EntityDB e) => ProductMapper.fromDB(e),
     );
 
-    final List<MessageText> messagesDB = await db.getObjects<MessageText>(
-      table: TableHeader.message,
+    final List<MessageText> messagesDB = await db.getRegistrs<MessageText>(
+      table: TableRegistr.messageTable,
       uidUser: uidUser,
-      uids: null,
-      parse: (EntityDB e) => MessageMapper.fromDB(e),
+      parse: (RegistrEntityDB e) => MessageMapper.fromDB(e),
     );
 
     log('delete orders:   ${ordersDB.map((Order o) => o.uid).toList()}');
@@ -144,7 +143,7 @@ Future<void> test() async {
 List<MessageText> getMessages() => List.generate(
       100,
       (int i) => MessageText(
-        uid: '${i + 1}',
+        uidMessage: '${i + 1}',
         text: 'Message ${i + 1}',
         type: TypeMessage.client,
         surveys: List.generate(
@@ -153,6 +152,7 @@ List<MessageText> getMessages() => List.generate(
             value: 'value ${i + 1}',
           ),
         ),
+        isArchive: false,
       ),
     );
 
