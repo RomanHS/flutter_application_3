@@ -2,12 +2,14 @@ import 'package:flutter_application_3/data/orm/entity/entity.dart';
 import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/data/orm/tabular_part/tabular_part.dart';
 import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/enum/type_message.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 
 extension MessageMapper on MessageText {
   static MessageText fromDB(EntityDB entity) => MessageText(
         uid: entity.get('uid'),
         text: entity.get('text'),
+        type: TypeMessage.values.byName(entity.get('type')),
         surveys: entity
             .getTabular(TableTable.messageSurvey)
             .map(
@@ -27,6 +29,7 @@ extension MessageMapper on MessageText {
           'uid_user': uidUser,
           'uid': uid,
           'text': text,
+          'type': type.name,
         },
 
         ///

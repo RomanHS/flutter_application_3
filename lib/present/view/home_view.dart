@@ -4,6 +4,7 @@ import 'package:flutter_application_3/domain/data.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/entity/user.dart';
+import 'package:flutter_application_3/domain/enum/type_message.dart';
 import 'package:flutter_application_3/domain/servis/data_servis.dart';
 import 'package:flutter_application_3/domain/value/settings.dart';
 import 'package:flutter_application_3/domain/value/settings_user.dart';
@@ -175,6 +176,7 @@ class _HomeViewState extends State<HomeView> {
           messageStreamController.add(
             Message(
               uid: const Uuid().v4(),
+              type: TypeMessage.client,
               text: 'isNegativeLeftovers: ${!settings.isNegativeLeftovers}',
               settings: settings.copyWith(isNegativeLeftovers: !settings.isNegativeLeftovers),
               surveys: const [],

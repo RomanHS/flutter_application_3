@@ -9,6 +9,7 @@ import 'package:flutter_application_3/data/orm/tables.dart';
 import 'package:flutter_application_3/domain/entity/message_text.dart';
 import 'package:flutter_application_3/domain/entity/order.dart';
 import 'package:flutter_application_3/domain/entity/product.dart';
+import 'package:flutter_application_3/domain/enum/type_message.dart';
 import 'package:flutter_application_3/domain/value/excise_tax.dart';
 import 'package:flutter_application_3/domain/value/message_survey.dart';
 import 'package:flutter_application_3/domain/value/product_in_order.dart';
@@ -145,6 +146,7 @@ List<MessageText> getMessages() => List.generate(
       (int i) => MessageText(
         uid: '${i + 1}',
         text: 'Message ${i + 1}',
+        type: TypeMessage.client,
         surveys: List.generate(
           5,
           (int i) => MessageSurvey(

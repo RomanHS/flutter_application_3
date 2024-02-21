@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/domain/entity/message.dart';
 import 'package:flutter_application_3/domain/entity/message_text.dart';
+import 'package:flutter_application_3/domain/enum/type_message.dart';
 import 'package:flutter_application_3/domain/value/settings_user.dart';
 import 'package:flutter_application_3/internal/di.dart';
 import 'package:flutter_application_3/present/view/home_view.dart';
@@ -65,6 +66,7 @@ class MessagesView extends StatelessWidget {
             messageStreamController.add(
               Message(
                 uid: const Uuid().v4(),
+                type: TypeMessage.bs,
                 text: 'isNegativeLeftovers: ${!settings.isNegativeLeftovers}',
                 settings: settings.copyWith(isNegativeLeftovers: !settings.isNegativeLeftovers),
                 surveys: const [],

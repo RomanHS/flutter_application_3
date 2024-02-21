@@ -1,0 +1,4 @@
+enum TypeMessage {
+  bs,
+  client,
+}
